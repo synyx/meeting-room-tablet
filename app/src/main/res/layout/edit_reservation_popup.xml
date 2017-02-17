@@ -61,16 +61,37 @@
                         android:textColor="@color/TextColor"/>
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/cancelReservationButton"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:focusable="true"
-                    android:text="Cancel reservation"
-                    android:background="@drawable/button_background"
-                    android:textStyle="bold"
-                    android:enabled="false"
-                    android:textColor="@color/button_color"/>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:id="@+id/cancelReservationButton"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:focusable="true"
+                        android:text="Cancel reservation"
+                        android:background="@drawable/button_background"
+                        android:textStyle="bold"
+                        android:enabled="false"
+                        android:textColor="@color/button_color"
+                        android:layout_weight="1" />
+
+                    <Button
+                        android:id="@+id/setRoomFree"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:focusable="true"
+                        android:text="@string/setRoomFree"
+                        android:background="@drawable/button_background"
+                        android:textStyle="bold"
+                        android:enabled="false"
+                        android:textColor="@color/button_color"
+                        android:layout_weight="1" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
             <ImageButton

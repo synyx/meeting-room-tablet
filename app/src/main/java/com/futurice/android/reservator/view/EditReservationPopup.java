@@ -15,6 +15,7 @@ import com.futurice.android.reservator.model.DateTime;
 import com.futurice.android.reservator.model.Reservation;
 import com.futurice.android.reservator.model.ReservatorException;
 import com.futurice.android.reservator.model.Room;
+import com.futurice.android.reservator.model.TimeSpan;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -26,6 +27,10 @@ public class EditReservationPopup extends Dialog {
     private String reservationInfo;
     private OnReservationCancelledListener cancelledListener;
     private Reservation reservation;
+
+    private enum EditButton {
+        CANCLE, SET_ROOM_FREE, EDIT
+    }
 
     public EditReservationPopup(Context context, Reservation reservation, Room room,
                                 OnReservationCancelledListener cancelledListener) {
@@ -56,41 +61,79 @@ public class EditReservationPopup extends Dialog {
             reservation.getSubject());
         ((TextView) findViewById(R.id.reservationInfo)).setText(reservationInfo);
 
+        cancelReservation();
+        editReservation();
+
+    }
+
+    private void cancelReservation() {
         if (reservation.isCancellable()) {
             Button cancelReservationButton = (Button) findViewById(R.id.cancelReservationButton);
             cancelReservationButton.setEnabled(true);
             cancelReservationButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(EditReservationPopup.this.getContext());
-                    builder
-                            .setTitle(getContext().getString(R.string.cancleTitle))
-                            .setMessage(reservationInfo)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    try {
-                                        application.getDataProxy().cancelReservation(EditReservationPopup.this.reservation);
-                                        if (EditReservationPopup.this.cancelledListener != null) {
-                                            EditReservationPopup.this.cancelledListener.onReservationCancelled(
-                                                    EditReservationPopup.this.reservation);
-                                        }
-                                    } catch (ReservatorException e) {
-                                        android.util.Log.w("CANCEL", e);
-                                    }
-                                    EditReservationPopup.this.cancel();
-                                }
-                            })
-                            .setNegativeButton("Back", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    EditReservationPopup.this.cancel();
-                                }
-                            });
-                    builder.create().show();
+                    showDialog(getContext().getString(R.string.cancleTitle), reservationInfo, EditButton.CANCLE);
                 }
             });
         }
     }
 
+    private void editReservation() {
+        if (reservation.isCancellable()){
+            Button setRoomFreeButton = (Button) findViewById(R.id.setRoomFree);
+            setRoomFreeButton.setEnabled(true);
+            setRoomFreeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showDialog(getContext().getString(R.string.setRoomFreeTitel)+"?",reservationInfo, EditButton.SET_ROOM_FREE);
+                }
+            });
+        }
+    }
+
+    private void showDialog(String title, String message, final EditButton editButton) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditReservationPopup.this.getContext());
+        builder
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        switch (editButton) {
+                            case CANCLE:
+                                doCancleReservation();
+                                break;
+                            case SET_ROOM_FREE:
+                                setReservationEndToCurrentTime();
+                                break;
+                        }
+                    }
+                })
+                .setNegativeButton("Back", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        EditReservationPopup.this.cancel();
+                    }
+                });
+        builder.create().show();
+    }
+
+    private void setReservationEndToCurrentTime() {
+        DateTime startTime = reservation.getStartTime();
+        reservation.setTimeSpan(new TimeSpan(startTime, new DateTime()));
+    }
+
+    private void doCancleReservation() {
+        try {
+            application.getDataProxy().cancelReservation(EditReservationPopup.this.reservation);
+            if (EditReservationPopup.this.cancelledListener != null) {
+                EditReservationPopup.this.cancelledListener.onReservationCancelled(
+                        EditReservationPopup.this.reservation);
+            }
+        } catch (ReservatorException e) {
+            android.util.Log.w("CANCEL", e);
+        }
+        EditReservationPopup.this.cancel();
+    }
 
     public interface OnReservationCancelledListener {
         public void onReservationCancelled(Reservation r);
