@@ -154,7 +154,6 @@
     <string name="book">Book room</string>
     <string name="bookNow">Book Now</string>
     <string name="disconnectedWarning">Disconnected!</string>
-    <string name="cancleTitle">Cancel reservation?</string>
     <string name="infoText_reservPopup_select">Tipp: Please tipp the time you want to change</string>
     <string name="seeRoomTrafficLights">room status</string>
     <string name="resExaptionErrorCancel">It is not possible to cancle this reservation</string>
@@ -168,5 +167,9 @@
 
     <!--Lable following Meeting-->
     <string name="FollowMeeting">next meeting: </string>
+
+    <!--EditView-->
+    <string name="setRoomFree">unblock room</string>
+    <string name="cancleTitle">Cancel reservation?</string>
 
 </resources>
