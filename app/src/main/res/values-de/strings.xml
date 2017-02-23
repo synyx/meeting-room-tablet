@@ -156,6 +156,6 @@
     <string name="SUCCESS_Message">Deine Reservierung war erfolgreich. </string>
 
     <!--Lable following Meeting-->
-    <string name="FollowMeeting">Nextes Meeting: </string>
+    <string name="FollowMeeting">Nächstes Meeting: </string>
 
 </resources>
