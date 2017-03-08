@@ -364,20 +364,28 @@ public class PlatformCalendarDataProxy extends DataProxy {
                     if (location == null || location.isEmpty()) {
                         location = name;
                     }
-                    String useAttendeeAsRoomName = context.getSharedPreferences(context.getString(R.string.PREFERENCES_NAME),
-                            context.MODE_PRIVATE).getString(context.getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), "false");
 
                     rooms.add(new PlatformCalendarRoom(
                             name,
                             result.getString(1),
                             result.getLong(0),
-                            location, useAttendeeAsRoomName.equals("true")));
+                            location,
+                            filterRoomNamesFormAttendees()));
                 } while (result.moveToNext());
             }
             result.close();
         }
 
         return rooms;
+    }
+
+    private boolean filterRoomNamesFormAttendees(){
+        String filterRoomNameFromAttendees = context.getSharedPreferences(context.getString(R.string.PREFERENCES_NAME),
+                context.MODE_PRIVATE).getString(context.getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), "false");
+        String selectedKalenderMode = context.getSharedPreferences(context.getString(R.string.PREFERENCES_NAME),
+                context.MODE_PRIVATE).getString(context.getString(R.string.modeForCalendar), "");
+
+        return (filterRoomNameFromAttendees.equals("true") || selectedKalenderMode.equals("resources"));
     }
 
     private void checkCalendarMode() {
