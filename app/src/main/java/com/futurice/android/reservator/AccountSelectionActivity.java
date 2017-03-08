@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -36,7 +35,7 @@ public class AccountSelectionActivity extends ReservatorActivity {
     }
 
     public void moveToModeSelection() {
-        Intent i = new Intent(this, ModeSelection.class);
+        Intent i = new Intent(this, ModeSelectionActivity.class);
         startActivityForResult(i, REQUEST_LOBBY);
     }
 

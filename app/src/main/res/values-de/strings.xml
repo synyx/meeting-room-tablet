@@ -25,7 +25,7 @@
     <string name="selectAccount">Wähle ein Konto aus</string>
     <string name="accountForServation">Reservierungskonto</string>
 
-    <!--ModeSelection-->
+    <!--ModeSelectionActivity-->
     <string name="selectMode">Wähle Modus für den Kalender</string>
     <string name="modeForCalendar">calendarMode</string>
     <string name="resourcesTitel">resources</string>

@@ -8,7 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 
-public class ModeSelection extends ReservatorActivity {
+public class ModeSelectionActivity extends ReservatorActivity {
 
     static final int REQUEST_LOBBY = 0;
 
