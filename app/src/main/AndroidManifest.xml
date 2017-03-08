@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AccountSelection"
+            android:name=".AccountSelectionActivity"
             android:screenOrientation="sensorLandscape"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="false">

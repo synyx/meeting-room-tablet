@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 
-public class AccountSelection extends ReservatorActivity {
+public class AccountSelectionActivity extends ReservatorActivity {
     static final int REQUEST_LOBBY = 0;
 
     @Override

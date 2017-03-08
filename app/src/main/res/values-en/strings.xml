@@ -22,7 +22,7 @@
     <string name="noCalendarsError">No meeting room calendars found. Please ensure that an Account has been configured on this device and that a Calendar has been set to sync the meeting room calendars.</string>
     <string name="loadingText">Loading</string>
 
-    <!--AccountSelection-->
+    <!--AccountSelectionActivity-->
     <string name="selectAccount">Select Account</string>
     <string name="accountForServation">reservationAccount</string>
 

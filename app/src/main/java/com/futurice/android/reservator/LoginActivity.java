@@ -95,7 +95,7 @@ public class LoginActivity extends ReservatorActivity implements AddressBookUpda
             if (pd != null)
                 pd.dismiss();
 
-            Intent i = new Intent(this, AccountSelection.class);
+            Intent i = new Intent(this, AccountSelectionActivity.class);
             startActivityForResult(i, REQUEST_LOBBY);
         }
     }

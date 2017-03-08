@@ -21,7 +21,7 @@
     <string name="noCalendarsError">Es wurde kein Meetingraum Kalender gefunden. Bitte stell sicher, dass ein Konto auf diesem Gerät konfiguriert wurde und der Kalender eingestellt wurde, um den Meetingraum Kalender zu synchronisieren.</string>
     <string name="loadingText">lädt</string>
 
-    <!--AccountSelection-->
+    <!--AccountSelectionActivity-->
     <string name="selectAccount">Wähle ein Konto aus</string>
     <string name="accountForServation">Reservierungskonto</string>
 
