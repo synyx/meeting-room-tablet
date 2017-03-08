@@ -15,6 +15,7 @@ import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 public class Room implements Serializable {
+    private static final long ONE_MIN_IN_SEC = 60000;
     // Rooms that are free for no more than this long to future are considered "reserved" (not-bookable)
     static public final int RESERVED_THRESHOLD_MINUTES = 15;
     private static final long serialVersionUID = 1L;
@@ -88,7 +89,7 @@ public class Room implements Serializable {
     public int minutesFreeFrom(DateTime from) {
         for (Reservation r : reservations) {
              if (r.getStartTime().after(from)) {
-                return (int) ((r.getStartTime().getTimeInMillis() - from.getTimeInMillis()) / 60000);
+                return (int) ((r.getStartTime().getTimeInMillis() - from.getTimeInMillis()) / ONE_MIN_IN_SEC);
             }
         }
 
@@ -116,7 +117,7 @@ public class Room implements Serializable {
             }
         }
 
-        return (int) (to.getTimeInMillis() - from.getTimeInMillis()) / 60000;
+        return (int) ((to.getTimeInMillis() - from.getTimeInMillis()) / ONE_MIN_IN_SEC);
     }
 
     public int reservedForFromNow() {
@@ -187,11 +188,18 @@ public class Room implements Serializable {
 
     public Reservation getFollowingReservation() {
         Reservation currentReservation = getCurrentReservation();
+        DateTime startTime = currentReservation.getStartTime();
+
+        List<Reservation> reservations = getReservationsForTimeSpan(new TimeSpan(
+                startTime, new DateTime(startTime.setTime(22, 0, 0).getTime())));
+
+        reservations.remove(currentReservation);
+
         for (Reservation r : reservations) {
             if (currentReservation.getEndTime().equals(r.getStartTime())) {
                 return r;
             } else {
-                long timeDiff = r.getStartTime().getTimeInMillis() - currentReservation.getEndTime().getTimeInMillis();
+                long timeDiff = r.getStartTime().subtract(currentReservation.getEndTime(), Calendar.MILLISECOND) /ONE_MIN_IN_SEC;
 
                 if (timeDiff < 15) {
                     return r;
