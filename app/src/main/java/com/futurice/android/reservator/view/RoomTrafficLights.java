@@ -262,7 +262,6 @@ public class RoomTrafficLights extends RelativeLayout {
         Reservation followingReservation = room.getFollowingReservation();
         if (followingReservation != null) {
 
-
             String meetingName = followingReservation.getSubject();
             followingMeeting.setText(getContext().getString(R.string.FollowMeeting) +" "+meetingName);
             followingMeeting.setVisibility(VISIBLE);
