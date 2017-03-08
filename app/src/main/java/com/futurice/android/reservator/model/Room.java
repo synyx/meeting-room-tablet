@@ -25,13 +25,13 @@ public class Room implements Serializable {
     private Vector<Reservation> reservations;
     private String shownRoomName;
     private int capacity = -1;
-    private boolean useAttendeeAsRoomName;
+    private boolean filterRoomNameFromAttendees;
 
-    public Room(String name, String email, boolean useAttendeeAsRoomName) {
+    public Room(String name, String email, boolean filterRoomNameFromAttendees) {
         this.name = name;
         this.email = email;
         this.reservations = new Vector<Reservation>();
-        this.useAttendeeAsRoomName = useAttendeeAsRoomName;
+        this.filterRoomNameFromAttendees = filterRoomNameFromAttendees;
     }
 
     public String getShownRoomName(){
@@ -313,7 +313,7 @@ public class Room implements Serializable {
     }
 
     private void setShownRoomName() {
-        if (useAttendeeAsRoomName && !reservations.isEmpty()) {
+        if (filterRoomNameFromAttendees && !reservations.isEmpty()) {
             Vector<String> attendees = reservations.get(0).getAttendees();
             String[] nameList;
 

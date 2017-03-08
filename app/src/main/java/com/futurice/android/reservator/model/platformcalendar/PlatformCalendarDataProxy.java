@@ -365,7 +365,7 @@ public class PlatformCalendarDataProxy extends DataProxy {
                         location = name;
                     }
                     String useAttendeeAsRoomName = context.getSharedPreferences(context.getString(R.string.PREFERENCES_NAME),
-                            context.MODE_PRIVATE).getString(context.getString(R.string.PREFERENCES_USE_ATTENDEE_AS_ROOM_NAME), "false");
+                            context.MODE_PRIVATE).getString(context.getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), "false");
 
                     rooms.add(new PlatformCalendarRoom(
                             name,
