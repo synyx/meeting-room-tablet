@@ -342,8 +342,16 @@ public class ReservationActivity extends ReservatorActivity implements View.OnCl
     }
 
     public void checkBookable(boolean isStartTime){
+        final DateTime sevenOclockAm = startTime.setTime(7,0,0);
+        final DateTime lastEndtime = startTime.setTime(22,0,0);
         long diff;
         if (isStartTime){
+
+            diff = startTime.subtract(sevenOclockAm, Calendar.MILLISECOND) / ONE_MIN_IN_SEC;
+            if (diff >= 0){
+                setButtonEnable(false,(int)diff);
+            }
+
             //test end of meeting <= startTime
             Reservation reservation = room.getCurrentReservation();
             if (reservation!=null){
@@ -352,9 +360,15 @@ public class ReservationActivity extends ReservatorActivity implements View.OnCl
             }
             //test timediff between end and start time if startTime add time not greater endtime
             diff = endTime.subtract(startTime,Calendar.MILLISECOND)/ ONE_MIN_IN_SEC;
+
             setButtonEnable(true,(int)diff-MIN_MEETING_TIME);
 
         } else {
+            diff = lastEndtime.subtract(endTime, Calendar.MILLISECOND) / ONE_MIN_IN_SEC;
+            if(diff >= 0){
+                setButtonEnable(true,(int)diff);
+            }
+
             //test timediff between end and start time if endtimeTime add time not smaller starttime
             diff = endTime.subtract(startTime,Calendar.MILLISECOND)/ ONE_MIN_IN_SEC;
             setButtonEnable(false,(int)diff-MIN_MEETING_TIME);
@@ -390,35 +404,42 @@ public class ReservationActivity extends ReservatorActivity implements View.OnCl
     private void setButtonEnable(boolean isPlusButton, int value){
         if (isPlusButton){
             if (value == 0){
-                findViewById(R.id.plus15button).setEnabled(false);
-                findViewById(R.id.plus30button).setEnabled(false);
-                findViewById(R.id.plus60button).setEnabled(false);
+                enableAllButton(R.id.plus15button, R.id.plus30button,R.id.plus60button);
             } else if (value < 15) {
                 plusDiff = value;
-                findViewById(R.id.plus30button).setEnabled(false);
-                findViewById(R.id.plus60button).setEnabled(false);
+                enableLastTwoButton(R.id.plus30button,R.id.plus60button);
             } else  if (value < 30){
-                findViewById(R.id.plus30button).setEnabled(false);
-                findViewById(R.id.plus60button).setEnabled(false);
+                enableLastTwoButton(R.id.plus30button,R.id.plus60button);
             } else if (value < 60) {
-                findViewById(R.id.plus60button).setEnabled(false);
+                enableLastButton(R.id.plus60button);
             }
         } else {
             if (value == 0){
-                findViewById(R.id.minus15button).setEnabled(false);
-                findViewById(R.id.minus30button).setEnabled(false);
-                findViewById(R.id.minus60button).setEnabled(false);
+                enableAllButton(R.id.minus15button, R.id.minus30button,R.id.minus60button);
             } else if (value < 15) {
                 negDiff = - value;
-                findViewById(R.id.minus30button).setEnabled(false);
-                findViewById(R.id.minus60button).setEnabled(false);
+                enableLastTwoButton(R.id.minus30button,R.id.minus60button);
             } else  if (value < 30){
-                findViewById(R.id.minus30button).setEnabled(false);
-                findViewById(R.id.minus60button).setEnabled(false);
+                enableLastTwoButton(R.id.minus30button,R.id.minus60button);
             } else if (value < 60) {
-                findViewById(R.id.minus60button).setEnabled(false);
+                enableLastButton(R.id.minus60button);
             }
         }
+    }
+
+    private void enableAllButton(int button1, int button2, int button3){
+        findViewById(button1).setEnabled(false);
+        findViewById(button2).setEnabled(false);
+        findViewById(button3).setEnabled(false);
+    }
+
+    private void enableLastTwoButton(int button2, int button3){
+        findViewById(button2).setEnabled(false);
+        findViewById(button3).setEnabled(false);
+    }
+
+    private void enableLastButton(int button3){
+        findViewById(button3).setEnabled(false);
     }
 
     private void refreshButtonEnabled(){
