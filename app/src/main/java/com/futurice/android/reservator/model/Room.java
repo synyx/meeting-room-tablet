@@ -25,11 +25,17 @@ public class Room implements Serializable {
     private Vector<Reservation> reservations;
     private String shownRoomName;
     private int capacity = -1;
+    private boolean filterRoomNameFromAttendees;
 
-    public Room(String name, String email) {
+    public Room(String name, String email, boolean filterRoomNameFromAttendees) {
         this.name = name;
         this.email = email;
         this.reservations = new Vector<Reservation>();
+        this.filterRoomNameFromAttendees = filterRoomNameFromAttendees;
+    }
+
+    public String getShownRoomName(){
+        return shownRoomName;
     }
 
     public String getName() {
@@ -44,10 +50,6 @@ public class Room implements Serializable {
         this.reservations = reservations;
         Collections.sort(reservations);
         setShownRoomName();
-    }
-
-    public String getShownRoomName(){
-        return shownRoomName;
     }
 
     @Override
@@ -311,31 +313,33 @@ public class Room implements Serializable {
     }
 
     private void setShownRoomName() {
-        if (!reservations.isEmpty()) {
+        if (filterRoomNameFromAttendees && !reservations.isEmpty()) {
             Vector<String> attendees = reservations.get(0).getAttendees();
             String[] nameList;
 
-            for (Object attendee : attendees) {
-                String name = attendee.toString();
-                nameList = name.split(" ");
+            if (attendees != null) {
+                for (Object attendee : attendees) {
+                    String name = attendee.toString();
+                    nameList = name.split(" ");
 
-                if (nameList.length < 2) {
-                    if (!nameList[0].contains("@")) {
-                        shownRoomName = name;
-                        break;
+                    if (nameList.length < 2) {
+                        if (!nameList[0].contains("@")) {
+                            shownRoomName = name;
+                            break;
+                        }
                     }
                 }
             }
         }
 
-        if (isShownNameSetToName()){
-            shownRoomName =  name;
+        if (isShownNameSetToName()) {
+            shownRoomName = name;
         }
     }
 
     private boolean isShownNameSetToName() {
-        if (shownRoomName == null || name.split(" ").length == 2){
-            if (shownRoomName == null|| name.split(" ")[0].equals("10") || name.split(" ")[1].contains("Ecke")){
+        if (shownRoomName == null || name.split(" ").length == 2) {
+            if (shownRoomName == null || name.split(" ")[0].equals("10") || name.split(" ")[1].contains("Ecke")) {
                 return true;
             }
         }

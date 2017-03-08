@@ -51,7 +51,7 @@ public abstract class DataProxy {
         Vector<Room> rooms = getRooms();
         for (Room room : rooms) {
             room.setReservations(getRoomReservations(room));
-            if (room.getShownRoomName().equals(roomName)) {
+            if(room.getShownRoomName().equals(roomName)) {
                 return room;
             }
         }
