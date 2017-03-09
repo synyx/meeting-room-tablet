@@ -35,11 +35,11 @@ public class ReservationActivityTest {
     @Before
     public void setUp(){
         context = mActivityRule.getActivity().getBaseContext();
-        PlatformCalendarRoom room = new PlatformCalendarRoom("room", "fake@sdff.de", 504, "loc");
+        PlatformCalendarRoom room = new PlatformCalendarRoom("room", "fake@sdff.de", 504, "loc",true);
         Vector<Reservation> reservationVector = new Vector<>();
         Vector<String> attendees = new Vector<>();
         attendees.add("room");
-        reservationVector.add(new Reservation("id","meeting", new TimeSpan(new DateTime(currentTime.getTime()-1800000),new DateTime(currentTime.getTime()+1800000)), attendees));
+        reservationVector.add(new Reservation("id","meeting", new TimeSpan(new DateTime(currentTime.getTime()-1800000),new DateTime(currentTime.getTime()+1800000))));
         room.setReservations(reservationVector);
 
         SharedPreferences.Editor editor = mActivityRule.getActivity().getSharedPreferences(context.getString(R.string.PREFERENCES_NAME), mActivityRule.getActivity().MODE_PRIVATE).edit();
