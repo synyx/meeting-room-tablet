@@ -37,10 +37,10 @@ public class ModeSelectionActivity extends ReservatorActivity {
 
     public void selectMode() {
         final SharedPreferences preferences = getSharedPreferences(this.getString(R.string.PREFERENCES_NAME), Context.MODE_PRIVATE);
-        final String selectedMode = preferences.getString(getString(R.string.modeForCalendar), "");
+        final String selectedMode = preferences.getString(getString(R.string.PREFERENCES_CALENDAR_MODE), "");
 
         if (selectedMode == "") {
-            final String[] values = {getString(R.string.calendarTitel), getString(R.string.resourcesTitel)};
+            final String[] values = {getString(R.string.calendarMode), getString(R.string.resourcesMode)};
 
             // Build an alert dialog to select the account.
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -51,7 +51,7 @@ public class ModeSelectionActivity extends ReservatorActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                     preferences.edit()
-                            .putString(getString(R.string.modeForCalendar), values[which])
+                            .putString(getString(R.string.PREFERENCES_CALENDAR_MODE), values[which])
                             .apply();
                     moveToLobby();
                 }

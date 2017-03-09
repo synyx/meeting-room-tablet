@@ -77,7 +77,7 @@ public class SettingsActivity extends ReservatorActivity {
         String usedAccount = settings.getString(
             getString(R.string.PREFERENCES_ACCOUNT),
             getString(R.string.allAccountsMagicWord));
-        refreshGoogleAccountsSpinner();
+        refreshAccountsSpinner();
 
         // Require weather reservation requires address book contacts or not
         addressBookOptionView = (ToggleButton) findViewById(R.id.usedAddressBookOption);
@@ -136,7 +136,6 @@ public class SettingsActivity extends ReservatorActivity {
             spinnerPosition = roomNameAdapter.getPosition(roomName);
         }
         roomNameView.setSelection(spinnerPosition);
-
 
         // Setup button for removing log
         findViewById(R.id.removeUserDataButton).setOnClickListener(new OnClickListener() {
@@ -270,7 +269,7 @@ public class SettingsActivity extends ReservatorActivity {
         Toast.makeText(getApplicationContext(), getString(R.string.settingsSaved), Toast.LENGTH_SHORT).show();
     }
 
-    private void refreshGoogleAccountsSpinner() {
+    private void refreshAccountsSpinner() {
         String selected = null;
         if (usedAccountView.getSelectedItem() != null) {
             selected = (String) usedAccountView.getSelectedItem();
@@ -292,6 +291,32 @@ public class SettingsActivity extends ReservatorActivity {
         } else {
             usedAccountView.setSelection(0);
         }
+
+        final int selectedItem = usedAccountView.getSelectedItemPosition();
+        usedAccountView.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener(){
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int itemPosition, long l) {
+                if (itemPosition == selectedItem) {
+                    return;
+                } else {
+                    String account = (String) usedAccountView.getSelectedItem();
+                    Editor edit = settings.edit();
+                    edit.putString(getString(R.string.PREFERENCES_ACCOUNT),
+                            account);
+                    edit.putString(getString(R.string.PREFERENCES_ACCOUNT_TYPE),
+                            account.substring(account.indexOf("@"), account.length()));
+                    edit.apply();
+
+                    usedAccountView.setSelection(itemPosition);
+                    refreshRooms();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void refreshCalendarModeSpinner() {
