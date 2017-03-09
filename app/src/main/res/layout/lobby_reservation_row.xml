@@ -35,14 +35,15 @@
                     android:layout_height="wrap_content"
                     android:text="Room name XXX"
                     android:textColor="@color/TextColor"
-                    android:textStyle="bold"></TextView>
+                    android:textSize="20sp"></TextView>
 
                 <TextView
                     android:id="@+id/roomInfoLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="(42 persons)"
-                    android:textColor="@color/TextInfoColor"></TextView>
+                    android:textColor="@color/TextInfoColor"
+                    android:textSize="20sp"></TextView>
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
@@ -165,7 +166,8 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/close_button_states"
-                    android:layout_alignParentEnd="true"></ImageButton>
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"></ImageButton>
             </RelativeLayout>
 
             <FrameLayout
