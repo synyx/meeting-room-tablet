@@ -27,9 +27,8 @@
 
     <!--ModeSelectionActivity-->
     <string name="selectMode">Wähle Modus für den Kalender</string>
-    <string name="modeForCalendar">calendarMode</string>
-    <string name="resourcesTitel">resources</string>
-    <string name="calendarTitel">calendar</string>
+    <string name="resourcesMode">Resourcen</string>
+    <string name="calendarMode">Kalender</string>
 
     <!-- Lobby-->
     <string name="lobbyRoomName">Lobby</string>
@@ -60,13 +59,16 @@
     <string name="PREFERENCES_ACCOUNT_TYPE">accountType</string>
     <string name="PREFERENCES_LANGUAGE">Sprache</string>
     <string name="PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES">filterRoomNameFromAttendees</string>
+    <string name="PREFERENCES_CALENDAR_MODE">calendarMode</string>
     <string name="removeUserData">Login Informationen entfernen und Einstellungen zurückstellen</string>
     <string name="settings_Default_Account_For_Reservation">Wähle ein Konto für die Reservierung aus</string>
     <string name="settingsReset">Einstellungen zurückgesetzt und Konten gelöscht</string>
     <string name="settingsSaved">Einstellungen gespeichert</string>
     <string name="addressBookHelpText">Wenn diese Option aktiv ist, erfordet das Reservieren mit dem Tablet die Eingabe eines gültigen Kontaktes, welcher sich im Adressbuch befindet.</string>
+    <string name="alternativeRoomNamesHelpText">Wenn diese Option aktiv ist, werden Namen von Meeting-Teilnehmern als Raum-Namen verwendet.</string>
     <string name="accountHelp">Konto oder Konten, welche benutzt werden um Räume zu suchen.</string>
     <string name="addressBookOptionLabel">Reservierung erfordert Kontakte vom Adressbuch </string>
+    <string name="alternativeRoomNamesOptionLabel">Verwende Teilnehmer-Namen als Raum-Namen</string>
     <string name="continueBtn">weiter</string>
     <string name="doNotModify">Veränder diese Einstellungen nicht!</string>
     <string name="onlyItTeamShouldModify">Nur das IT Team darf diese Einstellungen ändern.</string>
@@ -74,6 +76,8 @@
     <string name="room_name">Name des Standard-Raums</string>
     <string name="close">Schließen</string>
     <string name="used_account">Benutzer Konto</string>
+    <string name="used_mode">Calendar Mode</string>
+    <string name="usedModeHelp">Als was werden Räume bereitgestellt</string>
     <string name="allAccountsMagicWord">(Alle)</string>
     <string name="shown_rooms">Sichtbare Räume</string>
     <string name="reserv_view_alternativ_label">Ansicht der Reservierungen</string>
