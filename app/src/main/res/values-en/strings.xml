@@ -66,8 +66,10 @@
     <string name="settingsReset">Removed credentials and reseted settings</string>
     <string name="settingsSaved">Settings saved</string>
     <string name="addressBookHelpText">If this option is enabled, reserving with the tabletrequires entering a valid name that is synced to the accounts address book contacts.</string>
+    <string name="alternativeRoomNamesHelpText">If this option is enabled, attendee names will be used as room names.</string>
     <string name="accountHelp">Account or accounts used for searching rooms.</string>
     <string name="addressBookOptionLabel">Require address book contacts for reserving</string>
+    <string name="alternativeRoomNamesOptionLabel">Use attendee name as room name</string>
     <string name="continueBtn">Continue</string>
     <string name="doNotModify">Do not modify these settings, go away!</string>
     <string name="onlyItTeamShouldModify">Only IT team should modify these settings.</string>

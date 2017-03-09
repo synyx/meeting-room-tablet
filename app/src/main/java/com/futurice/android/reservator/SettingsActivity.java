@@ -35,6 +35,7 @@ public class SettingsActivity extends ReservatorActivity {
     Spinner roomNameView;
     Spinner calendarModeView;
     ToggleButton addressBookOptionView;
+    ToggleButton alternativeNamesView;
     Spinner usedReservationAccount;
     DataProxy proxy;
     SharedPreferences settings;
@@ -81,6 +82,9 @@ public class SettingsActivity extends ReservatorActivity {
         // Require weather reservation requires address book contacts or not
         addressBookOptionView = (ToggleButton) findViewById(R.id.usedAddressBookOption);
         addressBookOptionView.setChecked(settings.getBoolean("addressBookOption", false));
+
+        alternativeNamesView = (ToggleButton) findViewById(R.id.alternativeRoomNamesOption);
+        alternativeNamesView.setChecked(settings.getBoolean(getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), false));
 
         usedReservationAccount = (Spinner) findViewById(R.id.defaultReservationAccount);
         String usedResAccount = settings.getString(
@@ -238,6 +242,7 @@ public class SettingsActivity extends ReservatorActivity {
         editor.putString(getString(R.string.PREFERENCES_ROOM_NAME), roomName);
         editor.putString(getString(R.string.PREFERENCES_CALENDAR_MODE), mode);
         editor.putBoolean("addressBookOption", addressBookOptionView.isChecked());
+        editor.putBoolean(getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), alternativeNamesView.isChecked());
         editor.putString(getString(R.string.accountForServation), selectedResAccount);
         editor.putString("reservationView",selectedReservationView);
         editor.putString("local",selectedLocalLanguage);
@@ -420,6 +425,18 @@ public class SettingsActivity extends ReservatorActivity {
             } else {
                 usedReservationAccount.setVisibility(View.VISIBLE);
                 findViewById(R.id.defaultReservationAccountLabel).setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    public void onRoomNameToggleClicked(final View view) {
+        if (view instanceof ToggleButton) {
+            Boolean checked = ((ToggleButton) alternativeNamesView).isChecked();
+
+            if(checked) {
+                settings.edit().putBoolean(getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), true).apply();
+            } else {
+                settings.edit().putBoolean(getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), false).apply();
             }
         }
     }

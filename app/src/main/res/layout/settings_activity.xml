@@ -44,12 +44,41 @@
             android:layout_marginBottom="10dp"
             android:onClick="onToggleClicked"/>
 
+
+        <TextView
+            android:id="@+id/alternativeRoomNamesOptionLabel"
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/alternativeRoomNamesOptionLabel"
+            android:textColor="#000"
+            android:layout_below="@+id/usedAddressBookOption"/>
+
+        <TextView
+            android:id="@+id/alternativeRoomNamesHelpText"
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/alternativeRoomNamesOptionLabel"
+            android:text="@string/alternativeRoomNamesHelpText"
+            android:textColor="#555"/>
+
+        <ToggleButton
+            android:id="@+id/alternativeRoomNamesOption"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/alternativeRoomNamesOptionLabel"
+            android:layout_alignRight="@+id/alternativeRoomNamesOptionLabel"
+            android:layout_below="@+id/alternativeRoomNamesHelpText"
+            android:layout_marginBottom="10dp"
+            android:onClick="onRoomNameToggleClicked"/>
+
         <TextView
             android:id="@+id/defaultReservationAccountLabel"
             style="@android:style/TextAppearance.Medium"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/usedAddressBookOption"
+            android:layout_below="@+id/alternativeRoomNamesOption"
             android:text="@string/settings_Default_Account_For_Reservation"
             android:textColor="#000"/>
 
