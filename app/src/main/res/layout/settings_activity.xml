@@ -1,5 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/relativeLayout1"
+    android:id="@+id/relativeLayout1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:fillViewport="true"
@@ -22,7 +22,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/titelSettings"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:text="@string/addressBookOptionLabel"
             android:textColor="#000" />
 
@@ -42,7 +42,7 @@
             android:layout_alignLeft="@+id/addressBookOptionLabel"
             android:layout_alignRight="@+id/addressBookOptionLabel"
             android:layout_below="@+id/addressBookHelpText"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:onClick="onToggleClicked"/>
 
 
@@ -99,7 +99,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/defaultReservationAccount"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="@string/used_account"
             android:textColor="#000" />
 
@@ -156,7 +156,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/calendarModeSpinner"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="@string/room_name"
             android:textColor="#000" />
 
@@ -175,7 +175,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/saveSettings"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="@string/removeUserData"/>
 
         <TextView
@@ -184,7 +184,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/roomNameSpinner"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="@string/shown_rooms"
             android:textColor="#000"/>
 
@@ -226,7 +226,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/scrollView"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="@string/language"
             android:textColor="#000" />
 
@@ -238,7 +238,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/languageSpinner"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:text="@string/meetingTitleLabel"
             android:textColor="#000" />
 
@@ -253,16 +253,21 @@
             android:spinnerMode="dropdown" />
 
         <TextView
+            android:id="@+id/titelSettings"
             style="@android:style/TextAppearance.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/setting"
-            android:id="@+id/titelSettings"
-            android:textIsSelectable="false"
-            android:textColor="@color/CalendarTextColor"
             android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_marginLeft="19dp"
+            android:layout_marginStart="19dp"
+            android:layout_toEndOf="@+id/imageView"
+            android:layout_toRightOf="@+id/imageView"
+            android:text="@string/setting"
+            android:textAlignment="center"
+            android:textColor="@color/CalendarTextColor"
+            android:textIsSelectable="false"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/reservationViewTitle"
@@ -292,6 +297,15 @@
             android:layout_below="@+id/reservationViewSpinner"
             android:layout_toRightOf="@+id/titelSettings"
             android:layout_toEndOf="@+id/titelSettings" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/titelSettings"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:src="@android:drawable/ic_menu_manage" />
 
     </RelativeLayout>
 
