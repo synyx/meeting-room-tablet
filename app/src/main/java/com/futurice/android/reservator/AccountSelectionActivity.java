@@ -51,7 +51,6 @@ public class AccountSelectionActivity extends ReservatorActivity {
         final SharedPreferences preferences = getSharedPreferences(this.getString(R.string.PREFERENCES_NAME), Context.MODE_PRIVATE);
         final String selectedAccount = preferences.getString(getString(R.string.accountForServation), "");
         boolean addressBookOption = preferences.getBoolean("addressBookOption", false);
-        boolean useAlternativeRoomNames = preferences.getBoolean(getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), false);
 
         if (selectedAccount == "" && !addressBookOption) {
             final String[] values = fetchAccounts();
