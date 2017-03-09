@@ -102,7 +102,7 @@ public class PlatformCalendarDataProxy extends DataProxy {
     }
 
     private void setCalendarMode(String mode) {
-        if(mode.toLowerCase().equals("resources")) {
+        if(mode.equals(context.getString(R.string.resourcesMode))) {
             this.calendarMode = Mode.RESOURCES;
         } else {
             this.calendarMode = Mode.CALENDARS;
@@ -312,7 +312,7 @@ public class PlatformCalendarDataProxy extends DataProxy {
     public Vector<Room> getRooms() throws ReservatorException {
         setSyncOn();
 
-        checkCalendarMode();
+        checkCalendarModeAndAccount();
 
         Vector<Room> rooms = new Vector<Room>();
 
@@ -326,6 +326,8 @@ public class PlatformCalendarDataProxy extends DataProxy {
 
         List<String> mSelectionClauses = new ArrayList<String>();
         List<String> mSelectionArgs = new ArrayList<String>();
+
+        checkCalendarModeAndAccount();
 
         if (this.calendarMode == Mode.RESOURCES) {
             mSelectionClauses.add(CalendarContract.Calendars.OWNER_ACCOUNT + " GLOB ?");
@@ -371,6 +373,7 @@ public class PlatformCalendarDataProxy extends DataProxy {
                             result.getLong(0),
                             location,
                             filterRoomNamesFormAttendees()));
+
                 } while (result.moveToNext());
             }
             result.close();
@@ -380,21 +383,29 @@ public class PlatformCalendarDataProxy extends DataProxy {
     }
 
     private boolean filterRoomNamesFormAttendees(){
-        String filterRoomNameFromAttendees = context.getSharedPreferences(context.getString(R.string.PREFERENCES_NAME),
-                context.MODE_PRIVATE).getString(context.getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), "false");
-        String selectedKalenderMode = context.getSharedPreferences(context.getString(R.string.PREFERENCES_NAME),
-                context.MODE_PRIVATE).getString(context.getString(R.string.modeForCalendar), "");
+        boolean filterRoomNameFromAttendees = context.getSharedPreferences(context.getString(R.string.PREFERENCES_NAME),
+                context.MODE_PRIVATE).getBoolean(context.getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), false);
+        String selectedCalendarMode = context.getSharedPreferences(context.getString(R.string.PREFERENCES_NAME),
+                context.MODE_PRIVATE).getString(context.getString(R.string.PREFERENCES_CALENDAR_MODE), "");
 
-        return (filterRoomNameFromAttendees.equals("true") || selectedKalenderMode.equals("resources"));
+        return (filterRoomNameFromAttendees || selectedCalendarMode.equals("resources"));
     }
 
-    private void checkCalendarMode() {
-        if(this.calendarMode == null) {
+    private void checkCalendarModeAndAccount() {
             String mode = context.getSharedPreferences(context.getString(R.string.PREFERENCES_NAME),
-                    context.MODE_PRIVATE).getString(context.getString(R.string.modeForCalendar), "");
+                    context.MODE_PRIVATE).getString(context.getString(R.string.PREFERENCES_CALENDAR_MODE), "");
 
+        if (!mode.equals(calendarMode)) {
             setCalendarMode(mode);
         }
+
+        String currentAccount = context.getSharedPreferences(context.getString(R.string.PREFERENCES_NAME),
+                context.MODE_PRIVATE).getString(context.getString(R.string.PREFERENCES_ACCOUNT), "");
+
+        if(account == null || !currentAccount.equals(account)) {
+            account = currentAccount;
+        }
+
     }
 
     private void putToLocalCache(Room room, Reservation reservation) {
@@ -637,6 +648,8 @@ public class PlatformCalendarDataProxy extends DataProxy {
         String mSelectionClause = "";
         ArrayList<String> mSelectionArgs = new ArrayList<String>();
 
+        checkCalendarModeAndAccount();
+
         if (this.calendarMode == Mode.RESOURCES) {
             mSelectionClause += CalendarContract.Calendars.OWNER_ACCOUNT + " GLOB ? AND ";
             mSelectionArgs.add(Mode.RESOURCES.resourcesGlob);
@@ -672,6 +685,8 @@ public class PlatformCalendarDataProxy extends DataProxy {
         ContentValues mUpdateValues = new ContentValues();
         String mSelectionClause = "";
         ArrayList<String> mSelectionArgs = new ArrayList<String>();
+
+        checkCalendarModeAndAccount();
 
         if (this.calendarMode == Mode.RESOURCES) {
             mSelectionClause += CalendarContract.Calendars.OWNER_ACCOUNT + " GLOB ?";

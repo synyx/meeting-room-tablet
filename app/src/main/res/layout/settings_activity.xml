@@ -91,11 +91,39 @@
             android:maxLines="1"/>
 
         <TextView
-            android:id="@+id/roomNameLabel"
+            android:id="@+id/usedModeLabel"
             style="@android:style/TextAppearance.Medium"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/usedAccountSpinner"
+            android:text="@string/used_mode"
+            android:textColor="#000"/>
+
+        <TextView
+            android:id="@+id/usedModeHelp"
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/usedModeLabel"
+            android:text="@string/usedModeHelp"
+            android:textColor="#555"/>
+
+        <Spinner
+            android:id="@+id/calendarModeSpinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/calendarModeLabel"
+            android:layout_alignRight="@+id/calendarModeLabel"
+            android:layout_below="@+id/usedModeHelp"
+            android:inputType="text"
+            android:maxLines="1"/>
+
+        <TextView
+            android:id="@+id/roomNameLabel"
+            style="@android:style/TextAppearance.Medium"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/calendarModeSpinner"
             android:layout_marginTop="10dp"
             android:text="@string/room_name"
             android:textColor="#000"/>

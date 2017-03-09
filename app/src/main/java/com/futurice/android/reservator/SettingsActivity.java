@@ -33,6 +33,7 @@ import java.util.Map;
 public class SettingsActivity extends ReservatorActivity {
     Spinner usedAccountView;
     Spinner roomNameView;
+    Spinner calendarModeView;
     ToggleButton addressBookOptionView;
     Spinner usedReservationAccount;
     DataProxy proxy;
@@ -106,6 +107,18 @@ public class SettingsActivity extends ReservatorActivity {
         }
         usedReservationAccount.setSelection(spinnerPosition);
 
+        calendarModeView = (Spinner) findViewById(R.id.calendarModeSpinner);
+        String calendarMode = settings.getString(getString(R.string.PREFERENCES_CALENDAR_MODE), "");
+        refreshCalendarModeSpinner();
+
+        ArrayAdapter<String> calendarModeAdapter = (ArrayAdapter<String>) calendarModeView.getAdapter();
+        spinnerPosition = 0;
+        if(calendarModeAdapter != null) {
+            spinnerPosition = calendarModeAdapter.getPosition(calendarMode);
+        }
+        calendarModeView.setSelection(spinnerPosition);
+
+
 
         roomNameView = (Spinner) findViewById(R.id.roomNameSpinner);
         String roomName = settings.getString(getString(R.string.PREFERENCES_ROOM_NAME), "");
@@ -178,6 +191,12 @@ public class SettingsActivity extends ReservatorActivity {
             selectedAccount = selectedAccountName.toString().trim();
         }
 
+        Object selectedCalendarMode = calendarModeView.getSelectedItem();
+        String mode = getString(R.string.calendarMode);
+        if(selectedCalendarMode != null) {
+            mode = selectedCalendarMode.toString();
+        }
+
         Object selectedRoomName = roomNameView.getSelectedItem();
         String roomName = "";
         if (selectedRoomName != null) {
@@ -217,6 +236,7 @@ public class SettingsActivity extends ReservatorActivity {
             editor.putString(getString(R.string.PREFERENCES_ACCOUNT_TYPE), selectedAccount.substring(selectedAccount.indexOf("@"), selectedAccount.length()));
         }
         editor.putString(getString(R.string.PREFERENCES_ROOM_NAME), roomName);
+        editor.putString(getString(R.string.PREFERENCES_CALENDAR_MODE), mode);
         editor.putBoolean("addressBookOption", addressBookOptionView.isChecked());
         editor.putString(getString(R.string.accountForServation), selectedResAccount);
         editor.putString("reservationView",selectedReservationView);
@@ -268,6 +288,64 @@ public class SettingsActivity extends ReservatorActivity {
             usedAccountView.setSelection(0);
         }
     }
+
+    private void refreshCalendarModeSpinner() {
+        String selected = null;
+        if(calendarModeView.getSelectedItem() != null) {
+            selected = (String) calendarModeView.getSelectedItem();
+        }
+
+        ArrayList<String> modes = new ArrayList<>();
+        modes.add(getString(R.string.calendarMode));
+        modes.add(getString(R.string.resourcesMode));
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, modes);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        calendarModeView.setAdapter(adapter);
+
+        if(selected != null && modes.contains(selected)) {
+            calendarModeView.setSelection(modes.indexOf(selected));
+            settings.edit().putString(getString(R.string.PREFERENCES_CALENDAR_MODE), selected).apply();
+        } else {
+            calendarModeView.setSelection(0);
+        }
+
+        final int selectedItem = calendarModeView.getSelectedItemPosition();
+        calendarModeView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int itemPosition, long l) {
+                if (itemPosition == selectedItem) {
+                    return;
+                } else {
+                    String account = (String) calendarModeView.getSelectedItem();
+                    settings.edit().putString(getString(R.string.PREFERENCES_CALENDAR_MODE),
+                            account).apply();
+
+                    calendarModeView.setSelection(itemPosition);
+                    refreshRooms();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+
+        private void refreshRooms() {
+            try {
+                roomNames = proxy.getRoomNames();
+                roomNames.add(getString(R.string.lobbyRoomName));
+            } catch (ReservatorException e) {
+                Toast err = Toast.makeText(getResApplication(), e.getMessage(),
+                        Toast.LENGTH_LONG);
+                err.show();
+            }
+            onResume();
+        }
+
 
     private void refreshResAccountSpinner() {
         String selected = null;

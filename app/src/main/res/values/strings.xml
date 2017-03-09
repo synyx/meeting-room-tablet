@@ -28,9 +28,8 @@
 
     <!--ModeSelectionActivity-->
     <string name="selectMode">Select Mode for Calendar</string>
-    <string name="modeForCalendar">calendarMode</string>
-    <string name="resourcesTitel">resources</string>
-    <string name="calendarTitel">calendar</string>
+    <string name="resourcesMode">Resources</string>
+    <string name="calendarMode">Calendars</string>
 
     <!-- Lobby-->
     <string name="lobbyRoomName">Lobby</string>
@@ -61,11 +60,12 @@
     <string name="PREFERENCES_ACCOUNT_TYPE">accountType</string>
     <string name="PREFERENCES_LANGUAGE">language</string>
     <string name="PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES">filterRoomNameFromAttendees</string>
+    <string name="PREFERENCES_CALENDAR_MODE">calendarMode</string>
     <string name="removeUserData">Remove login info and reset settings</string>
     <string name="settings_Default_Account_For_Reservation">Select account for reserving</string>
     <string name="settingsReset">Removed credentials and reseted settings</string>
     <string name="settingsSaved">Settings saved</string>
-    <string name="addressBookHelpText">If this option is enabled, reserving with the tabletrequires entering a valid name that is synced to the accounts address book contacts.</string>
+    <string name="addressBookHelpText">If this option is enabled, reserving with the tablet requires entering a valid name that is synced to the accounts address book contacts.</string>
     <string name="accountHelp">Account or accounts used for searching rooms.</string>
     <string name="addressBookOptionLabel">Require address book contacts for reserving</string>
     <string name="continueBtn">Continue</string>
@@ -75,6 +75,8 @@
     <string name="room_name">Name of the default room</string>
     <string name="close">Close</string>
     <string name="used_account">Used Account</string>
+    <string name="used_mode">Calendar Mode</string>
+    <string name="usedModeHelp">The way your rooms are provided</string>
     <string name="allAccountsMagicWord">(All)</string>
     <string name="shown_rooms">Visible rooms</string>
     <string name="reserv_view_alternativ_label">Reservation view</string>
