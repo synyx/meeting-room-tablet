@@ -21,9 +21,10 @@
             style="@android:style/TextAppearance.Medium"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/titelSettings"
+            android:layout_marginTop="20dp"
             android:text="@string/addressBookOptionLabel"
-            android:textColor="#000"
-            android:layout_below="@+id/titelSettings"/>
+            android:textColor="#000" />
 
         <TextView
             android:id="@+id/addressBookHelpText"
@@ -79,8 +80,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/alternativeRoomNamesOption"
+            android:layout_marginTop="10dp"
             android:text="@string/settings_Default_Account_For_Reservation"
-            android:textColor="#000"/>
+            android:textColor="#000" />
 
         <Spinner
             android:id="@+id/defaultReservationAccount"
@@ -97,8 +99,9 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/defaultReservationAccount"
+            android:layout_marginTop="10dp"
             android:text="@string/used_account"
-            android:textColor="#000"/>
+            android:textColor="#000" />
 
         <TextView
             android:id="@+id/usedAccountHelp"
@@ -155,7 +158,7 @@
             android:layout_below="@+id/calendarModeSpinner"
             android:layout_marginTop="10dp"
             android:text="@string/room_name"
-            android:textColor="#000"/>
+            android:textColor="#000" />
 
         <Spinner
             android:id="@+id/roomNameSpinner"
@@ -220,22 +223,24 @@
             style="@android:style/TextAppearance.Medium"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/language"
-            android:textColor="#000"
-            android:layout_below="@+id/scrollView"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_below="@+id/scrollView"
+            android:layout_marginTop="10dp"
+            android:text="@string/language"
+            android:textColor="#000" />
 
         <TextView
-            style="@android:style/TextAppearance.Medium"
             android:id="@+id/meetingDesignationLabel"
+            style="@android:style/TextAppearance.Medium"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/meetingTitleLabel"
-            android:textColor="#000"
-            android:layout_below="@+id/languageSpinner"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/languageSpinner"
+            android:layout_marginTop="10dp"
+            android:text="@string/meetingTitleLabel"
+            android:textColor="#000" />
 
 
         <Spinner
@@ -260,16 +265,16 @@
             android:layout_alignParentStart="true" />
 
         <TextView
-            style="@android:style/TextAppearance.Medium"
             android:id="@+id/reservationViewTitle"
+            style="@android:style/TextAppearance.Medium"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="@string/reserv_view_alternativ_label"
-            android:textColor="#000"
-            android:layout_below="@+id/meetingDesignationSpinner"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp" />
+            android:layout_below="@+id/meetingDesignationSpinner"
+            android:layout_marginTop="10dp"
+            android:text="@string/reserv_view_alternativ_label"
+            android:textColor="#000" />
 
         <Spinner
             android:id="@+id/reservationViewSpinner"
