@@ -7,7 +7,7 @@
     </style>
 
     <color name="CalendarDisabledColor">#4000</color>
-    <color name="CalendarBorderColor">#ccc</color>
+    <color name="CalendarBorderColor">#cccccc</color>
     <color name="CalendarTextColor">#000</color>
     <color name="CalendarResTextColor">#fff</color>
     <color name="StatusFreeColor">#529200</color>
@@ -56,7 +56,7 @@
     <color name="TrafficLightFree">#4ccb00</color>
     <color name="TrafficLightYellow">#cee100</color>
     <color name="TrafficLightReserved">#de1f00</color>
-    <color name="TrafficLightText">#fff</color>
+    <color name="TrafficLightText">#ffffff</color>
     <color name="TrafficLightYellowButtonText">#becf00</color>
     <color name="TrafficLightYellowButtonPressed">#a0af00</color>
     <color name="TrafficLightGreenButtonPressed">#03a021</color>
