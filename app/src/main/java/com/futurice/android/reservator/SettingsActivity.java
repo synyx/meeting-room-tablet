@@ -68,6 +68,7 @@ public class SettingsActivity extends ReservatorActivity {
         unselectedRooms = new HashSet<String>(settings.getStringSet(getString(R.string.PREFERENCES_UNSELECTED_ROOMS), new HashSet<String>()));
 
         ListView l = (ListView) findViewById(R.id.roomListView);
+        l.setFocusable(false);
         SettingsRoomRowAdapter roomListAdapter = new SettingsRoomRowAdapter(this, R.layout.settings_select_room_row, roomNames);
         l.setAdapter(roomListAdapter);
 
