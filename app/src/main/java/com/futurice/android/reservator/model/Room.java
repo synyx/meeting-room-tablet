@@ -314,15 +314,18 @@ public class Room implements Serializable {
 
     private void setShownRoomName() {
         if (filterRoomNameFromAttendees && !reservations.isEmpty()) {
-            Vector<String> attendees = reservations.get(0).getAttendees();
+            Vector<String> attendees = new Vector<>();
+            for (Reservation r :reservations){
+                attendees.addAll(r.getAttendees());
+            }
             String[] nameList;
 
-            if (attendees != null) {
+            if (attendees.size()> 0) {
                 for (Object attendee : attendees) {
                     String name = attendee.toString();
                     nameList = name.split(" ");
 
-                    if (nameList.length < 2) {
+                    if (nameList.length < 2 || (nameList.length == 2 && nameList[1].contains("Leak"))) {
                         if (!nameList[0].contains("@")) {
                             shownRoomName = name;
                             break;
