@@ -63,7 +63,7 @@ public class Reservation implements Comparable<Reservation>, Serializable {
     }
 
     public boolean equals(Reservation other) {
-        return id.equals(other.id);
+        return other != null && id.equals(other.id);
     }
 
     @Override

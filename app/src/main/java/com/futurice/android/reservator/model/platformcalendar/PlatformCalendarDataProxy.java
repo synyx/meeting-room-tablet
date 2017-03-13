@@ -273,6 +273,15 @@ public class PlatformCalendarDataProxy extends DataProxy {
         }
     }
 
+    @Override
+    public void changeReservation(Reservation reservation, Room room,String email) throws ReservatorException {
+        cancelReservation(reservation);
+
+        synchronize(room);
+
+        reserve(room,reservation.getTimeSpan(), email,email ,reservation.getSubject());
+    }
+
     /**
      * Initiate MakeReservationTask sync on MakeReservationTask Calendar account if possible.
      */

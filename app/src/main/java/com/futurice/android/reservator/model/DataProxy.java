@@ -40,6 +40,8 @@ public abstract class DataProxy {
      */
     abstract public void cancelReservation(Reservation r) throws ReservatorException;
 
+    abstract public void changeReservation(Reservation r, Room room, String email) throws ReservatorException;
+
     /**
      * Synchronously gets MakeReservationTask room with its name. Listeners are not notified when done.
      *

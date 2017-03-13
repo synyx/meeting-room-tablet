@@ -27,6 +27,7 @@ public class EditReservationPopup extends Dialog {
     private String reservationInfo;
     private OnReservationCancelledListener cancelledListener;
     private Reservation reservation;
+    private Room room;
 
     private enum EditButton {
         CANCLE, SET_ROOM_FREE, EDIT
@@ -41,6 +42,7 @@ public class EditReservationPopup extends Dialog {
         application = (ReservatorApplication) this.getContext().getApplicationContext();
         this.cancelledListener = cancelledListener;
         this.reservation = reservation;
+        this.room = room;
 
         ((ImageButton) findViewById(R.id.cancelButton)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +64,7 @@ public class EditReservationPopup extends Dialog {
         ((TextView) findViewById(R.id.reservationInfo)).setText(reservationInfo);
 
         cancelReservation();
-        editReservation(room);
+        editReservation();
 
     }
 
@@ -79,9 +81,12 @@ public class EditReservationPopup extends Dialog {
         }
     }
 
-    private void editReservation(Room room) {
+    private void editReservation() {
         Button setRoomFreeButton = (Button) findViewById(R.id.setRoomFree);
-        if (reservation.isCancellable()&& reservation.equals(room.getCurrentReservation())){
+
+        boolean isCurrentReservation = reservation.equals(room.getCurrentReservation());
+
+        if (reservation.isCancellable() && isCurrentReservation){
             setRoomFreeButton.setVisibility(View.VISIBLE);
             setRoomFreeButton.setEnabled(true);
             setRoomFreeButton.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +128,16 @@ public class EditReservationPopup extends Dialog {
     private void setReservationEndToCurrentTime() {
         DateTime startTime = reservation.getStartTime();
         reservation.setTimeSpan(new TimeSpan(startTime, new DateTime()));
-        //FIXME 
+
+        String email = application.getSettingValue(R.string.accountForServation, "");
+        try {
+            application.getDataProxy().changeReservation(reservation, room, email);
+        } catch (ReservatorException e) {
+            android.util.Log.w("CHANGE", e);
+        }
+
+        EditReservationPopup.this.cancel();
+        application.getDataProxy().synchronize(room);
     }
 
     private void doCancleReservation() {
