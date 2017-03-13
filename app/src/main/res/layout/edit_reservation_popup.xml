@@ -12,83 +12,88 @@
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="129dp"
-            android:padding="10dp"
-            android:background="@color/ReserveBackground">
+            android:layout_height="match_parent"
+            android:background="@color/ReserveBackground"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
                 android:layout_alignLeft="@id/linearLayout1"
+                android:layout_alignParentTop="true"
                 android:layout_alignRight="@id/linearLayout1"
+                android:gravity="center"
+                android:singleLine="false"
                 android:text="@string/reservationCancelInfo"
                 android:textColor="#333"
-                android:gravity="center"
-                android:singleLine="false" />
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:id="@+id/linearLayout1"
-                android:layout_marginTop="10dp"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/textView1"
                 android:layout_centerHorizontal="true"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
                     android:gravity="left"
-                    android:layout_marginRight="10dp">
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/roomName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Room Name"
-                        android:textStyle="bold"
-                        android:textColor="@color/TextColor"/>
+                        android:textColor="@color/TextColor"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/reservationInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="XX:YY-ZZ:NN John Smith"
-                        android:textColor="@color/TextColor"/>
+                        android:textColor="@color/TextColor"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/cancelReservationButton"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_background"
+                        android:enabled="false"
                         android:focusable="true"
                         android:text="Cancel reservation"
-                        android:background="@drawable/button_background"
-                        android:textStyle="bold"
-                        android:enabled="false"
                         android:textColor="@color/button_color"
-                        android:layout_weight="1" />
+                        android:textStyle="bold" />
 
                     <Button
                         android:id="@+id/setRoomFree"
-                        android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_background"
+                        android:enabled="false"
                         android:focusable="true"
                         android:text="@string/setRoomFree"
-                        android:background="@drawable/button_background"
-                        android:textStyle="bold"
-                        android:enabled="false"
                         android:textColor="@color/button_color"
-                        android:layout_weight="1" />
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -96,11 +101,11 @@
 
             <ImageButton
                 android:id="@+id/cancelButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/close_button_states"/>
+                android:layout_alignParentTop="true"
+                android:background="@drawable/close_button_states" />
         </RelativeLayout>
     </FrameLayout>
 </RelativeLayout>

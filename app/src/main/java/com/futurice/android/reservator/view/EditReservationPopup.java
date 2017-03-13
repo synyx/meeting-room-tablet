@@ -62,7 +62,7 @@ public class EditReservationPopup extends Dialog {
         ((TextView) findViewById(R.id.reservationInfo)).setText(reservationInfo);
 
         cancelReservation();
-        editReservation();
+        editReservation(room);
 
     }
 
@@ -79,9 +79,10 @@ public class EditReservationPopup extends Dialog {
         }
     }
 
-    private void editReservation() {
-        if (reservation.isCancellable()){
-            Button setRoomFreeButton = (Button) findViewById(R.id.setRoomFree);
+    private void editReservation(Room room) {
+        Button setRoomFreeButton = (Button) findViewById(R.id.setRoomFree);
+        if (reservation.isCancellable()&& reservation.equals(room.getCurrentReservation())){
+            setRoomFreeButton.setVisibility(View.VISIBLE);
             setRoomFreeButton.setEnabled(true);
             setRoomFreeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -90,6 +91,7 @@ public class EditReservationPopup extends Dialog {
                 }
             });
         }
+        setRoomFreeButton.setVisibility(View.GONE);
     }
 
     private void showDialog(String title, String message, final EditButton editButton) {
