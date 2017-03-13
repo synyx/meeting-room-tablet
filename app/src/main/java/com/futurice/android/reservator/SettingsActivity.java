@@ -304,8 +304,13 @@ public class SettingsActivity extends ReservatorActivity {
                     Editor edit = settings.edit();
                     edit.putString(getString(R.string.PREFERENCES_ACCOUNT),
                             account);
-                    edit.putString(getString(R.string.PREFERENCES_ACCOUNT_TYPE),
-                            account.substring(account.indexOf("@"), account.length()));
+
+                    if(account.equals(settings.getString(getString(R.string.allAccountsMagicWord), "(Alle)"))) {
+                        edit.putString(getString(R.string.PREFERENCES_ACCOUNT_TYPE), "");
+                    } else {
+                        edit.putString(getString(R.string.PREFERENCES_ACCOUNT_TYPE),
+                                account.substring(account.indexOf("@"), account.length()));
+                    }
                     edit.apply();
 
                     usedAccountView.setSelection(itemPosition);
