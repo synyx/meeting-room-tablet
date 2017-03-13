@@ -90,8 +90,9 @@ public class EditReservationPopup extends Dialog {
                     showDialog(getContext().getString(R.string.setRoomFreeTitel)+"?",reservationInfo, EditButton.SET_ROOM_FREE);
                 }
             });
+        } else {
+            setRoomFreeButton.setVisibility(View.GONE);
         }
-        setRoomFreeButton.setVisibility(View.GONE);
     }
 
     private void showDialog(String title, String message, final EditButton editButton) {
@@ -122,6 +123,7 @@ public class EditReservationPopup extends Dialog {
     private void setReservationEndToCurrentTime() {
         DateTime startTime = reservation.getStartTime();
         reservation.setTimeSpan(new TimeSpan(startTime, new DateTime()));
+        //FIXME 
     }
 
     private void doCancleReservation() {
