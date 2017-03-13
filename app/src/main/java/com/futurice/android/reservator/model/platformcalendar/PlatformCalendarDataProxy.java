@@ -338,7 +338,7 @@ public class PlatformCalendarDataProxy extends DataProxy {
             mSelectionClauses.add(CalendarContract.Calendars.OWNER_ACCOUNT + " LIKE '%" + accountType + "'");
         }
 
-        if (this.account != null) {
+        if (this.account != null && !this.account.equals(context.getString(R.string.allAccountsMagicWord))) {
             mSelectionClauses.add(CalendarContract.Calendars.ACCOUNT_NAME + " = ?");
             mSelectionArgs.add(account);
         }
