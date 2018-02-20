@@ -5,7 +5,7 @@
     <FrameLayout
         android:id="@+id/topLeftEmptyBox"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_height="20dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignRight="@+id/hourColumn"

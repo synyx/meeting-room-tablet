@@ -23,8 +23,8 @@ public class RoomTest {
         Vector<String> attendees = new Vector<>();
         attendees.add("Leo Neu");
         attendees.add("room");
-        res = new Reservation("xxx","meeting",timeSpanOne, attendees);
-        room = new Room("room","email");
+        res = new Reservation("xxx","meeting",timeSpanOne);
+        room = new Room("room","email",true);
         
         Vector<Reservation> reservationVector = new Vector<>();
         reservationVector.add(res);

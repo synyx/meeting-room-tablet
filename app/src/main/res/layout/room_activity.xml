@@ -14,74 +14,81 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/tippCalenderLabel"
+            android:layout_margin="10dp"
             android:fillViewport="true">
 
             <com.futurice.android.reservator.view.WeekView
-                android:layout_width="fill_parent"
                 android:id="@+id/weekView1"
+                android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_below="@+id/tippCalenderLabel"
+                android:layout_marginBottom="0dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
-                android:layout_marginBottom="0dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="30dp">
 
                 <FrameLayout
+                    android:id="@+id/frameLayout1"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:layout_marginRight="10dp"
                     android:layout_marginBottom="0dp"
-                    android:id="@+id/frameLayout1"></FrameLayout>
+                    android:layout_marginRight="10dp"></FrameLayout>
             </com.futurice.android.reservator.view.WeekView>
         </ScrollView>
 
         <TextView
             android:id="@+id/roomNameLabel"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
             android:layout_alignParentLeft="true"
+            android:layout_marginTop="5dp"
             android:textColor="@color/TextColor"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textIsSelectable="false"/>
+            android:textIsSelectable="false"
+            android:textSize="32sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tippCalenderLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:textColor="@color/TextInfoColor"
-            android:textSize="20sp"
-            android:textIsSelectable="false"
-            android:textStyle="normal"
+            android:layout_below="@+id/roomNameLabel"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="40dp"
             android:text="@string/calendarInfo"
-            android:layout_below="@+id/seeRoomTrafficLightsButton"/>
+            android:textColor="@color/TextInfoColor"
+            android:textIsSelectable="false"
+            android:textSize="20sp"
+            android:textStyle="normal" />
 
         <Button
             android:id="@+id/seeAllRoomsButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/roomNameLabel"
+            android:layout_height="60dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
+            android:layout_alignRight="@+id/roomNameLabel"
+            android:layout_margin="10dp"
+            android:layout_marginRight="20dp"
             android:background="@drawable/button_background"
             android:text="@string/seeAllRooms"
-            android:textColor="#fff"/>
+            android:textColor="#fff" />
 
         <Button
             android:id="@+id/seeRoomTrafficLightsButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/button_background"
             android:text="@string/seeRoomTrafficLights"
-            android:textColor="#fff"
-            android:layout_alignBottom="@+id/seeAllRoomsButton"
-            android:layout_centerHorizontal="true" />
+            android:textColor="#fff" />
     </RelativeLayout>
 
     <com.futurice.android.reservator.view.RoomTrafficLights
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_gravity="center"
-        android:id="@+id/roomTrafficLights"/>
+        android:id="@+id/roomTrafficLights"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 </FrameLayout>

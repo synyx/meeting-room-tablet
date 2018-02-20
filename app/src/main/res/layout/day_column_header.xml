@@ -7,17 +7,19 @@
     android:gravity="bottom">
 
     <TextView
+        android:id="@+id/weekLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/weekLabel"
+        android:paddingLeft="5sp"
         android:textColor="@color/CalendarTextColor"
-        android:paddingLeft="5sp"></TextView>
+        android:textSize="12sp"></TextView>
 
     <TextView
+        android:id="@+id/dayLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/dayLabel"
-        android:textColor="@color/CalendarTextColor"
+        android:paddingBottom="5sp"
         android:paddingLeft="5sp"
-        android:paddingBottom="5sp"></TextView>
+        android:textColor="@color/CalendarTextColor"
+        android:textSize="12sp"></TextView>
 </LinearLayout>

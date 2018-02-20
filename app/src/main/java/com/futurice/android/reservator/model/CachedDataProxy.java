@@ -81,6 +81,11 @@ public class CachedDataProxy extends DataProxy {
     }
 
     @Override
+    public void changeReservation(Reservation r, Room room, String email) throws ReservatorException {
+        dataProxy.changeReservation(r, room, email);
+    }
+
+    @Override
     public void synchronize(Room r) {
 
     }
