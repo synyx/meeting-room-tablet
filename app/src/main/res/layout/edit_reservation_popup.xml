@@ -78,7 +78,7 @@
                         android:background="@drawable/button_background"
                         android:enabled="false"
                         android:focusable="true"
-                        android:text="Cancel reservation"
+                        android:text="@string/cancelTitle"
                         android:textColor="@color/button_color"
                         android:textStyle="bold" />
 

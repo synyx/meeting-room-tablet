@@ -17,6 +17,7 @@
     <string name="fum_password">FUM3 password:</string>
     <string name="default_fum_username">roomreservator</string>
     <string name="default_exchange_username">reserve@futurice.com</string>
+    <string name="exchange_server_address">Exchange server adresse</string>
     <string name="calendarError">Fehler: Kalender</string>
     <string name="noCalendarsError">Es wurde kein Meetingraum Kalender gefunden. Bitte stell sicher, dass ein Konto auf diesem Gerät konfiguriert wurde und der Kalender eingestellt wurde, um den Meetingraum Kalender zu synchronisieren.</string>
     <string name="loadingText">lädt</string>
@@ -150,7 +151,7 @@
     <string name="initiateNot">Synchronisation mit Konto konnte nicht gestartet werden</string>
     <string name="infoMeetingName">Bitte gib einen Meetingnamen an</string>
 
-    <string name="reservationCancelInfo">Du kannst Reservierungen löschen, welche ursprünglisch von einem Raum - Tablet erstellt wurde.</string>
+    <string name="reservationCancelInfo">Du kannst nur Reservierungen löschen, welche ursprünglich von einem Raum - Tablet erstellt wurden.</string>
     <string name="touchToReturn">Tippe um zu der Wochenansicht zurückzukehren</string>
     <string name="book">Raum buchen</string>
     <string name="bookNow">Jetzt buchen</string>
@@ -168,7 +169,7 @@
     <string name="FollowMeeting">Nächstes Meeting: </string>
 
     <!--EditView-->
-    <string name="setRoomFreeTitel">Raum freigeben</string>
-    <string name="cancleTitle">Reservierung abbrechen?</string>
+    <string name="setRoomFree">Raum freigeben</string>
+    <string name="cancelTitle">Reservierung abbrechen</string>
 
 </resources>

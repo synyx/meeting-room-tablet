@@ -170,6 +170,6 @@
 
     <!--EditView-->
     <string name="setRoomFree">unblock room</string>
-    <string name="cancleTitle">Cancel reservation?</string>
+    <string name="cancelTitle">Cancel reservation</string>
 
 </resources>

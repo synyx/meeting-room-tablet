@@ -30,7 +30,7 @@ public class EditReservationPopup extends Dialog {
     private Room room;
 
     private enum EditButton {
-        CANCLE, SET_ROOM_FREE, EDIT
+        CANCEL, SET_ROOM_FREE, EDIT
     }
 
     public EditReservationPopup(Context context, Reservation reservation, Room room,
@@ -75,7 +75,7 @@ public class EditReservationPopup extends Dialog {
             cancelReservationButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showDialog(getContext().getString(R.string.cancleTitle), reservationInfo, EditButton.CANCLE);
+                    showDialog(getContext().getString(R.string.cancelTitle), reservationInfo, EditButton.CANCEL);
                 }
             });
         }
@@ -92,7 +92,7 @@ public class EditReservationPopup extends Dialog {
             setRoomFreeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showDialog(getContext().getString(R.string.setRoomFreeTitel)+"?",reservationInfo, EditButton.SET_ROOM_FREE);
+                    showDialog(getContext().getString(R.string.setRoomFree)+"?",reservationInfo, EditButton.SET_ROOM_FREE);
                 }
             });
         } else {
@@ -108,7 +108,7 @@ public class EditReservationPopup extends Dialog {
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         switch (editButton) {
-                            case CANCLE:
+                            case CANCEL:
                                 doCancleReservation();
                                 break;
                             case SET_ROOM_FREE:
