@@ -86,7 +86,7 @@ public class EditReservationPopup extends Dialog {
 
         boolean isCurrentReservation = reservation.equals(room.getCurrentReservation());
 
-        if (reservation.isCancellable() && isCurrentReservation){
+        if (isCurrentReservation){
             setRoomFreeButton.setVisibility(View.VISIBLE);
             setRoomFreeButton.setEnabled(true);
             setRoomFreeButton.setOnClickListener(new View.OnClickListener() {
