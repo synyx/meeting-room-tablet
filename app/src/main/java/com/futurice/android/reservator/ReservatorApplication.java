@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 
+import com.futurice.android.reservator.config.Registry;
 import com.futurice.android.reservator.model.AddressBook;
 import com.futurice.android.reservator.model.DataProxy;
 import com.futurice.android.reservator.model.platformcalendar.PlatformCalendarDataProxy;
 import com.futurice.android.reservator.model.platformcontacts.PlatformContactsAddressBook;
+import com.futurice.android.reservator.ui.login.LoginPresenterFactory;
 
 public class ReservatorApplication extends Application {
     private final long ADDRESS_CACHE_CLEAR_INTERVAL = 6 * 60 * 60 * 1000; // Once every six hours
@@ -55,6 +57,9 @@ public class ReservatorApplication extends Application {
 
         handler = new Handler();
         clearCacheLater();
+
+
+        Registry.put(LoginPresenterFactory.class, new LoginPresenterFactory());
     }
 
     public String getSettingValue(int settingNameId, String defaultValue) {
