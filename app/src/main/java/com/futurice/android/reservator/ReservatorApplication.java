@@ -9,13 +9,12 @@ import android.content.SharedPreferences;
 
 import android.os.Handler;
 
-import com.futurice.android.reservator.config.Registry;
 import com.futurice.android.reservator.model.AddressBook;
 import com.futurice.android.reservator.model.DataProxy;
 import com.futurice.android.reservator.model.platformcalendar.PlatformCalendarDataProxy;
 import com.futurice.android.reservator.model.platformcontacts.PlatformContactsAddressBook;
 
-import com.synyx.android.reservator.ui.login.LoginPresenterFactory;
+import com.synyx.android.reservator.ui.login.LoginConfig;
 
 
 public class ReservatorApplication extends Application {
@@ -69,7 +68,13 @@ public class ReservatorApplication extends Application {
         handler = new Handler();
         clearCacheLater();
 
-        Registry.put(LoginPresenterFactory.class, new LoginPresenterFactory());
+        initConfig();
+    }
+
+
+    private void initConfig() {
+
+        LoginConfig.init();
     }
 
 

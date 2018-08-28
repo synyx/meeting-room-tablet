@@ -1,4 +1,4 @@
-package com.futurice.android.reservator.config;
+package com.synyx.android.reservator.config;
 
 import android.app.Application;
 
@@ -6,8 +6,8 @@ import android.content.Context;
 
 import android.support.annotation.NonNull;
 
-import com.futurice.android.reservator.preferences.PreferencesService;
-import com.futurice.android.reservator.preferences.PreferencesServiceImpl;
+import com.synyx.android.reservator.preferences.PreferencesService;
+import com.synyx.android.reservator.preferences.PreferencesServiceImpl;
 
 
 /**

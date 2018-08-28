@@ -1,4 +1,4 @@
-package com.futurice.android.reservator.mvp;
+package com.synyx.android.reservator.mvp;
 
 /**
  * @author  Julian Heetel - heetel@synyx.de

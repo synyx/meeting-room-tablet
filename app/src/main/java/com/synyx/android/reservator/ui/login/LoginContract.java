@@ -1,7 +1,7 @@
 package com.synyx.android.reservator.ui.login;
 
-import com.futurice.android.reservator.mvp.BasePresenter;
-import com.futurice.android.reservator.mvp.BaseView;
+import com.synyx.android.reservator.mvp.BasePresenter;
+import com.synyx.android.reservator.mvp.BaseView;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.futurice.android.reservator.config;
+package com.synyx.android.reservator.config;
 
 import android.support.annotation.NonNull;
 

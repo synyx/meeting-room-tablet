@@ -1,4 +1,4 @@
-package com.futurice.android.reservator.preferences;
+package com.synyx.android.reservator.preferences;
 
 import android.content.SharedPreferences;
 

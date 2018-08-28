@@ -1,4 +1,4 @@
-package com.futurice.android.reservator.preferences;
+package com.synyx.android.reservator.preferences;
 
 /**
  * @author  Julian Heetel - heetel@synyx.de
