@@ -14,6 +14,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     public LoginPresenterImpl(LoginView view) {
 
         this.view = view;
+        this.view.setPresenter(this);
     }
 
     @Override
@@ -28,6 +29,8 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     @Override
     public void start() {
+
+        view.showErrorDialog("title", "message");
     }
 
 

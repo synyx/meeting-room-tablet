@@ -24,6 +24,7 @@ import com.futurice.android.reservator.R;
 import com.futurice.android.reservator.ReservatorActivity;
 import com.futurice.android.reservator.model.AddressBookUpdatedListener;
 import com.futurice.android.reservator.model.ReservatorException;
+import com.synyx.android.reservator.config.Registry;
 
 
 public class LoginActivity extends ReservatorActivity implements AddressBookUpdatedListener {
@@ -51,11 +52,11 @@ public class LoginActivity extends ReservatorActivity implements AddressBookUpda
 
         if (fragment == null) {
             fragment = new LoginFragment();
-//            fragmentManager.beginTransaction().replace(R.id.relativeLayout1, fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.relativeLayout1, fragment).commit();
         }
 
-//        LoginPresenterFactory presenterFactory = Registry.get(LoginPresenterFactory.class);
-//        presenterFactory.createPresenter((LoginContract.LoginView) fragment);
+        LoginPresenterFactory presenterFactory = Registry.get(LoginPresenterFactory.class);
+        presenterFactory.createPresenter((LoginContract.LoginView) fragment);
 
         if (pd != null) {
             pd.dismiss();

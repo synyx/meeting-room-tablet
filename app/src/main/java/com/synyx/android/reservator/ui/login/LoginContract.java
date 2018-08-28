@@ -15,6 +15,12 @@ public interface LoginContract {
 
 
         void showErrorDialog(String errorTitle, String errorMessage);
+
+
+        void showProgress(String message);
+
+
+        void hideProgress();
     }
 
     interface LoginPresenter extends BasePresenter {
