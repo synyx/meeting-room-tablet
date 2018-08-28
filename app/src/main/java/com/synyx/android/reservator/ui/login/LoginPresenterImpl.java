@@ -1,7 +1,7 @@
-package com.futurice.android.reservator.ui.login;
+package net.synyx.mobile.reservator.ui.login;
 
-import com.futurice.android.reservator.ui.login.LoginContract.LoginPresenter;
-import com.futurice.android.reservator.ui.login.LoginContract.LoginView;
+import net.synyx.mobile.reservator.ui.login.LoginContract.LoginPresenter;
+import net.synyx.mobile.reservator.ui.login.LoginContract.LoginView;
 
 
 /**
