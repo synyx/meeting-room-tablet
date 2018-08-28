@@ -1,7 +1,7 @@
-package net.synyx.mobile.reservator.ui.login;
+package com.synyx.android.reservator.ui.login;
 
-import net.synyx.mobile.reservator.ui.login.LoginContract.LoginPresenter;
-import net.synyx.mobile.reservator.ui.login.LoginContract.LoginView;
+import com.synyx.android.reservator.ui.login.LoginContract.LoginPresenter;
+import com.synyx.android.reservator.ui.login.LoginContract.LoginView;
 
 
 /**

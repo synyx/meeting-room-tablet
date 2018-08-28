@@ -1,4 +1,4 @@
-package net.synyx.mobile.reservator.ui.login;
+package com.synyx.android.reservator.ui.login;
 
 import android.os.Bundle;
 
