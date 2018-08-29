@@ -62,6 +62,13 @@ public class LoginFragment extends Fragment implements LoginContract.LoginView {
 
 
     @Override
+    public void showCalendarModeSelection() {
+
+        // TODO implement
+    }
+
+
+    @Override
     public void showErrorDialog() {
 
         new AlertDialog.Builder(getActivity()).setMessage(getString(R.string.noCalendarsError))
@@ -79,14 +86,6 @@ public class LoginFragment extends Fragment implements LoginContract.LoginView {
         progressBar.setVisibility(View.VISIBLE);
         progressText.setVisibility(View.VISIBLE);
         progressText.setText(getString(R.string.calendarPending));
-    }
-
-
-    @Override
-    public void hideProgress() {
-
-        progressBar.setVisibility(View.GONE);
-        progressText.setVisibility(View.GONE);
     }
 
 

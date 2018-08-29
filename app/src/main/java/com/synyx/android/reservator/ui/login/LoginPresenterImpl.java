@@ -1,11 +1,10 @@
 package com.synyx.android.reservator.ui.login;
 
-import android.annotation.SuppressLint;
-
 import com.futurice.android.reservator.model.DataProxy;
 
 import com.synyx.android.reservator.config.Registry;
 import com.synyx.android.reservator.domain.account.AccountService;
+import com.synyx.android.reservator.domain.calendar.CalendarMode;
 import com.synyx.android.reservator.preferences.PreferencesService;
 import com.synyx.android.reservator.ui.login.LoginContract.LoginPresenter;
 import com.synyx.android.reservator.ui.login.LoginContract.LoginView;
@@ -37,15 +36,23 @@ public class LoginPresenterImpl implements LoginPresenter {
 
 
     @Override
+    public void onCalendarModeSelected(CalendarMode calendarMode) {
+
+        // TODO implement: save to preferences
+    }
+
+
+    @Override
     public void onErrorDialogCloseButtonClicked() {
 
-        view.hideProgress();
         listener.onErrorCloseButtonClick();
     }
 
 
     @Override
     public void start() {
+
+        // TODO check if already logged in and handle
 
         view.showProgress();
 
@@ -64,14 +71,15 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
 
-    public boolean hasFatalError() {
+    private boolean hasFatalError() {
 
         return Registry.get(DataProxy.class).hasFatalError();
     }
 
 
-    @SuppressLint("NewApi")
     private void selectAccount() {
+
+        // TODO rename
 
         String[] accountNames = Registry.get(AccountService.class).getAccountNames();
 
