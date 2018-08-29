@@ -51,15 +51,20 @@ public class LoginFragment extends Fragment implements LoginContract.LoginView {
 
 
     @Override
-    public void showAccounts() {
+    public void showAccounts(String[] accounts) {
+
+        new AlertDialog.Builder(getActivity()).setTitle(R.string.selectAccount)
+            .setItems(accounts, (dialog, which) -> presenter.onAccountSelected(accounts[which]))
+            .create()
+            .show();
     }
 
 
     @Override
-    public void showErrorDialog(String errorTitle, String errorMessage) {
+    public void showErrorDialog() {
 
-        new AlertDialog.Builder(getActivity()).setMessage(errorMessage)
-            .setTitle(errorTitle)
+        new AlertDialog.Builder(getActivity()).setMessage(getString(R.string.noCalendarsError))
+            .setTitle(getString(R.string.calendarError))
             .setPositiveButton(R.string.close, ((dialog, which) -> presenter.onErrorDialogCloseButtonClicked()))
             .create()
             .show();
@@ -67,11 +72,11 @@ public class LoginFragment extends Fragment implements LoginContract.LoginView {
 
 
     @Override
-    public void showProgress(String message) {
+    public void showProgress() {
 
         progressBar.setVisibility(View.VISIBLE);
         progressText.setVisibility(View.VISIBLE);
-        progressText.setText(message);
+        progressText.setText(getString(R.string.calendarPending));
     }
 
 

@@ -11,13 +11,13 @@ public interface LoginContract {
 
     interface LoginView extends BaseView<LoginPresenter> {
 
-        void showAccounts();
+        void showAccounts(String[] accounts);
 
 
-        void showErrorDialog(String errorTitle, String errorMessage);
+        void showErrorDialog();
 
 
-        void showProgress(String message);
+        void showProgress();
 
 
         void hideProgress();
@@ -25,7 +25,7 @@ public interface LoginContract {
 
     interface LoginPresenter extends BasePresenter {
 
-        void onAccountSelected();
+        void onAccountSelected(String account);
 
 
         void onErrorDialogCloseButtonClicked();
