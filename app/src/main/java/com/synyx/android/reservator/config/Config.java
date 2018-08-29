@@ -1,8 +1,5 @@
 package com.synyx.android.reservator.config;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
-
 import android.app.Application;
 
 import android.content.Context;
@@ -24,9 +21,6 @@ public class Config {
     private static final String PREFS_NAME = "prefs";
     private static Config instance;
 
-    @Getter
-    private Account[] accounts;
-
     @Setter
     @Getter
     private PreferencesService preferencesService;
@@ -35,7 +29,6 @@ public class Config {
 
         preferencesService = new PreferencesServiceImpl(context.getSharedPreferences(PREFS_NAME,
                     Application.MODE_PRIVATE));
-        accounts = AccountManager.get(context).getAccounts();
     }
 
     @NonNull

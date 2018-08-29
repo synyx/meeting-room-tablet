@@ -1,7 +1,5 @@
 package com.synyx.android.reservator.ui.login;
 
-import android.accounts.Account;
-
 import android.content.Intent;
 
 import android.os.Bundle;
@@ -61,13 +59,6 @@ public class LoginActivity extends ReservatorActivity implements LoginListener {
     public void onAccountClick(String account) {
 
         moveToModeSelection();
-    }
-
-
-    @Override
-    public Account[] fetchAccounts() {
-
-        return config.getAccounts();
     }
 
 

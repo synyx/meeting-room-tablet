@@ -51,10 +51,11 @@ public class LoginFragment extends Fragment implements LoginContract.LoginView {
 
 
     @Override
-    public void showAccounts(String[] accounts) {
+    public void showAccountSelection(String[] accounts) {
 
         new AlertDialog.Builder(getActivity()).setTitle(R.string.selectAccount)
             .setItems(accounts, (dialog, which) -> presenter.onAccountSelected(accounts[which]))
+            .setCancelable(false)
             .create()
             .show();
     }
@@ -66,6 +67,7 @@ public class LoginFragment extends Fragment implements LoginContract.LoginView {
         new AlertDialog.Builder(getActivity()).setMessage(getString(R.string.noCalendarsError))
             .setTitle(getString(R.string.calendarError))
             .setPositiveButton(R.string.close, ((dialog, which) -> presenter.onErrorDialogCloseButtonClicked()))
+            .setCancelable(false)
             .create()
             .show();
     }
