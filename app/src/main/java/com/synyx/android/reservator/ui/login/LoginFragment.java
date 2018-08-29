@@ -62,9 +62,13 @@ public class LoginFragment extends Fragment implements LoginContract.LoginView {
 
 
     @Override
-    public void showCalendarModeSelection() {
+    public void showCalendarModeSelection(String[] calenderModes) {
 
-        // TODO implement
+        new AlertDialog.Builder(getActivity()).setTitle(R.string.selectMode)
+            .setItems(calenderModes, (dialog, which) -> presenter.onCalendarModeSelected(calenderModes[which]))
+            .setCancelable(false)
+            .create()
+            .show();
     }
 
 

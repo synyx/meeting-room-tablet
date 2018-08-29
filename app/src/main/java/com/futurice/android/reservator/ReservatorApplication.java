@@ -76,7 +76,7 @@ public class ReservatorApplication extends Application {
     private void initConfig() {
 
         Registry.put(DataProxy.class, proxy);
-        LoginConfig.init();
+        LoginConfig.init(this);
     }
 
 

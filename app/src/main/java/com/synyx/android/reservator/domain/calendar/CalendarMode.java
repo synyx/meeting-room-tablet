@@ -3,7 +3,7 @@ package com.synyx.android.reservator.domain.calendar;
 /**
  * @author  Julian Heetel - heetel@synyx.de
  *
- *          <p>TODO explanation</p>
+ * Use {@link Room Rooms} as calendar resources or separate calendars.  
  */
 public enum CalendarMode {
 

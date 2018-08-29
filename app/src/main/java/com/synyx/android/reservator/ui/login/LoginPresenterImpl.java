@@ -5,6 +5,7 @@ import com.futurice.android.reservator.model.DataProxy;
 import com.synyx.android.reservator.config.Registry;
 import com.synyx.android.reservator.domain.account.AccountService;
 import com.synyx.android.reservator.domain.calendar.CalendarMode;
+import com.synyx.android.reservator.domain.calendar.CalendarModeService;
 import com.synyx.android.reservator.preferences.PreferencesService;
 import com.synyx.android.reservator.ui.login.LoginContract.LoginPresenter;
 import com.synyx.android.reservator.ui.login.LoginContract.LoginView;
@@ -18,6 +19,8 @@ public class LoginPresenterImpl implements LoginPresenter {
     private final LoginListener listener;
     private final PreferencesService preferencesService;
     private LoginView view;
+    private CalendarMode calendarMode = Registry.get(CalendarMode.class);
+    private CalendarModeService calendarModeService;
 
     public LoginPresenterImpl(LoginView view, LoginListener listener, PreferencesService preferencesService) {
 
@@ -25,20 +28,20 @@ public class LoginPresenterImpl implements LoginPresenter {
         this.view.setPresenter(this);
         this.listener = listener;
         this.preferencesService = preferencesService;
+        this.calendarModeService = Registry.get(CalendarModeService.class);
     }
 
     @Override
     public void onAccountSelected(String account) {
 
         saveSelectedAccount(account);
-        listener.onAccountClick(account);
     }
 
 
     @Override
-    public void onCalendarModeSelected(CalendarMode calendarMode) {
+    public void onCalendarModeSelected(String calendarMode) {
 
-        // TODO implement: save to preferences
+        saveSelectedCalendarMode(calendarMode);
     }
 
 
@@ -52,15 +55,15 @@ public class LoginPresenterImpl implements LoginPresenter {
     @Override
     public void start() {
 
-        // TODO check if already logged in and handle
-
         view.showProgress();
 
         if (hasFatalError()) {
             view.showErrorDialog();
-        } else {
-            selectAccount();
+        } else if (preferencesService.isLoggedIn()) {
+            checkAccounts();
         }
+
+        view.showCalendarModeSelection(calendarModeService.getCalendarModes());
     }
 
 
@@ -77,9 +80,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
 
-    private void selectAccount() {
-
-        // TODO rename
+    private void checkAccounts() {
 
         String[] accountNames = Registry.get(AccountService.class).getAccountNames();
 
@@ -94,5 +95,11 @@ public class LoginPresenterImpl implements LoginPresenter {
     private void saveSelectedAccount(String account) {
 
         preferencesService.saveLoginAccountAndType(account, account, account.substring(account.indexOf("@") + 1));
+    }
+
+
+    private void saveSelectedCalendarMode(String calendarMode) {
+
+        preferencesService.saveCalendarMode(calendarModeService.getPrefCalenderModeString(), calendarMode);
     }
 }

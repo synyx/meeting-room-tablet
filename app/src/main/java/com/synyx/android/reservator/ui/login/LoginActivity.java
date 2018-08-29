@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
+import com.futurice.android.reservator.LobbyActivity;
 import com.futurice.android.reservator.ModeSelectionActivity;
 import com.futurice.android.reservator.R;
 import com.futurice.android.reservator.ReservatorActivity;
 
 import com.synyx.android.reservator.config.Registry;
+import com.synyx.android.reservator.domain.calendar.CalendarMode;
 
 
 public class LoginActivity extends ReservatorActivity implements LoginListener {
@@ -51,14 +53,15 @@ public class LoginActivity extends ReservatorActivity implements LoginListener {
     @Override
     public void onErrorCloseButtonClick() {
 
-        this.finish();
+        finish();
     }
 
 
     @Override
-    public void onAccountClick(String account) {
+    public void onCalenderModeClick(CalendarMode calendarMode) {
 
-        moveToModeSelection();
+        Intent i = new Intent(this, LobbyActivity.class);
+        startActivityForResult(i, REQUEST_LOBBY);
     }
 
 

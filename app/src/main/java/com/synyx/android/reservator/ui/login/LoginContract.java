@@ -1,6 +1,5 @@
 package com.synyx.android.reservator.ui.login;
 
-import com.synyx.android.reservator.domain.calendar.CalendarMode;
 import com.synyx.android.reservator.mvp.BasePresenter;
 import com.synyx.android.reservator.mvp.BaseView;
 
@@ -15,7 +14,7 @@ public interface LoginContract {
         void showAccountSelection(String[] accounts);
 
 
-        void showCalendarModeSelection();
+        void showCalendarModeSelection(String[] calendarModes);
 
 
         void showErrorDialog();
@@ -29,7 +28,7 @@ public interface LoginContract {
         void onAccountSelected(String account);
 
 
-        void onCalendarModeSelected(CalendarMode calendarMode);
+        void onCalendarModeSelected(String calendarMode);
 
 
         void onErrorDialogCloseButtonClicked();
