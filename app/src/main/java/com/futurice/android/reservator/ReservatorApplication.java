@@ -16,6 +16,7 @@ import com.futurice.android.reservator.model.platformcontacts.PlatformContactsAd
 
 import com.synyx.android.reservator.config.Registry;
 import com.synyx.android.reservator.ui.login.LoginConfig;
+import com.synyx.android.reservator.util.proxy.ProxyConfig;
 
 
 public class ReservatorApplication extends Application {
@@ -50,6 +51,9 @@ public class ReservatorApplication extends Application {
     @Override
     public void onCreate() {
 
+        super.onCreate();
+        initConfig();
+
         PlatformContactsAddressBook googleAddressBook = new PlatformContactsAddressBook(getContentResolver());
         proxy = new PlatformCalendarDataProxy(getContentResolver(), AccountManager.get(this), this);
 
@@ -69,13 +73,13 @@ public class ReservatorApplication extends Application {
         handler = new Handler();
         clearCacheLater();
 
-        initConfig();
+        Registry.put(DataProxy.class, proxy);
     }
 
 
     private void initConfig() {
 
-        Registry.put(DataProxy.class, proxy);
+        ProxyConfig.init(this);
         LoginConfig.init(this);
     }
 

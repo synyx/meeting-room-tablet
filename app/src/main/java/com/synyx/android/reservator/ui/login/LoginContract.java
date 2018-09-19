@@ -3,6 +3,8 @@ package com.synyx.android.reservator.ui.login;
 import com.synyx.android.reservator.mvp.BasePresenter;
 import com.synyx.android.reservator.mvp.BaseView;
 
+import java.util.List;
+
 
 /**
  * @author  Julian Heetel - heetel@synyx.de
@@ -10,6 +12,9 @@ import com.synyx.android.reservator.mvp.BaseView;
 public interface LoginContract {
 
     interface LoginView extends BaseView<LoginPresenter> {
+
+        void askForPermissions(List<String> neededPermissions);
+
 
         void showAccountSelection(String[] accounts);
 
@@ -24,6 +29,12 @@ public interface LoginContract {
     }
 
     interface LoginPresenter extends BasePresenter {
+
+        void askForPermissionsAgain();
+
+
+        void onAllPermissionsGranted();
+
 
         void onAccountSelected(String account);
 

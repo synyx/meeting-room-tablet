@@ -1,16 +1,14 @@
 package com.futurice.android.reservator.model.platformcalendar;
 
-import android.Manifest;
-
 import android.accounts.Account;
 import android.accounts.AccountManager;
+
+import android.annotation.SuppressLint;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-
-import android.content.pm.PackageManager;
 
 import android.database.Cursor;
 
@@ -31,6 +29,9 @@ import com.futurice.android.reservator.model.Reservation;
 import com.futurice.android.reservator.model.ReservatorException;
 import com.futurice.android.reservator.model.Room;
 import com.futurice.android.reservator.model.TimeSpan;
+
+import com.synyx.android.reservator.config.Registry;
+import com.synyx.android.reservator.util.proxy.PermissionManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,6 +69,8 @@ public class PlatformCalendarDataProxy extends DataProxy {
             this.resourcesGlob = resourcesGlob;
         }
     }
+
+    private PermissionManager permissionManager;
 
     private Context context;
     private final String DEFAULT_MEETING_NAME = "Reserved";
@@ -116,6 +119,7 @@ public class PlatformCalendarDataProxy extends DataProxy {
         this.accountManager = accountManager;
         this.context = context;
         setDesignationMeetingName(context);
+        this.permissionManager = Registry.get(PermissionManager.class);
     }
 
     private void setCalendarMode(String mode) {
@@ -150,6 +154,7 @@ public class PlatformCalendarDataProxy extends DataProxy {
 
 
     @Override
+    @SuppressLint("MissingPermission")
     public void reserve(Room r, TimeSpan timeSpan, String owner, String ownerEmail, String meetingName)
         throws ReservatorException {
 
@@ -213,6 +218,7 @@ public class PlatformCalendarDataProxy extends DataProxy {
      *
      * @author  vsin
      */
+    @SuppressLint("MissingPermission")
     private String getAccountName(long calendarId) throws ReservatorException {
 
         String[] mProjection = { CalendarContract.Calendars.ACCOUNT_NAME };
@@ -378,6 +384,12 @@ public class PlatformCalendarDataProxy extends DataProxy {
             CalendarContract.Calendars.CALENDAR_LOCATION, CalendarContract.Instances.CALENDAR_DISPLAY_NAME
         };
 
+        /*String[] mProjection = {
+                CalendarContract.Calendars._ID, CalendarContract.Calendars.OWNER_ACCOUNT, CalendarContract.Calendars.NAME, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
+                CalendarContract.Calendars.CALENDAR_LOCATION, CalendarContract.Instances.CALENDAR_DISPLAY_NAME
+        };*/
+        System.out.println(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME);
+
         List<String> mSelectionClauses = new ArrayList<String>();
         List<String> mSelectionArgs = new ArrayList<String>();
 
@@ -400,6 +412,7 @@ public class PlatformCalendarDataProxy extends DataProxy {
 
         String mSortOrder = null;
 
+        @SuppressLint("MissingPermission")
         Cursor result = resolver.query(CalendarContract.Calendars.CONTENT_URI, mProjection,
                 TextUtils.join(" AND ", mSelectionClauses), mSelectionArgs.toArray(new String[0]), mSortOrder);
 
@@ -560,6 +573,7 @@ public class PlatformCalendarDataProxy extends DataProxy {
     }
 
 
+    @SuppressLint("MissingPermission")
     private HashSet<Reservation> getInstancesTableReservations(PlatformCalendarRoom room, long minTime, long maxTime,
         String calendarAccount) {
 
@@ -659,6 +673,7 @@ public class PlatformCalendarDataProxy extends DataProxy {
     }
 
 
+    @SuppressLint("MissingPermission")
     private Vector<String> getAuthoritySortedAttendees(final long eventId) {
 
         Vector<String> attendees = new Vector<String>();
@@ -697,6 +712,7 @@ public class PlatformCalendarDataProxy extends DataProxy {
 
 
     @Override
+    @SuppressLint("MissingPermission")
     public boolean hasFatalError() {
 
         // Make sure that we have the required room Calendars synced on some account
@@ -740,6 +756,7 @@ public class PlatformCalendarDataProxy extends DataProxy {
     /**
      * Sets sync flag on for all calendars that match the room account glob pattern.
      */
+    @SuppressLint("MissingPermission")
     private void setSyncOn() {
 
         ContentValues mUpdateValues = new ContentValues();
@@ -760,17 +777,8 @@ public class PlatformCalendarDataProxy extends DataProxy {
 
         mUpdateValues.put("SYNC_EVENTS", 1);
 
-        if (checkSelfPermission(Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-        }
-
         resolver.update(CalendarContract.Calendars.CONTENT_URI, mUpdateValues, mSelectionClause,
             mSelectionArgs.toArray(new String[0]));
-    }
-
-
-    private int checkSelfPermission(String writeCalendar) {
-
-        return 0;
     }
 
 

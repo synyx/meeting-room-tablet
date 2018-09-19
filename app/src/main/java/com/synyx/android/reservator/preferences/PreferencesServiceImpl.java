@@ -11,6 +11,7 @@ public class PreferencesServiceImpl implements PreferencesService {
     private static final String PREF_RESERVATION_ACCOUNT = "reservationAccount";
     private static final String PREF_ADDRESS_BOOK_OPTION = "addressBookOption";
 
+    private static final String PREFERENCES_CALENDAR_MODE = "calendarMode";
     private static final String PREF_USER_ACCOUNT = "calendarAccount"; // TODO rename to "userAccount"
     private static final String PREF_ACCOUNT_TYPE = "accountType";
     private SharedPreferences sharedPreferences;
@@ -56,9 +57,16 @@ public class PreferencesServiceImpl implements PreferencesService {
 
 
     @Override
-    public void saveCalendarMode(String prefCalenderMode, String calendarMode) {
+    public void saveCalendarMode(String calendarMode) {
 
-        editor.putString(prefCalenderMode, calendarMode);
+        editor.putString(PREFERENCES_CALENDAR_MODE, calendarMode);
         editor.apply();
+    }
+
+
+    @Override
+    public String getSelectedCalenderMode() {
+
+        return sharedPreferences.getString(PREFERENCES_CALENDAR_MODE, "");
     }
 }

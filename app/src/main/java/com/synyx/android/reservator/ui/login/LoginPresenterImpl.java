@@ -9,6 +9,9 @@ import com.synyx.android.reservator.domain.calendar.CalendarModeService;
 import com.synyx.android.reservator.preferences.PreferencesService;
 import com.synyx.android.reservator.ui.login.LoginContract.LoginPresenter;
 import com.synyx.android.reservator.ui.login.LoginContract.LoginView;
+import com.synyx.android.reservator.util.proxy.PermissionManager;
+
+import java.util.List;
 
 
 /**
@@ -18,8 +21,9 @@ public class LoginPresenterImpl implements LoginPresenter {
 
     private final LoginListener listener;
     private final PreferencesService preferencesService;
+    private final PermissionManager permissionManager;
     private LoginView view;
-    private CalendarMode calendarMode = Registry.get(CalendarMode.class);
+    private CalendarMode prefCalendarMode;
     private CalendarModeService calendarModeService;
 
     public LoginPresenterImpl(LoginView view, LoginListener listener, PreferencesService preferencesService) {
@@ -29,19 +33,44 @@ public class LoginPresenterImpl implements LoginPresenter {
         this.listener = listener;
         this.preferencesService = preferencesService;
         this.calendarModeService = Registry.get(CalendarModeService.class);
+        this.prefCalendarMode = calendarModeService.getPrefCalenderMode();
+        this.permissionManager = Registry.get(PermissionManager.class);
     }
+
+    @Override
+    public void askForPermissionsAgain() {
+
+        askForPermissions();
+    }
+
+
+    @Override
+    public void onAllPermissionsGranted() {
+
+        if (hasFatalError()) {
+            view.showErrorDialog();
+        } else if (!preferencesService.isLoggedIn()) {
+            checkAccounts();
+        } else {
+            calenderModeSelection();
+        }
+    }
+
 
     @Override
     public void onAccountSelected(String account) {
 
         saveSelectedAccount(account);
+        calenderModeSelection();
     }
 
 
     @Override
     public void onCalendarModeSelected(String calendarMode) {
 
-        saveSelectedCalendarMode(calendarMode);
+        preferencesService.saveCalendarMode(calendarMode);
+
+        listener.onCalenderModeClick(prefCalendarMode);
     }
 
 
@@ -57,13 +86,7 @@ public class LoginPresenterImpl implements LoginPresenter {
 
         view.showProgress();
 
-        if (hasFatalError()) {
-            view.showErrorDialog();
-        } else if (preferencesService.isLoggedIn()) {
-            checkAccounts();
-        }
-
-        view.showCalendarModeSelection(calendarModeService.getCalendarModes());
+        askForPermissions();
     }
 
 
@@ -71,6 +94,22 @@ public class LoginPresenterImpl implements LoginPresenter {
     public void stop() {
 
         // not needed
+    }
+
+
+    private void askForPermissions() {
+
+        if (!view.isAdded()) {
+            return;
+        }
+
+        List<String> neededPermissions = permissionManager.getNeededPermissions();
+
+        if (neededPermissions.isEmpty()) {
+            onAllPermissionsGranted();
+        } else {
+            view.askForPermissions(neededPermissions);
+        }
     }
 
 
@@ -98,8 +137,12 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
 
-    private void saveSelectedCalendarMode(String calendarMode) {
+    private void calenderModeSelection() {
 
-        preferencesService.saveCalendarMode(calendarModeService.getPrefCalenderModeString(), calendarMode);
+        if (prefCalendarMode == CalendarMode.NO_SELECTED_MODE) {
+            view.showCalendarModeSelection(calendarModeService.getCalendarModes());
+        } else {
+            listener.onCalenderModeClick(prefCalendarMode);
+        }
     }
 }

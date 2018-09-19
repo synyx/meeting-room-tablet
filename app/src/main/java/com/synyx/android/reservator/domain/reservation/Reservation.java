@@ -6,6 +6,7 @@ import lombok.NonNull;
 
 import java.io.Serializable;
 
+import java.util.Date;
 import java.util.Set;
 
 
@@ -31,7 +32,7 @@ public class Reservation implements Comparable<Reservation>, Serializable {
 
     @Getter
     @NonNull
-    private long createdTime;
+    private Date createdTime;
 
     @Override
     public boolean equals(Object other) {

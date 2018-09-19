@@ -14,5 +14,5 @@ public interface CalendarModeService {
     String[] getCalendarModes();
 
 
-    String getPrefCalenderModeString();
+    CalendarMode getPrefCalenderMode();
 }

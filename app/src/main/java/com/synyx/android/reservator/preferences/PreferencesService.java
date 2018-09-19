@@ -14,5 +14,8 @@ public interface PreferencesService {
     void saveLoginAccountAndType(String reservationAccount, String userAccount, String accountType);
 
 
-    void saveCalendarMode(String prefCalenderMode, String calendarMode);
+    void saveCalendarMode(String calendarMode);
+
+
+    String getSelectedCalenderMode();
 }

@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, Reservator!</string>
     <string name="app_name">Reservator</string>
+    
+    <!--Permissions-->
+    <string name="permission_dialog_positive">OK</string>
+    <string name="permission_dialog_negative">Cancel</string>
 
+    <string name="dialog_calendar_permission_massage">This app needs access to calendar to work, please enable it in the permission settings.</string>
+    <string name="dialog_calendar_permission_title">Calendar permission required</string>
+
+    <string name="dialog_accounts_permission_massage">This app needs access to account data, please enable it in the permission settings.</string>
+    <string name="dialog_accounts_permission_title">Accounts permission required</string>
+
+    <string name="dialog_sync_settings_permission_massage">This app needs access to sync settings, please enable it in the permission settings.</string>
+    <string name="dialog_sync_settings_permission_title">Sync settings permission required</string>
+
+    <string name="dialog_contacts_permission_massage">This app needs access to contact data to work, please enable it in the permission settings.</string>
+    <string name="dialog_contacts_permission_title">Contact permission required</string>
+    
     <!--Login-->
     <string name="login">Login</string>
     <string name="username_hint">username</string>

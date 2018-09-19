@@ -1,6 +1,17 @@
 package com.synyx.android.reservator.ui.login;
 
+import android.Manifest;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+
+import android.content.pm.PackageManager;
+
+import android.net.Uri;
+
 import android.os.Bundle;
+
+import android.provider.Settings;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,13 +29,19 @@ import android.widget.TextView;
 
 import com.futurice.android.reservator.R;
 
+import com.synyx.android.reservator.config.Registry;
+import com.synyx.android.reservator.util.proxy.PermissionManager;
+
+import java.util.List;
+
 
 /**
  * @author  Julian Heetel - heetel@synyx.de
  */
 public class LoginFragment extends Fragment implements LoginContract.LoginView {
 
-    LoginContract.LoginPresenter presenter;
+    private static final int REQUEST_PERMISSION_SETTING = 1;
+    private LoginContract.LoginPresenter presenter;
     private TextView progressText;
     private ProgressBar progressBar;
 
@@ -46,7 +63,41 @@ public class LoginFragment extends Fragment implements LoginContract.LoginView {
     public void onStart() {
 
         super.onStart();
+
         presenter.start();
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+        @NonNull int[] grantResults) {
+
+        if (requestCode == REQUEST_PERMISSION_SETTING) {
+            if (permissions.length == 0) {
+                // the dialog was cancelled, e.g. orientation change
+                return;
+            }
+
+            for (int i = 0; i < permissions.length; i++) {
+                if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                    onPermissionDenied(permissions[i]);
+
+                    return;
+                }
+            }
+
+            presenter.onAllPermissionsGranted();
+        }
+    }
+
+
+    @Override
+    public void askForPermissions(List<String> neededPermissions) {
+
+        String[] permissionsToRequest = new String[neededPermissions.size()];
+
+        Registry.get(PermissionManager.class)
+            .requestPermission(this, neededPermissions.toArray(permissionsToRequest), REQUEST_PERMISSION_SETTING);
     }
 
 
@@ -97,5 +148,97 @@ public class LoginFragment extends Fragment implements LoginContract.LoginView {
     public void setPresenter(LoginContract.LoginPresenter presenter) {
 
         this.presenter = presenter;
+    }
+
+
+    private void onPermissionDenied(String permission) {
+
+        if (Registry.get(PermissionManager.class).shouldShowRequestPermissionRationale(this, permission)) {
+            showPermissionNeededDialog(permission,
+                (dialog, which) -> handlePermissionsNeededRationaleDialogResult(which));
+        } else {
+            showPermissionNeededDialog(permission, (dialog, which) -> handlePermissionsNeededDialogResult(which));
+        }
+    }
+
+
+    private void handlePermissionsNeededDialogResult(int which) {
+
+        if (which == DialogInterface.BUTTON_POSITIVE) {
+            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
+            intent.setData(uri);
+            startActivityForResult(intent, REQUEST_PERMISSION_SETTING);
+        } else if (which == DialogInterface.BUTTON_NEGATIVE) {
+            presenter.onAllPermissionsGranted();
+        }
+    }
+
+
+    private void handlePermissionsNeededRationaleDialogResult(int which) {
+
+        if (which == DialogInterface.BUTTON_POSITIVE) {
+            presenter.askForPermissionsAgain();
+        } else if (which == DialogInterface.BUTTON_NEGATIVE) {
+            presenter.onAllPermissionsGranted();
+        }
+    }
+
+
+    private void showPermissionNeededDialog(String permission, DialogInterface.OnClickListener clickListener) {
+
+        if (getActivity() == null) {
+            return;
+        }
+
+        switch (permission) {
+            case Manifest.permission.READ_CALENDAR:
+                showChoiceDialog(getString(R.string.dialog_calendar_permission_massage),
+                    getString(R.string.dialog_calendar_permission_title),
+                    getString(R.string.permission_dialog_positive), getString(R.string.permission_dialog_negative),
+                    clickListener);
+                break;
+
+            case Manifest.permission.WRITE_CALENDAR:
+                showChoiceDialog(getString(R.string.dialog_calendar_permission_massage),
+                    getString(R.string.dialog_calendar_permission_title),
+                    getString(R.string.permission_dialog_positive), getString(R.string.permission_dialog_negative),
+                    clickListener);
+                break;
+
+            case Manifest.permission.GET_ACCOUNTS:
+                showChoiceDialog(getString(R.string.dialog_accounts_permission_massage),
+                    getString(R.string.dialog_accounts_permission_title),
+                    getString(R.string.permission_dialog_positive), getString(R.string.permission_dialog_negative),
+                    clickListener);
+                break;
+
+            case Manifest.permission.READ_SYNC_SETTINGS:
+                showChoiceDialog(getString(R.string.dialog_sync_settings_permission_massage),
+                    getString(R.string.dialog_sync_settings_permission_title),
+                    getString(R.string.permission_dialog_positive), getString(R.string.permission_dialog_negative),
+                    clickListener);
+                break;
+
+            case Manifest.permission.READ_CONTACTS:
+                showChoiceDialog(getString(R.string.dialog_contacts_permission_massage),
+                    getString(R.string.dialog_contacts_permission_title),
+                    getString(R.string.permission_dialog_positive), getString(R.string.permission_dialog_negative),
+                    clickListener);
+                break;
+        }
+    }
+
+
+    public void showChoiceDialog(String message, String title, String positiveButtonText, String negativeButtonText,
+        final DialogInterface.OnClickListener clickListener) {
+
+        new AlertDialog.Builder(getActivity()).setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(positiveButtonText, clickListener)
+            .setNegativeButton(negativeButtonText, clickListener)
+            .setCancelable(false)
+            .create()
+            .show();
     }
 }
