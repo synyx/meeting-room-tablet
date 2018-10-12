@@ -2,16 +2,26 @@ package com.futurice.android.reservator;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+
+import android.annotation.SuppressLint;
+
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import android.content.SharedPreferences.Editor;
+
 import android.content.res.Configuration;
+
 import android.os.Bundle;
+
 import android.view.View;
+
 import android.view.View.OnClickListener;
+
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -30,7 +40,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+
 public class SettingsActivity extends ReservatorActivity {
+
     Spinner usedAccountView;
     Spinner roomNameView;
     Spinner calendarModeView;
@@ -41,12 +53,14 @@ public class SettingsActivity extends ReservatorActivity {
     SharedPreferences settings;
     HashSet<String> unselectedRooms;
     ArrayList<String> roomNames;
-    private  Spinner languageSpinner;
+    private Spinner languageSpinner;
     private Spinner meetingDesignationView;
     private Spinner reservationViewSpinner;
+    private EditText countOfShownCalendarDays;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
         proxy = getResApplication().getDataProxy();
@@ -55,29 +69,33 @@ public class SettingsActivity extends ReservatorActivity {
             roomNames = proxy.getRoomNames();
             roomNames.add(getString(R.string.lobbyRoomName));
         } catch (ReservatorException e) {
-            Toast err = Toast.makeText(getResApplication(), e.getMessage(),
-                Toast.LENGTH_LONG);
+            Toast err = Toast.makeText(getResApplication(), e.getMessage(), Toast.LENGTH_LONG);
             err.show();
         }
     }
 
+
+    @SuppressLint("SetTextI18n")
     @Override
     public void onResume() {
+
         super.onResume();
         settings = getSharedPreferences(getString(R.string.PREFERENCES_NAME), Context.MODE_PRIVATE);
-        unselectedRooms = new HashSet<String>(settings.getStringSet(getString(R.string.PREFERENCES_UNSELECTED_ROOMS), new HashSet<String>()));
+        unselectedRooms = new HashSet<String>(settings.getStringSet(getString(R.string.PREFERENCES_UNSELECTED_ROOMS),
+                    new HashSet<String>()));
 
         ListView l = (ListView) findViewById(R.id.roomListView);
         l.setFocusable(false);
-        SettingsRoomRowAdapter roomListAdapter = new SettingsRoomRowAdapter(this, R.layout.settings_select_room_row, roomNames);
-        l.setAdapter(roomListAdapter);
 
+        SettingsRoomRowAdapter roomListAdapter = new SettingsRoomRowAdapter(this, R.layout.settings_select_room_row,
+                roomNames);
+        l.setAdapter(roomListAdapter);
 
         // Set back the recorded settings
         usedAccountView = (Spinner) findViewById(R.id.usedAccountSpinner);
-        String usedAccount = settings.getString(
-            getString(R.string.PREFERENCES_ACCOUNT),
-            getString(R.string.allAccountsMagicWord));
+
+        String usedAccount = settings.getString(getString(R.string.PREFERENCES_ACCOUNT),
+                getString(R.string.allAccountsMagicWord));
         refreshAccountsSpinner();
 
         // Require weather reservation requires address book contacts or not
@@ -85,47 +103,55 @@ public class SettingsActivity extends ReservatorActivity {
         addressBookOptionView.setChecked(settings.getBoolean("addressBookOption", false));
 
         alternativeNamesView = (ToggleButton) findViewById(R.id.alternativeRoomNamesOption);
-        alternativeNamesView.setChecked(settings.getBoolean(getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), false));
+        alternativeNamesView.setChecked(settings.getBoolean(
+                getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), false));
 
         usedReservationAccount = (Spinner) findViewById(R.id.defaultReservationAccount);
-        String usedResAccount = settings.getString(
-            getString(R.string.accountForServation),
-            "");
+
+        String usedResAccount = settings.getString(getString(R.string.accountForServation), "");
+
         if (addressBookOptionView.isChecked()) {
             usedReservationAccount.setVisibility(View.GONE);
             findViewById(R.id.defaultReservationAccountLabel).setVisibility(View.GONE);
         }
+
         refreshResAccountSpinner();
 
         @SuppressWarnings("unchecked")
         ArrayAdapter<String> usedAccountAdapter = (ArrayAdapter<String>) usedAccountView.getAdapter();
         int spinnerPosition = 0;
+
         if (usedAccountAdapter != null && usedAccountAdapter.getPosition(usedAccount) >= 0) {
             spinnerPosition = usedAccountAdapter.getPosition(usedAccount);
         }
+
         usedAccountView.setSelection(spinnerPosition);
 
         ArrayAdapter<String> usedResAccountAdapter = (ArrayAdapter<String>) usedReservationAccount.getAdapter();
         spinnerPosition = 0;
+
         if (usedResAccountAdapter != null && usedResAccountAdapter.getPosition(usedResAccount) >= 0) {
             spinnerPosition = usedResAccountAdapter.getPosition(usedResAccount);
         }
+
         usedReservationAccount.setSelection(spinnerPosition);
 
         calendarModeView = (Spinner) findViewById(R.id.calendarModeSpinner);
+
         String calendarMode = settings.getString(getString(R.string.PREFERENCES_CALENDAR_MODE), "");
         refreshCalendarModeSpinner();
 
         ArrayAdapter<String> calendarModeAdapter = (ArrayAdapter<String>) calendarModeView.getAdapter();
         spinnerPosition = 0;
-        if(calendarModeAdapter != null) {
+
+        if (calendarModeAdapter != null) {
             spinnerPosition = calendarModeAdapter.getPosition(calendarMode);
         }
+
         calendarModeView.setSelection(spinnerPosition);
 
-
-
         roomNameView = (Spinner) findViewById(R.id.roomNameSpinner);
+
         String roomName = settings.getString(getString(R.string.PREFERENCES_ROOM_NAME), "");
 
         refreshRoomNamesSpinner();
@@ -133,120 +159,158 @@ public class SettingsActivity extends ReservatorActivity {
         @SuppressWarnings("unchecked")
         ArrayAdapter<String> roomNameAdapter = (ArrayAdapter<String>) roomNameView.getAdapter();
         spinnerPosition = 0;
+
         if (roomNameAdapter != null) {
             spinnerPosition = roomNameAdapter.getPosition(roomName);
         }
+
         roomNameView.setSelection(spinnerPosition);
 
         // Setup button for removing log
         findViewById(R.id.removeUserDataButton).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // credentials
-                Editor editor = settings.edit();
-                Map<String, ?> keys = settings.getAll();
-                for (Map.Entry<String, ?> entry : keys.entrySet()) {
-                    editor.remove(entry.getKey());
+
+                @Override
+                public void onClick(View v) {
+
+                    // credentials
+                    Editor editor = settings.edit();
+                    Map<String, ?> keys = settings.getAll();
+
+                    for (Map.Entry<String, ?> entry : keys.entrySet()) {
+                        editor.remove(entry.getKey());
+                    }
+
+                    editor.apply();
+                    Toast.makeText(getApplicationContext(), getString(R.string.removeUserData), Toast.LENGTH_SHORT)
+                    .show();
+                    finish();
                 }
-                editor.apply();
-                Toast.makeText(getApplicationContext(), getString(R.string.removeUserData), Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
+            });
 
         Locale currentLocal = this.getResources().getConfiguration().locale;
         languageSpinner = (Spinner) findViewById(R.id.languageSpinner);
         refreshLanguageSpinner(currentLocal);
 
         meetingDesignationView = (Spinner) findViewById(R.id.meetingDesignationSpinner);
-        String designation = settings.getString("meetingDesignation","");
+
+        String designation = settings.getString("meetingDesignation", "");
         refreshMeetingTitleSpinner();
 
         @SuppressWarnings("unchecked")
         ArrayAdapter<String> meetingDesignationAdapter = (ArrayAdapter<String>) meetingDesignationView.getAdapter();
         spinnerPosition = 0;
+
         if (meetingDesignationAdapter != null) {
             spinnerPosition = meetingDesignationAdapter.getPosition(designation);
         }
+
         meetingDesignationView.setSelection(spinnerPosition);
 
         reservationViewSpinner = (Spinner) findViewById(R.id.reservationViewSpinner);
-        String resView = settings.getString("reservationView","");
+
+        String resView = settings.getString("reservationView", "");
         refreshReservationSpinner();
 
         @SuppressWarnings("unchecked")
         ArrayAdapter<String> resViewAdapter = (ArrayAdapter<String>) reservationViewSpinner.getAdapter();
         spinnerPosition = 0;
+
         if (resViewAdapter != null) {
             spinnerPosition = resViewAdapter.getPosition(resView);
         }
+
         reservationViewSpinner.setSelection(spinnerPosition);
 
         findViewById(R.id.saveSettings).setOnClickListener(getSaveClickListener());
+
+        countOfShownCalendarDays = (EditText) findViewById(R.id.calendarShownDays);
+
+        String number = countOfShownCalendarDays.getText().toString();
+        String countShownDays = settings.getString("countShownDays", "10");
+
+        if (number.equals("0") || number.isEmpty()) {
+            countOfShownCalendarDays.setText(countShownDays);
+        }
     }
+
 
     @Override
     public void onPause() {
+
         super.onPause();
+
         // Save the settings
         Object selectedAccountName = usedAccountView.getSelectedItem();
         String selectedAccount = "";
+
         if (selectedAccountName != null) {
             selectedAccount = selectedAccountName.toString().trim();
         }
 
         Object selectedCalendarMode = calendarModeView.getSelectedItem();
         String mode = getString(R.string.calendarMode);
-        if(selectedCalendarMode != null) {
+
+        if (selectedCalendarMode != null) {
             mode = selectedCalendarMode.toString();
         }
 
         Object selectedRoomName = roomNameView.getSelectedItem();
         String roomName = "";
+
         if (selectedRoomName != null) {
             roomName = selectedRoomName.toString().trim();
         }
 
         Object selectedResAccountName = usedReservationAccount.getSelectedItem();
         String selectedResAccount = "";
+
         if (selectedResAccountName != null) {
             selectedResAccount = selectedResAccountName.toString().trim();
         }
 
         Object selectedResView = reservationViewSpinner.getSelectedItem();
         String selectedReservationView = "";
-        if (selectedResView != null){
+
+        if (selectedResView != null) {
             selectedReservationView = selectedResView.toString().trim();
         }
 
         Object selectedLocal = languageSpinner.getSelectedItem();
         String selectedLocalLanguage = "";
-        if (selectedResView != null){
+
+        if (selectedResView != null) {
             selectedLocalLanguage = selectedLocal.toString().trim();
         }
 
         Object selectedMeetingTitle = meetingDesignationView.getSelectedItem();
         String selectedmeetingTitelDesignation = "";
-        if (selectedResView != null){
+
+        if (selectedResView != null) {
             selectedmeetingTitelDesignation = selectedMeetingTitle.toString().trim();
         }
+
+        String countOfDays = countOfShownCalendarDays.getText().toString();
 
         Editor editor = settings.edit();
         editor.putString(getString(R.string.PREFERENCES_ACCOUNT), selectedAccount);
 
-        if(selectedAccount.equals(getString(R.string.allAccountsMagicWord))) {
+        if (selectedAccount.equals(getString(R.string.allAccountsMagicWord))) {
             editor.putString(getString(R.string.PREFERENCES_ACCOUNT_TYPE), "");
         } else {
-            editor.putString(getString(R.string.PREFERENCES_ACCOUNT_TYPE), selectedAccount.substring(selectedAccount.indexOf("@"), selectedAccount.length()));
+            editor.putString(getString(R.string.PREFERENCES_ACCOUNT_TYPE),
+                selectedAccount.substring(selectedAccount.indexOf("@"), selectedAccount.length()));
         }
+
         editor.putString(getString(R.string.PREFERENCES_ROOM_NAME), roomName);
         editor.putString(getString(R.string.PREFERENCES_CALENDAR_MODE), mode);
         editor.putBoolean("addressBookOption", addressBookOptionView.isChecked());
-        editor.putBoolean(getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), alternativeNamesView.isChecked());
+        editor.putBoolean(getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES),
+            alternativeNamesView.isChecked());
         editor.putString(getString(R.string.accountForServation), selectedResAccount);
-        editor.putString("reservationView",selectedReservationView);
-        editor.putString("local",selectedLocalLanguage);
-        editor.putString("meetingDesignation",selectedmeetingTitelDesignation);
+        editor.putString("reservationView", selectedReservationView);
+        editor.putString("local", selectedLocalLanguage);
+        editor.putString("meetingDesignation", selectedmeetingTitelDesignation);
+        editor.putString("countShownDays", countOfDays);
 
         editor.apply();
 
@@ -260,6 +324,7 @@ public class SettingsActivity extends ReservatorActivity {
         }
 
         AddressBook ab = getResApplication().getAddressBook();
+
         if (ab instanceof PlatformContactsAddressBook) {
             if (selectedAccount.equals(getString(R.string.allAccountsMagicWord))) {
                 ((PlatformContactsAddressBook) ab).setAccount(null);
@@ -267,11 +332,15 @@ public class SettingsActivity extends ReservatorActivity {
                 ((PlatformContactsAddressBook) ab).setAccount(selectedAccount);
             }
         }
+
         Toast.makeText(getApplicationContext(), getString(R.string.settingsSaved), Toast.LENGTH_SHORT).show();
     }
 
+
     private void refreshAccountsSpinner() {
+
         String selected = null;
+
         if (usedAccountView.getSelectedItem() != null) {
             selected = (String) usedAccountView.getSelectedItem();
         }
@@ -279,14 +348,15 @@ public class SettingsActivity extends ReservatorActivity {
         ArrayAdapter<String> adapter;
         ArrayList<String> accounts = new ArrayList<String>();
         accounts.add(getString(R.string.allAccountsMagicWord));
+
         for (Account account : AccountManager.get(this).getAccounts()) {
             accounts.add(account.name);
         }
 
-        adapter = new ArrayAdapter<String>(
-            this, android.R.layout.simple_spinner_item, accounts);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, accounts);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         usedAccountView.setAdapter(adapter);
+
         if (selected != null && accounts.contains(selected)) {
             usedAccountView.setSelection(accounts.indexOf(selected));
         } else {
@@ -294,40 +364,45 @@ public class SettingsActivity extends ReservatorActivity {
         }
 
         final int selectedItem = usedAccountView.getSelectedItemPosition();
-        usedAccountView.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener(){
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int itemPosition, long l) {
-                if (itemPosition == selectedItem) {
-                    return;
-                } else {
-                    String account = (String) usedAccountView.getSelectedItem();
-                    Editor edit = settings.edit();
-                    edit.putString(getString(R.string.PREFERENCES_ACCOUNT),
-                            account);
+        usedAccountView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-                    if(account.equals(settings.getString(getString(R.string.allAccountsMagicWord), "(Alle)"))) {
-                        edit.putString(getString(R.string.PREFERENCES_ACCOUNT_TYPE), "");
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int itemPosition, long l) {
+
+                    if (itemPosition == selectedItem) {
+                        return;
                     } else {
-                        edit.putString(getString(R.string.PREFERENCES_ACCOUNT_TYPE),
+                        String account = (String) usedAccountView.getSelectedItem();
+                        Editor edit = settings.edit();
+                        edit.putString(getString(R.string.PREFERENCES_ACCOUNT), account);
+
+                        if (account.equals(settings.getString(getString(R.string.allAccountsMagicWord), "(Alle)"))) {
+                            edit.putString(getString(R.string.PREFERENCES_ACCOUNT_TYPE), "");
+                        } else {
+                            edit.putString(getString(R.string.PREFERENCES_ACCOUNT_TYPE),
                                 account.substring(account.indexOf("@"), account.length()));
+                        }
+
+                        edit.apply();
+
+                        usedAccountView.setSelection(itemPosition);
+                        refreshRooms();
                     }
-                    edit.apply();
-
-                    usedAccountView.setSelection(itemPosition);
-                    refreshRooms();
                 }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
 
-            }
-        });
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                }
+            });
     }
 
+
     private void refreshCalendarModeSpinner() {
+
         String selected = null;
-        if(calendarModeView.getSelectedItem() != null) {
+
+        if (calendarModeView.getSelectedItem() != null) {
             selected = (String) calendarModeView.getSelectedItem();
         }
 
@@ -339,7 +414,7 @@ public class SettingsActivity extends ReservatorActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         calendarModeView.setAdapter(adapter);
 
-        if(selected != null && modes.contains(selected)) {
+        if (selected != null && modes.contains(selected)) {
             calendarModeView.setSelection(modes.indexOf(selected));
             settings.edit().putString(getString(R.string.PREFERENCES_CALENDAR_MODE), selected).apply();
         } else {
@@ -348,57 +423,62 @@ public class SettingsActivity extends ReservatorActivity {
 
         final int selectedItem = calendarModeView.getSelectedItemPosition();
         calendarModeView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int itemPosition, long l) {
-                if (itemPosition == selectedItem) {
-                    return;
-                } else {
-                    String account = (String) calendarModeView.getSelectedItem();
-                    settings.edit().putString(getString(R.string.PREFERENCES_CALENDAR_MODE),
-                            account).apply();
 
-                    calendarModeView.setSelection(itemPosition);
-                    refreshRooms();
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int itemPosition, long l) {
+
+                    if (itemPosition == selectedItem) {
+                        return;
+                    } else {
+                        String account = (String) calendarModeView.getSelectedItem();
+                        settings.edit().putString(getString(R.string.PREFERENCES_CALENDAR_MODE), account).apply();
+
+                        calendarModeView.setSelection(itemPosition);
+                        refreshRooms();
+                    }
                 }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
 
-            }
-        });
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                }
+            });
     }
 
 
-        private void refreshRooms() {
-            try {
-                roomNames = proxy.getRoomNames();
-                roomNames.add(getString(R.string.lobbyRoomName));
-            } catch (ReservatorException e) {
-                Toast err = Toast.makeText(getResApplication(), e.getMessage(),
-                        Toast.LENGTH_LONG);
-                err.show();
-            }
-            onResume();
+    private void refreshRooms() {
+
+        try {
+            roomNames = proxy.getRoomNames();
+            roomNames.add(getString(R.string.lobbyRoomName));
+        } catch (ReservatorException e) {
+            Toast err = Toast.makeText(getResApplication(), e.getMessage(), Toast.LENGTH_LONG);
+            err.show();
         }
+
+        onResume();
+    }
 
 
     private void refreshResAccountSpinner() {
+
         String selected = null;
+
         if (usedReservationAccount.getSelectedItem() != null) {
             selected = (String) usedReservationAccount.getSelectedItem();
         }
 
         ArrayAdapter<String> adapter;
         ArrayList<String> accounts = new ArrayList<String>();
+
         for (Account account : AccountManager.get(this).getAccounts()) {
             accounts.add(account.name);
         }
 
-        adapter = new ArrayAdapter<String>(
-            this, android.R.layout.simple_spinner_item, accounts);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, accounts);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         usedReservationAccount.setAdapter(adapter);
+
         if (selected != null && accounts.contains(selected)) {
             usedReservationAccount.setSelection(accounts.indexOf(selected));
         } else {
@@ -406,30 +486,37 @@ public class SettingsActivity extends ReservatorActivity {
         }
     }
 
+
     private void refreshRoomNamesSpinner() {
+
         String selected = null;
+
         if (roomNameView.getSelectedItem() != null) {
             selected = (String) roomNameView.getSelectedItem();
         }
+
         ArrayAdapter<String> adapter;
 
         ArrayList<String> selectedRooms = new ArrayList<String>(roomNames);
         selectedRooms.removeAll(unselectedRooms);
 
-        adapter = new ArrayAdapter<String>(
-            this, android.R.layout.simple_spinner_item, selectedRooms);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, selectedRooms);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         roomNameView.setAdapter(adapter);
+
         if (selected != null && selectedRooms.contains(selected)) {
             roomNameView.setSelection(selectedRooms.indexOf(selected));
         }
     }
 
+
     public void roomRowClicked(final View view) {
+
         if (view instanceof CheckBox) {
             Editor editor = settings.edit();
 
             CheckBox c = (CheckBox) view;
+
             // checked = "not unselected". sorry!
             if (c.isChecked()) {
                 unselectedRooms.remove(c.getText().toString());
@@ -439,14 +526,17 @@ public class SettingsActivity extends ReservatorActivity {
 
             // Create MakeReservationTask new HashSet, because...
             // http://stackoverflow.com/questions/14034803/misbehavior-when-trying-to-store-a-string-set-using-sharedpreferences
-            editor.putStringSet(getString(R.string.PREFERENCES_UNSELECTED_ROOMS), new HashSet<String>(unselectedRooms));
+            editor.putStringSet(getString(R.string.PREFERENCES_UNSELECTED_ROOMS),
+                new HashSet<String>(unselectedRooms));
             editor.commit();
 
             refreshRoomNamesSpinner();
         }
     }
 
+
     public void onToggleClicked(final View view) {
+
         if (view instanceof ToggleButton) {
             Boolean checked = ((ToggleButton) addressBookOptionView).isChecked();
 
@@ -460,19 +550,27 @@ public class SettingsActivity extends ReservatorActivity {
         }
     }
 
+
     public void onRoomNameToggleClicked(final View view) {
+
         if (view instanceof ToggleButton) {
             Boolean checked = ((ToggleButton) alternativeNamesView).isChecked();
 
-            if(checked) {
-                settings.edit().putBoolean(getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), true).apply();
+            if (checked) {
+                settings.edit()
+                    .putBoolean(getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), true)
+                    .apply();
             } else {
-                settings.edit().putBoolean(getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), false).apply();
+                settings.edit()
+                    .putBoolean(getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), false)
+                    .apply();
             }
         }
     }
 
+
     private void refreshLanguageSpinner(Locale currentLocal) {
+
         List<String> laguages = new ArrayList<>();
         laguages.add(getString(R.string.language_De));
         laguages.add(getString(R.string.language_En));
@@ -482,44 +580,54 @@ public class SettingsActivity extends ReservatorActivity {
         languageSpinner.setAdapter(laguageAdapter);
 
         String currentLanguage = currentLocal.getLanguage();
+
         if (currentLanguage.equals("en")) {
             languageSpinner.setSelection(1);
         }
 
         final int selectedItem = languageSpinner.getSelectedItemPosition();
 
-        languageSpinner.setOnItemSelectedListener( new AdapterView.OnItemSelectedListener(){
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int itemPosition, long l) {
-                if (itemPosition == selectedItem) {
-                    return;
-                } else {
-                    if (itemPosition == 0) {
-                        setLocale("de");
+        languageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int itemPosition, long l) {
+
+                    if (itemPosition == selectedItem) {
+                        return;
                     } else {
-                        setLocale("en");
+                        if (itemPosition == 0) {
+                            setLocale("de");
+                        } else {
+                            setLocale("en");
+                        }
                     }
                 }
-            }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
 
-            }
-        });
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+                }
+            });
     }
 
+
     private void setLocale(String language) {
+
         Locale locale = new Locale(language);
         Locale.setDefault(locale);
+
         Configuration config = new Configuration();
         config.locale = locale;
-        this.getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        this.getBaseContext()
+            .getResources()
+            .updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         this.setContentView(R.layout.settings_activity);
         onResume();
     }
 
+
     private void refreshMeetingTitleSpinner() {
+
         List<String> views = new ArrayList<>();
         views.add(getString(R.string.meetingTitlePersonName));
         views.add(getString(R.string.meetingTitleMeetingName));
@@ -531,7 +639,9 @@ public class SettingsActivity extends ReservatorActivity {
         meetingDesignationView.setSelection(0);
     }
 
+
     private void refreshReservationSpinner() {
+
         List<String> views = new ArrayList<>();
         views.add(getString(R.string.reserv_view_spinner_default));
         views.add(getString(R.string.reserv_view_spinner_change));
@@ -543,10 +653,14 @@ public class SettingsActivity extends ReservatorActivity {
         reservationViewSpinner.setSelection(0);
     }
 
-    private OnClickListener getSaveClickListener(){
+
+    private OnClickListener getSaveClickListener() {
+
         return new OnClickListener() {
+
             @Override
             public void onClick(View view) {
+
                 onPause();
                 finish();
             }

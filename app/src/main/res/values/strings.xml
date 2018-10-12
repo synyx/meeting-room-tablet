@@ -171,5 +171,6 @@
     <!--EditView-->
     <string name="setRoomFree">unblock room</string>
     <string name="cancelTitle">Cancel reservation</string>
+    <string name="CalendarShownTitle">The count of days shown in the calendarview of the room.</string>
 
 </resources>
