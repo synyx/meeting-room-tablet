@@ -307,11 +307,35 @@
             android:layout_below="@+id/reservationViewTitle"
             android:layout_margin="10dp" />
 
+
+        <TextView
+                android:id="@+id/calendarViewTitle"
+                style="@android:style/TextAppearance.Medium"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/reservationViewSpinner"
+                android:layout_marginTop="20dp"
+                android:text="@string/CalendarShownTitle"
+                android:textColor="#000" />
+
+        <EditText
+                android:inputType="number"
+                android:ems="10"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/calendarViewTitle"
+                android:id="@+id/calendarShownDays"/>
+
         <Button
             android:id="@+id/saveSettings"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
-            android:layout_below="@+id/reservationViewSpinner"
+            android:layout_below="@+id/calendarShownDays"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
