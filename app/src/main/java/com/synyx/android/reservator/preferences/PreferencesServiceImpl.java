@@ -29,7 +29,7 @@ public class PreferencesServiceImpl implements PreferencesService {
         final String selectedAccount = sharedPreferences.getString(PREF_RESERVATION_ACCOUNT, "");
         boolean addressBookOption = sharedPreferences.getBoolean(PREF_ADDRESS_BOOK_OPTION, false);
 
-        return selectedAccount.equals("") && !addressBookOption;
+        return !selectedAccount.equals("") || addressBookOption;
     }
 
 

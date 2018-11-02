@@ -1,8 +1,6 @@
 package com.synyx.android.reservator.domain.reservation;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NonNull;
+import android.support.annotation.NonNull;
 
 import java.io.Serializable;
 
@@ -13,26 +11,30 @@ import java.util.Set;
 /**
  * @author  Julia Dasch - dasch@synyx.de
  */
-@Builder
 public class Reservation implements Comparable<Reservation>, Serializable {
 
     @NonNull
     private final String uuid;
 
-    @Getter
     @NonNull
     private String title;
 
     @NonNull
-    @Getter
     private Timespan timespan;
 
-    @Getter
     private Set<String> attendees;
 
-    @Getter
     @NonNull
     private Date createdTime;
+
+    public Reservation(@NonNull String uuid, @NonNull String title, @NonNull Timespan timespan,
+        @NonNull Date createdTime) {
+
+        this.uuid = uuid;
+        this.title = title;
+        this.timespan = timespan;
+        this.createdTime = createdTime;
+    }
 
     @Override
     public boolean equals(Object other) {
@@ -62,5 +64,32 @@ public class Reservation implements Comparable<Reservation>, Serializable {
     public String toString() {
 
         return String.format("Reservation <%s,%h> %s:%s", uuid, hashCode(), title, timespan.toString());
+    }
+
+
+    @NonNull
+    public String getTitle() {
+
+        return title;
+    }
+
+
+    @NonNull
+    public Timespan getTimespan() {
+
+        return timespan;
+    }
+
+
+    public Set<String> getAttendees() {
+
+        return attendees;
+    }
+
+
+    @NonNull
+    public Date getCreatedTime() {
+
+        return createdTime;
     }
 }

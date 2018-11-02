@@ -9,9 +9,6 @@ import android.support.annotation.NonNull;
 import com.synyx.android.reservator.preferences.PreferencesService;
 import com.synyx.android.reservator.preferences.PreferencesServiceImpl;
 
-import lombok.Getter;
-import lombok.Setter;
-
 
 /**
  * @author  Julian Heetel - heetel@synyx.de
@@ -21,8 +18,6 @@ public class Config {
     private static final String PREFS_NAME = "prefs";
     private static Config instance;
 
-    @Setter
-    @Getter
     private PreferencesService preferencesService;
 
     private Config(@NonNull Context context) {
@@ -39,5 +34,17 @@ public class Config {
         }
 
         return instance;
+    }
+
+
+    public PreferencesService getPreferencesService() {
+
+        return preferencesService;
+    }
+
+
+    public void setPreferencesService(PreferencesService preferencesService) {
+
+        this.preferencesService = preferencesService;
     }
 }

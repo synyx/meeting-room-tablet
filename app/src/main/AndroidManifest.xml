@@ -57,7 +57,7 @@
         </activity>
         <activity
             android:name="SettingsActivity"
-            android:theme="@style/Theme.Transparent">
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name="LobbyActivity"

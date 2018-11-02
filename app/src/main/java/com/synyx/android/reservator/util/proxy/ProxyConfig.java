@@ -20,6 +20,5 @@ public class ProxyConfig {
     public static void init(@NonNull Context context) {
 
         Registry.put(PermissionManager.class, new PermissionManager(context));
-        Registry.put(ContactsAddressBookManager.class, new ContactsAddressBookManager(context.getContentResolver()));
     }
 }
