@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.futurice.android.reservator"
-          android:versionCode="21"
-          android:versionName="1.0.2">
+    package="com.futurice.android.reservator"
+    android:versionCode="21"
+    android:versionName="1.0.2">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
@@ -68,5 +68,8 @@
         </activity>
 
         <uses-library android:name="android.test.runner" />
+
+        <activity android:name="com.synyx.android.reservator.ui.lobby.NewLobbyActivity"></activity>
     </application>
+
 </manifest>
