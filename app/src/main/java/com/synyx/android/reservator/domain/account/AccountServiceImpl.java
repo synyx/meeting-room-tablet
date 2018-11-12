@@ -5,6 +5,8 @@ import android.accounts.AccountManager;
 
 import android.content.Context;
 
+import com.synyx.android.reservator.config.Config;
+
 
 /**
  * @author  Julian Heetel - heetel@synyx.de
@@ -30,5 +32,19 @@ public class AccountServiceImpl implements AccountService {
         }
 
         return accountNames;
+    }
+
+
+    @Override
+    public String getUserAccountName() {
+
+        return Config.getInstance(context).getPreferencesService().getUserAccountName();
+    }
+
+
+    @Override
+    public String getUserAccountType() {
+
+        return Config.getInstance(context).getPreferencesService().getUserAccountType();
     }
 }

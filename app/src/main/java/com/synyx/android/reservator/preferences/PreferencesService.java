@@ -18,4 +18,10 @@ public interface PreferencesService {
 
 
     String getSelectedCalenderMode();
+
+
+    String getUserAccountName();
+
+
+    String getUserAccountType();
 }

@@ -1,0 +1,150 @@
+package com.synyx.android.reservator.data;
+
+import android.annotation.SuppressLint;
+
+import android.content.ContentResolver;
+
+import android.database.Cursor;
+
+import android.provider.CalendarContract;
+
+import android.support.annotation.NonNull;
+
+import android.text.TextUtils;
+
+import com.futurice.android.reservator.model.Room;
+import com.futurice.android.reservator.model.platformcalendar.PlatformCalendarRoom;
+
+import com.synyx.android.reservator.config.Registry;
+import com.synyx.android.reservator.domain.account.AccountService;
+import com.synyx.android.reservator.domain.calendar.CalendarMode;
+import com.synyx.android.reservator.domain.calendar.CalendarModeService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+/**
+ * @author  Max Dobler - dobler@synyx.de
+ */
+public class CalendarAdapterImpl implements CalendarAdapter {
+
+    private static final String RESSOURCE_SUFFIX = "*@resource.calendar.google.com";
+
+    private final CalendarModeService calendarModeService;
+    private final ContentResolver contentResolver;
+    private final AccountService accountService;
+
+    public CalendarAdapterImpl() {
+
+        this.contentResolver = Registry.get(ContentResolver.class);
+        this.calendarModeService = Registry.get(CalendarModeService.class);
+        this.accountService = Registry.get(AccountService.class);
+    }
+
+    @Override
+    public List<Room> getRooms() {
+
+        String[] mProjection = {
+            CalendarContract.Calendars._ID, //
+            CalendarContract.Calendars.OWNER_ACCOUNT, //
+            CalendarContract.Calendars.NAME, //
+            CalendarContract.Calendars.CALENDAR_DISPLAY_NAME
+        };
+
+        List<String> mSelectionClauses = new ArrayList<>();
+        List<String> mSelectionArgs = new ArrayList<>();
+
+        addOwnerAccountSelection(mSelectionClauses, mSelectionArgs);
+        addAccountNameSelection(mSelectionClauses, mSelectionArgs);
+
+        @SuppressLint("MissingPermission")
+        Cursor cursor = queryCalendarProvider(mProjection, mSelectionClauses, mSelectionArgs);
+
+        return mapCursorToRooms(cursor);
+    }
+
+
+    @NonNull
+    private List<Room> mapCursorToRooms(Cursor cursor) {
+
+        List<Room> rooms = new ArrayList<>();
+
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                rooms.add(mapCursorEntryToRoom(cursor));
+            }
+
+            cursor.close();
+        }
+
+        return rooms;
+    }
+
+
+    private Cursor queryCalendarProvider(String[] mProjection, List<String> mSelectionClauses,
+        List<String> selectionArgs) {
+
+        String selection = TextUtils.join(" AND ", mSelectionClauses);
+
+        String[] selectionArgsArray = selectionArgs.toArray(new String[0]);
+
+        return contentResolver.query(CalendarContract.Calendars.CONTENT_URI, mProjection, selection,
+                selectionArgsArray, null);
+    }
+
+
+    private void addAccountNameSelection(List<String> mSelectionClauses, List<String> mSelectionArgs) {
+
+        mSelectionClauses.add(CalendarContract.Calendars.ACCOUNT_NAME + " = ?");
+        mSelectionArgs.add(accountService.getUserAccountName());
+    }
+
+
+    private void addOwnerAccountSelection(List<String> mSelectionClauses, List<String> mSelectionArgs) {
+
+        CalendarMode calendarMode = calendarModeService.getPrefCalenderMode();
+
+        if (calendarMode == CalendarMode.RESOURCES) {
+            mSelectionClauses.add(CalendarContract.Calendars.OWNER_ACCOUNT + " GLOB ?");
+            mSelectionArgs.add(RESSOURCE_SUFFIX);
+        } else {
+            String accountType = accountService.getUserAccountType();
+            mSelectionClauses.add(CalendarContract.Calendars.OWNER_ACCOUNT + " LIKE '%" + accountType + "'");
+        }
+    }
+
+
+    @NonNull
+    private PlatformCalendarRoom mapCursorEntryToRoom(Cursor cursor) {
+
+        long id = getIdFrom(cursor);
+        String ownerAccount = getOwnerAccountFrom(cursor);
+        String name = getNameFrom(cursor);
+
+        // TODO: 12.11.18 Max - Use Synyx Room Entity
+        return new PlatformCalendarRoom(name, ownerAccount, id, "", false);
+    }
+
+
+    private long getIdFrom(Cursor cursor) {
+
+        return cursor.getLong(cursor.getColumnIndex(CalendarContract.Calendars._ID));
+    }
+
+
+    private String getOwnerAccountFrom(Cursor cursor) {
+
+        return cursor.getString(cursor.getColumnIndex(CalendarContract.Calendars.OWNER_ACCOUNT));
+    }
+
+
+    private String getNameFrom(Cursor cursor) {
+
+        String name = cursor.getString(cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME));
+
+        return name == null //
+            ? cursor.getString(cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)) //
+            : name;
+    }
+}

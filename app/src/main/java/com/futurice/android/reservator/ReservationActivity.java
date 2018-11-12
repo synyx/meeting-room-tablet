@@ -1,12 +1,16 @@
 package com.futurice.android.reservator;
 
 import android.app.AlertDialog;
+
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+
 import android.view.View;
+
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
@@ -26,9 +30,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.Vector;
 
-public class ReservationActivity extends ReservatorActivity implements View.OnClickListener{
+
+public class ReservationActivity extends ReservatorActivity implements View.OnClickListener {
+
     private static final long ONE_MIN_IN_SEC = 60000;
     private static final int MIN_MEETING_TIME = 15;
 
@@ -43,31 +48,36 @@ public class ReservationActivity extends ReservatorActivity implements View.OnCl
 
     private SharedPreferences settings;
     private View.OnFocusChangeListener userNameFocusChangeListener = new View.OnFocusChangeListener() {
+
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
+
             Boolean addressBookOption = settings.getBoolean("addressBookOption", false);
+
             if (hasFocus && addressBookOption) {
                 reserveButton.setEnabled(false);
             }
         }
     };
+
     private DataProxy proxy;
     private int plusDiff;
     private int negDiff;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lobby_reservation_row_alternativ);
         proxy = this.getResApplication().getDataProxy();
         settings = this.getSharedPreferences(this.getString(R.string.PREFERENCES_NAME), this.MODE_PRIVATE);
         application = (ReservatorApplication) this.getApplicationContext();
 
-        setRoom(settings.getString("roomName",""));
-        setBothTimes(settings.getLong("resTimestart",0),settings.getLong("resTimeend",0));
+        setRoom(settings.getString("roomName", ""));
+        setBothTimes(settings.getLong("resTimestart", 0), settings.getLong("resTimeend", 0));
 
         TextView roomLabel = (TextView) findViewById(R.id.roomNameLabelAlternat);
-        roomLabel.setText(settings.getString("roomShownName",""));
+        roomLabel.setText(settings.getString("roomShownName", ""));
 
         infoLabel = (TextView) findViewById(R.id.infoText_reservationPopup);
         plusButton = findViewById(R.id.plusButtonsGroup);
@@ -75,11 +85,13 @@ public class ReservationActivity extends ReservatorActivity implements View.OnCl
 
         final View cancelButton = findViewById(R.id.cancelButtonAlternativ);
         cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+
+                @Override
+                public void onClick(View view) {
+
+                    finish();
+                }
+            });
 
         reserveButton = findViewById(R.id.reserveButtonAlternativ);
         reserveButton.setOnClickListener(this);
@@ -90,6 +102,7 @@ public class ReservationActivity extends ReservatorActivity implements View.OnCl
 
         nameField.setOnFocusChangeListener(userNameFocusChangeListener);
         nameField.setOnClickListener(this);
+
         if (nameField.getAdapter() == null) {
             try {
                 nameField.setAdapter(new AddressBookAdapter(this, application.getAddressBook()));
@@ -103,38 +116,48 @@ public class ReservationActivity extends ReservatorActivity implements View.OnCl
         endTimeView.setOnClickListener(this);
 
         new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                cancelButton.performClick();
-            }
-        }, ONE_MIN_IN_SEC);
+
+                @Override
+                public void run() {
+
+                    cancelButton.performClick();
+                }
+            }, ONE_MIN_IN_SEC);
     }
 
+
     public void setRoom(String roomName) {
+
         Room iteratorRoom = null;
+
         try {
-            Vector <Room> rooms = application.getDataProxy().getRooms();
+            List<Room> rooms = application.getDataProxy().getRooms();
 
             for (Room room1 : rooms) {
                 iteratorRoom = room1;
+
                 if (iteratorRoom.getName().equals(roomName)) {
                     break;
                 }
             }
-
         } catch (ReservatorException e) {
             e.printStackTrace();
         }
+
         this.getResApplication().getDataProxy().refreshRoomReservations(iteratorRoom);
 
         this.room = iteratorRoom;
     }
 
+
     public Room getRoom() {
+
         return room;
     }
 
-    private void setBothTimes(long startTimeInput, long endTimeInput){
+
+    private void setBothTimes(long startTimeInput, long endTimeInput) {
+
         setTimetoCurrentTime();
 
         // Reservation stuff
@@ -148,14 +171,16 @@ public class ReservationActivity extends ReservatorActivity implements View.OnCl
                 long time = nextFreeTime.getStart().getTimeInMillis();
                 Date date = new Date(time);
                 this.startTime = new DateTime(date);
-                this.endTime = new DateTime(startTime.getDate(1,true));
+                this.endTime = new DateTime(startTime.getDate(1, true));
             } else {
                 setTimetoCurrentTime();
             }
         }
     }
 
-    private void setButtons(){
+
+    private void setButtons() {
+
         findViewById(R.id.plus15button).setOnClickListener(this);
         findViewById(R.id.plus30button).setOnClickListener(this);;
         findViewById(R.id.plus60button).setOnClickListener(this);
@@ -169,21 +194,24 @@ public class ReservationActivity extends ReservatorActivity implements View.OnCl
         infoLabel.setVisibility(View.VISIBLE);
     }
 
+
     @Override
     public void onClick(View view) {
+
         if (ableToReserve()) {
             reserveButton.setEnabled(true);
         };
 
         switch (view.getId()) {
             case R.id.reserveButtonAlternativ:
-                if (ableToReserve()){
+                if (ableToReserve()) {
                     new MakeReservationTask().execute();
                     this.finish();
                 } else {
                     infoLabel.setText(R.string.infoMeetingName);
                     infoLabel.setTextColor(getResources().getColor(R.color.TrafficLightReserved));
                 }
+
                 break;
 
             case R.id.startTimeAlternative:
@@ -226,40 +254,46 @@ public class ReservationActivity extends ReservatorActivity implements View.OnCl
         }
     }
 
-    private boolean ableToReserve(){
+
+    private boolean ableToReserve() {
+
         return !meetingField.getText().toString().equals("");
     }
 
-    private void setTimetoCurrentTime(){
+
+    private void setTimetoCurrentTime() {
+
         Date currentTime = new Date();
         startTime = new DateTime(currentTime);
-        endTime = new DateTime(startTime.getDate(1,true));
+        endTime = new DateTime(startTime.getDate(1, true));
     }
 
-    private void setChangedTime(long time){
-        if (time != -1){
-            if (startTime == changeTime){
+
+    private void setChangedTime(long time) {
+
+        if (time != -1) {
+            if (startTime == changeTime) {
                 startTime = new DateTime(time);
                 changeTime = startTime;
-            }
-            else if (endTime == changeTime){
+            } else if (endTime == changeTime) {
                 endTime = new DateTime(time);
                 changeTime = endTime;
             }
+
             refreshTimeLabels();
         }
     }
 
+
     private long addTime(int value) {
-        if (plusDiff != 0){
-            return changeTime.getTimeInMillis()+(plusDiff*ONE_MIN_IN_SEC);
+
+        if (plusDiff != 0) {
+            return changeTime.getTimeInMillis() + (plusDiff * ONE_MIN_IN_SEC);
+        } else if (negDiff != 0) {
+            return changeTime.getTimeInMillis() + (negDiff * ONE_MIN_IN_SEC);
         }
 
-        else if (negDiff != 0){
-            return changeTime.getTimeInMillis()+(negDiff*ONE_MIN_IN_SEC);
-        }
-
-        return changeTime.getTimeInMillis()+(value*ONE_MIN_IN_SEC);
+        return changeTime.getTimeInMillis() + (value * ONE_MIN_IN_SEC);
     }
 
     private class MakeReservationTask extends AsyncTask<Void, Void, Void> {
@@ -290,6 +324,7 @@ public class ReservationActivity extends ReservatorActivity implements View.OnCl
     }
 
     private void reservatorError(ReservatorException e) {
+
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
         alertBuilder.setTitle(this.getString(R.string.faildReservation)).setMessage(e.getMessage());
 
@@ -302,22 +337,26 @@ public class ReservationActivity extends ReservatorActivity implements View.OnCl
         alertBuilder.show();
     }
 
+
     protected void refreshTimeLabels() {
+
         Locale locale = Locale.getDefault();
         Date date = new Date(startTime.getTimeInMillis());
         startTimeView = (TextView) findViewById(R.id.startTimeAlternative);
-        startTimeView.setText(String.format(locale,"%02d:%02d", date.getHours(), date.getMinutes()));
+        startTimeView.setText(String.format(locale, "%02d:%02d", date.getHours(), date.getMinutes()));
 
         date = new Date(endTime.getTimeInMillis());
         endTimeView = (TextView) findViewById(R.id.endTimeAlternative);
-        endTimeView.setText(String.format(locale,"%02d:%02d", date.getHours(), date.getMinutes()));
+        endTimeView.setText(String.format(locale, "%02d:%02d", date.getHours(), date.getMinutes()));
         negDiff = 0;
         plusDiff = 0;
         checkBookable(true);
         checkBookable(false);
     }
 
-    private void setButtonGroupVisible(){
+
+    private void setButtonGroupVisible() {
+
         plusButton.setVisibility(View.VISIBLE);
         minusButton.setVisibility(View.VISIBLE);
         infoLabel.setVisibility(View.INVISIBLE);
@@ -325,48 +364,54 @@ public class ReservationActivity extends ReservatorActivity implements View.OnCl
         Timer buttonTimer = new Timer();
         buttonTimer.schedule(new TimerTask() {
 
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
 
-                    @Override
-                    public void run() {
-                        plusButton.setVisibility(View.INVISIBLE);
-                        minusButton.setVisibility(View.INVISIBLE);
-                        infoLabel.setVisibility(View.VISIBLE);
-                        changeTime = null;
-                    }
-                });
-            }
-        }, 5000);
+                    runOnUiThread(new Runnable() {
+
+                            @Override
+                            public void run() {
+
+                                plusButton.setVisibility(View.INVISIBLE);
+                                minusButton.setVisibility(View.INVISIBLE);
+                                infoLabel.setVisibility(View.VISIBLE);
+                                changeTime = null;
+                            }
+                        });
+                }
+            }, 5000);
     }
 
-    public void checkBookable(boolean isStartTime){
-        final DateTime sevenOclockAm = startTime.setTime(7,0,0);
-        final DateTime lastEndtime = startTime.setTime(22,0,0);
-        long diff;
-        if (isStartTime){
 
+    public void checkBookable(boolean isStartTime) {
+
+        final DateTime sevenOclockAm = startTime.setTime(7, 0, 0);
+        final DateTime lastEndtime = startTime.setTime(22, 0, 0);
+        long diff;
+
+        if (isStartTime) {
             diff = startTime.subtract(sevenOclockAm, Calendar.MILLISECOND) / ONE_MIN_IN_SEC;
-            if (diff >= 0){
-                setButtonEnable(false,(int)diff);
+
+            if (diff >= 0) {
+                setButtonEnable(false, (int) diff);
             }
 
             //test end of meeting <= startTime
             Reservation reservation = room.getCurrentReservation();
-            if (reservation!=null){
-                diff = startTime.subtract(reservation.getEndTime(),Calendar.MILLISECOND)/ ONE_MIN_IN_SEC;
+
+            if (reservation != null) {
+                diff = startTime.subtract(reservation.getEndTime(), Calendar.MILLISECOND) / ONE_MIN_IN_SEC;
                 setButtonEnable(false, (int) diff);
             }
             //test timediff between end and start time if startTime add time not greater endtime
             diff = endTime.subtract(startTime,Calendar.MILLISECOND)/ ONE_MIN_IN_SEC;
 
-            setButtonEnable(true,(int)diff-MIN_MEETING_TIME);
-
+            setButtonEnable(true, (int) diff - MIN_MEETING_TIME);
         } else {
             diff = lastEndtime.subtract(endTime, Calendar.MILLISECOND) / ONE_MIN_IN_SEC;
-            if(diff >= 0){
-                setButtonEnable(true,(int)diff);
+
+            if (diff >= 0) {
+                setButtonEnable(true, (int) diff);
             }
 
             //test timediff between end and start time if endtimeTime add time not smaller starttime
@@ -385,64 +430,73 @@ public class ReservationActivity extends ReservatorActivity implements View.OnCl
                     }
 
                     if (r.getStartTime().getTimeInMillis() >= endTime.getTimeInMillis()) {
-                            diff = r.getStartTime().subtract(endTime, Calendar.MILLISECOND) / ONE_MIN_IN_SEC;
-                            setButtonEnable(true, (int) diff);
+                        diff = r.getStartTime().subtract(endTime, Calendar.MILLISECOND) / ONE_MIN_IN_SEC;
+                        setButtonEnable(true, (int) diff);
                     }
                 }
 
-                if (!isStartTime){
+                if (!isStartTime) {
                     if (r.getStartTime().getTimeInMillis() >= endTime.getTimeInMillis()) {
-                        diff = r.getStartTime().subtract(endTime,Calendar.MILLISECOND)/ ONE_MIN_IN_SEC;
-                        setButtonEnable(true,(int)diff);
+                        diff = r.getStartTime().subtract(endTime, Calendar.MILLISECOND) / ONE_MIN_IN_SEC;
+                        setButtonEnable(true, (int) diff);
                     }
                 }
             }
         }
-
     }
 
-    private void setButtonEnable(boolean isPlusButton, int value){
-        if (isPlusButton){
-            if (value == 0){
-                enableAllButton(R.id.plus15button, R.id.plus30button,R.id.plus60button);
+
+    private void setButtonEnable(boolean isPlusButton, int value) {
+
+        if (isPlusButton) {
+            if (value == 0) {
+                enableAllButton(R.id.plus15button, R.id.plus30button, R.id.plus60button);
             } else if (value < 15) {
                 plusDiff = value;
-                enableLastTwoButton(R.id.plus30button,R.id.plus60button);
-            } else  if (value < 30){
-                enableLastTwoButton(R.id.plus30button,R.id.plus60button);
+                enableLastTwoButton(R.id.plus30button, R.id.plus60button);
+            } else if (value < 30) {
+                enableLastTwoButton(R.id.plus30button, R.id.plus60button);
             } else if (value < 60) {
                 enableLastButton(R.id.plus60button);
             }
         } else {
-            if (value == 0){
-                enableAllButton(R.id.minus15button, R.id.minus30button,R.id.minus60button);
+            if (value == 0) {
+                enableAllButton(R.id.minus15button, R.id.minus30button, R.id.minus60button);
             } else if (value < 15) {
-                negDiff = - value;
-                enableLastTwoButton(R.id.minus30button,R.id.minus60button);
-            } else  if (value < 30){
-                enableLastTwoButton(R.id.minus30button,R.id.minus60button);
+                negDiff = -value;
+                enableLastTwoButton(R.id.minus30button, R.id.minus60button);
+            } else if (value < 30) {
+                enableLastTwoButton(R.id.minus30button, R.id.minus60button);
             } else if (value < 60) {
                 enableLastButton(R.id.minus60button);
             }
         }
     }
 
-    private void enableAllButton(int button1, int button2, int button3){
+
+    private void enableAllButton(int button1, int button2, int button3) {
+
         findViewById(button1).setEnabled(false);
         findViewById(button2).setEnabled(false);
         findViewById(button3).setEnabled(false);
     }
 
-    private void enableLastTwoButton(int button2, int button3){
+
+    private void enableLastTwoButton(int button2, int button3) {
+
         findViewById(button2).setEnabled(false);
         findViewById(button3).setEnabled(false);
     }
 
-    private void enableLastButton(int button3){
+
+    private void enableLastButton(int button3) {
+
         findViewById(button3).setEnabled(false);
     }
 
-    private void refreshButtonEnabled(){
+
+    private void refreshButtonEnabled() {
+
         findViewById(R.id.plus15button).setEnabled(true);
         findViewById(R.id.plus30button).setEnabled(true);
         findViewById(R.id.plus60button).setEnabled(true);

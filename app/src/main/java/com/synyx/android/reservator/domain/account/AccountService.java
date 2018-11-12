@@ -6,4 +6,10 @@ package com.synyx.android.reservator.domain.account;
 public interface AccountService {
 
     String[] getAccountNames();
+
+
+    String getUserAccountName();
+
+
+    String getUserAccountType();
 }

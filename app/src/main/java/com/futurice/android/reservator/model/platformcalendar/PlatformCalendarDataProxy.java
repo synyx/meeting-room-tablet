@@ -18,8 +18,6 @@ import android.os.Bundle;
 
 import android.provider.CalendarContract;
 
-import android.text.TextUtils;
-
 import android.util.Log;
 
 import com.futurice.android.reservator.R;
@@ -31,6 +29,7 @@ import com.futurice.android.reservator.model.Room;
 import com.futurice.android.reservator.model.TimeSpan;
 
 import com.synyx.android.reservator.config.Registry;
+import com.synyx.android.reservator.data.CalendarAdapter;
 import com.synyx.android.reservator.util.proxy.PermissionManager;
 
 import java.util.ArrayList;
@@ -371,90 +370,13 @@ public class PlatformCalendarDataProxy extends DataProxy {
 
 
     @Override
-    public Vector<Room> getRooms() throws ReservatorException {
+    public List<Room> getRooms() {
 
         setSyncOn();
 
         checkCalendarModeAndAccount();
 
-        Vector<Room> rooms = new Vector<Room>();
-
-        String[] mProjection = {
-            CalendarContract.Calendars._ID, CalendarContract.Calendars.OWNER_ACCOUNT, CalendarContract.Calendars.NAME,
-            CalendarContract.Calendars.CALENDAR_LOCATION, CalendarContract.Instances.CALENDAR_DISPLAY_NAME
-        };
-
-        /*String[] mProjection = {
-                CalendarContract.Calendars._ID, CalendarContract.Calendars.OWNER_ACCOUNT, CalendarContract.Calendars.NAME, CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,
-                CalendarContract.Calendars.CALENDAR_LOCATION, CalendarContract.Instances.CALENDAR_DISPLAY_NAME
-        };*/
-        System.out.println(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME);
-
-        List<String> mSelectionClauses = new ArrayList<String>();
-        List<String> mSelectionArgs = new ArrayList<String>();
-
-        checkCalendarModeAndAccount();
-
-        if (this.calendarMode == Mode.RESOURCES) {
-            mSelectionClauses.add(CalendarContract.Calendars.OWNER_ACCOUNT + " GLOB ?");
-            mSelectionArgs.add(Mode.RESOURCES.resourcesGlob);
-        } else {
-            String accountType = context.getSharedPreferences(context.getString(R.string.PREFERENCES_NAME),
-                    context.MODE_PRIVATE)
-                    .getString(context.getString(R.string.PREFERENCES_ACCOUNT_TYPE), "");
-            mSelectionClauses.add(CalendarContract.Calendars.OWNER_ACCOUNT + " LIKE '%" + accountType + "'");
-        }
-
-        if (this.account != null && !this.account.equals(context.getString(R.string.allAccountsMagicWord))) {
-            mSelectionClauses.add(CalendarContract.Calendars.ACCOUNT_NAME + " = ?");
-            mSelectionArgs.add(account);
-        }
-
-        String mSortOrder = null;
-
-        @SuppressLint("MissingPermission")
-        Cursor result = resolver.query(CalendarContract.Calendars.CONTENT_URI, mProjection,
-                TextUtils.join(" AND ", mSelectionClauses), mSelectionArgs.toArray(new String[0]), mSortOrder);
-
-        if (result != null) {
-            if (result.getCount() > 0) {
-                result.moveToFirst();
-
-                do {
-                    String name = result.getString(2);
-
-                    if (name == null) {
-                        name = result.getString(4);
-                    }
-
-                    String location = result.getString(3);
-
-                    if (location == null || location.isEmpty()) {
-                        location = name;
-                    }
-
-                    rooms.add(new PlatformCalendarRoom(name, result.getString(1), result.getLong(0), location,
-                            filterRoomNamesFormAttendees()));
-                } while (result.moveToNext());
-            }
-
-            result.close();
-        }
-
-        return rooms;
-    }
-
-
-    private boolean filterRoomNamesFormAttendees() {
-
-        boolean filterRoomNameFromAttendees = context.getSharedPreferences(context.getString(
-                        R.string.PREFERENCES_NAME), context.MODE_PRIVATE)
-                .getBoolean(context.getString(R.string.PREFERENCES_FILTER_ROOM_NAME_FROM_ATTENDEES), false);
-        String selectedCalendarMode = context.getSharedPreferences(context.getString(R.string.PREFERENCES_NAME),
-                context.MODE_PRIVATE)
-                .getString(context.getString(R.string.PREFERENCES_CALENDAR_MODE), "");
-
-        return (filterRoomNameFromAttendees || selectedCalendarMode.equals("resources"));
+        return Registry.get(CalendarAdapter.class).getRooms();
     }
 
 

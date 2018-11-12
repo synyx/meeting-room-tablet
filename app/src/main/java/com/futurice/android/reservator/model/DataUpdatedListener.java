@@ -1,16 +1,20 @@
 package com.futurice.android.reservator.model;
 
-import java.util.Vector;
+import java.util.List;
+
 
 /**
  * Callbacks for DataProxy updates and exceptions. All callbacks are in separate threads (non-ui).
  *
- * @author vman
+ * @author  vman
  */
 public interface DataUpdatedListener {
-    public void roomListUpdated(Vector<Room> rooms);
 
-    public void roomReservationsUpdated(Room room);
+    void roomListUpdated(List<Room> rooms);
 
-    public void refreshFailed(ReservatorException ex);
+
+    void roomReservationsUpdated(Room room);
+
+
+    void refreshFailed(ReservatorException ex);
 }

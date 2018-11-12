@@ -69,4 +69,18 @@ public class PreferencesServiceImpl implements PreferencesService {
 
         return sharedPreferences.getString(PREFERENCES_CALENDAR_MODE, "");
     }
+
+
+    @Override
+    public String getUserAccountName() {
+
+        return sharedPreferences.getString(PREF_USER_ACCOUNT, "");
+    }
+
+
+    @Override
+    public String getUserAccountType() {
+
+        return sharedPreferences.getString(PREF_ACCOUNT_TYPE, "");
+    }
 }
