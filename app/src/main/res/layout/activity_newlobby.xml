@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,9 +7,34 @@
     android:padding="12dp"
     tools:context="com.synyx.android.reservator.ui.lobby.NewLobbyActivity">
 
+    <TextView
+        android:id="@+id/lobby_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="40dp"
+        android:text="@string/lobby_title"
+        android:textColor="#fff"
+        android:textSize="22sp" />
+
+    <TextView
+        android:id="@+id/clock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:padding="8dp"
+        android:text="05.07.18  |  08:25"
+        android:textColor="#fff"
+        android:textSize="22sp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/roomRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lobby_title" />
 
-</LinearLayout>
+</RelativeLayout>

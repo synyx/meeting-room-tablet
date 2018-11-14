@@ -6,12 +6,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import android.view.View;
+
+import android.widget.TextView;
+
 import com.futurice.android.reservator.R;
 
 import com.synyx.android.reservator.domain.event.Event;
 import com.synyx.android.reservator.domain.room.Room;
 
+import java.text.SimpleDateFormat;
+
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import static java.util.Arrays.asList;
 
@@ -37,10 +45,12 @@ public class NewLobbyActivity extends AppCompatActivity {
 
         RecyclerView.Adapter<RoomViewHolder> roomRecyclerAdapter = new RoomRecyclerAdapter(mockData());
         roomsRecyclerView.setAdapter(roomRecyclerAdapter);
+
+        setClock();
     }
 
 
-    private void setClock() {
+   private void setClock() {
 
         TextView clockView = findViewById(R.id.clock);
         Date now = new Date();
