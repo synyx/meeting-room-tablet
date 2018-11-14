@@ -30,6 +30,7 @@ public class NewLobbyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        enableFullscreen();
         setContentView(R.layout.activity_newlobby);
 
         setRoomRecyclerView();
@@ -50,7 +51,7 @@ public class NewLobbyActivity extends AppCompatActivity {
     }
 
 
-   private void setClock() {
+    private void setClock() {
 
         TextView clockView = findViewById(R.id.clock);
         Date now = new Date();
@@ -63,7 +64,7 @@ public class NewLobbyActivity extends AppCompatActivity {
     private void enableFullscreen() {
 
         getWindow().getDecorView()
-            .setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE //
+            .setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY //
                 | View.SYSTEM_UI_FLAG_LAYOUT_STABLE //
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION //
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN //
