@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 
 import com.futurice.android.reservator.R;
 
+import com.synyx.android.reservator.usecase.RoomDto;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,12 +21,7 @@ import java.util.List;
  */
 public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomViewHolder> {
 
-    private List<RoomStatus> rooms;
-
-    public RoomRecyclerAdapter(List<RoomStatus> rooms) {
-
-        this.rooms = rooms;
-    }
+    private List<RoomDto> rooms = new ArrayList<>();
 
     @NonNull
     @Override
@@ -38,13 +36,13 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RoomViewHolder roomViewHolder, int index) {
 
-        RoomStatus roomStatus = rooms.get(index);
+        RoomDto roomDto = rooms.get(index);
 
-        roomViewHolder.roomName.setText(roomStatus.getRoomName());
-        roomViewHolder.roomTime.setText(roomStatus.getRoomTime());
-        roomViewHolder.eventName.setText(roomStatus.getActiveEventName());
-        roomViewHolder.nextEventName.setText(roomStatus.getNextEventName());
-        roomViewHolder.setStatus(roomStatus.getStatus());
+        roomViewHolder.roomName.setText(roomDto.getRoomName());
+        roomViewHolder.roomTime.setText(roomDto.getRoomTime());
+        roomViewHolder.eventName.setText(roomDto.getActiveEventName());
+        roomViewHolder.nextEventName.setText(roomDto.getNextEventName());
+        roomViewHolder.setStatus(roomDto.getStatus());
     }
 
 
@@ -52,5 +50,13 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomViewHolder> {
     public int getItemCount() {
 
         return rooms.size();
+    }
+
+
+    public void updateRooms(List<RoomDto> newRooms) {
+
+        rooms.clear();
+        rooms.addAll(newRooms);
+        notifyDataSetChanged();
     }
 }

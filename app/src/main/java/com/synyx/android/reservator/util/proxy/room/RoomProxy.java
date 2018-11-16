@@ -1,6 +1,6 @@
 package com.synyx.android.reservator.util.proxy.room;
 
-import com.synyx.android.reservator.domain.room.Room;
+import com.synyx.android.reservator.domain.room.RoomCalendar;
 
 import java.util.List;
 
@@ -12,5 +12,5 @@ import java.util.List;
  */
 public abstract class RoomProxy {
 
-    public abstract List<Room> getRooms();
+    public abstract List<RoomCalendar> getRooms();
 }

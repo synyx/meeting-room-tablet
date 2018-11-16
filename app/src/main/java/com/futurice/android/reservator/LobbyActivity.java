@@ -28,8 +28,6 @@ import android.view.MenuItem;
 
 import android.view.MenuItem.OnMenuItemClickListener;
 
-import android.view.View;
-
 import android.widget.DigitalClock;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -78,14 +76,8 @@ public class LobbyActivity extends ReservatorActivity implements OnMenuItemClick
         DigitalClock clock = (DigitalClock) findViewById(R.id.digitalClock1); // FIXME deprecated
         clock.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/EHSMB.TTF"));
 
-        findViewById(R.id.newLobby).setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-
-                    startActivity(new Intent(LobbyActivity.this, NewLobbyActivity.class));
-                }
-            });
+        findViewById(R.id.newLobby).setOnClickListener(v ->
+                startActivity(new Intent(LobbyActivity.this, NewLobbyActivity.class)));
     }
 
 

@@ -1,20 +1,20 @@
-package com.synyx.android.reservator.ui.lobby;
+package com.synyx.android.reservator.usecase;
 
 import com.synyx.android.reservator.domain.event.Event;
-import com.synyx.android.reservator.domain.room.Room;
+import com.synyx.android.reservator.domain.room.RoomCalendar;
 import com.synyx.android.reservator.domain.room.RoomState;
 
 
 /**
  * @author  Max Dobler - dobler@synyx.de
  */
-public class RoomStatus {
+public class RoomDto {
 
-    private final Room room;
+    private final RoomCalendar room;
     private final Event event;
     private final Event nextEvent;
 
-    public RoomStatus(Room room, Event event, Event nextEvent) {
+    public RoomDto(RoomCalendar room, Event event, Event nextEvent) {
 
         this.room = room;
         this.event = event;
@@ -29,7 +29,15 @@ public class RoomStatus {
 
     public String getRoomTime() {
 
-        return "25 Min";
+        if (event != null) {
+            return event.getRemainingTime().getMinutes() + " Min";
+        }
+
+        if (nextEvent != null) {
+            return nextEvent.getTimeUntilBegin().getMinutes() + " Min";
+        }
+
+        return "Frei für den ganzen Tag";
     }
 
 
@@ -44,6 +52,10 @@ public class RoomStatus {
 
 
     public String getNextEventName() {
+
+        if (nextEvent == null) {
+            return "";
+        }
 
         return nextEvent.getName();
     }

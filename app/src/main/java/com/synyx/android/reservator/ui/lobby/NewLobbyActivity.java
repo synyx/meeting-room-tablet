@@ -1,5 +1,7 @@
 package com.synyx.android.reservator.ui.lobby;
 
+import android.arch.lifecycle.ViewModelProviders;
+
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
@@ -12,24 +14,23 @@ import android.widget.TextView;
 
 import com.futurice.android.reservator.R;
 
-import com.synyx.android.reservator.domain.event.Event;
-import com.synyx.android.reservator.domain.room.Room;
-
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-
-import static java.util.Arrays.asList;
 
 
 public class NewLobbyActivity extends AppCompatActivity {
+
+    private LobbyViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        viewModel = ViewModelProviders.of(this).get(LobbyViewModel.class);
+
         enableFullscreen();
         setContentView(R.layout.activity_newlobby);
 
@@ -42,12 +43,12 @@ public class NewLobbyActivity extends AppCompatActivity {
 
         RecyclerView roomsRecyclerView = findViewById(R.id.roomRecyclerView);
         roomsRecyclerView.setHasFixedSize(true);
-        roomsRecyclerView.setLayoutManager(new GridLayoutManager(this, 5));
+        roomsRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
 
-        RecyclerView.Adapter<RoomViewHolder> roomRecyclerAdapter = new RoomRecyclerAdapter(mockData());
+        RoomRecyclerAdapter roomRecyclerAdapter = new RoomRecyclerAdapter();
         roomsRecyclerView.setAdapter(roomRecyclerAdapter);
 
-        setClock();
+        viewModel.getRooms().observe(this, roomRecyclerAdapter::updateRooms);
     }
 
 
@@ -70,21 +71,5 @@ public class NewLobbyActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN //
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION //
                 | View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
-
-
-    private List<RoomStatus> mockData() {
-
-        RoomStatus roomStatus1 = new RoomStatus(new Room("Wohnzimmer"), new Event("Daily"),
-                new Event("Bewerbungsgespräch"));
-        RoomStatus roomStatus2 = new RoomStatus(new Room("Holodeck"), null, new Event("Bewerbungsgespräch"));
-        RoomStatus roomStatus3 = new RoomStatus(new Room("Nullpointer"), null, new Event("Bewerbungsgespräch"));
-        RoomStatus roomStatus4 = new RoomStatus(new Room("Billard-Ecke"), new Event("Daily"),
-                new Event("Bewerbungsgespräch"));
-        RoomStatus roomStatus5 = new RoomStatus(new Room("Kreativraum"), new Event("Daily"),
-                new Event("Bewerbungsgespräch"));
-        RoomStatus roomStatus6 = new RoomStatus(new Room("BMW"), null, new Event("Bewerbungsgespräch"));
-
-        return asList(roomStatus1, roomStatus2, roomStatus3, roomStatus4, roomStatus5, roomStatus6);
     }
 }

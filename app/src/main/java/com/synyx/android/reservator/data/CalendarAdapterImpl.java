@@ -1,7 +1,5 @@
 package com.synyx.android.reservator.data;
 
-import android.annotation.SuppressLint;
-
 import android.content.ContentResolver;
 
 import android.database.Cursor;
@@ -19,9 +17,17 @@ import com.synyx.android.reservator.config.Registry;
 import com.synyx.android.reservator.domain.account.AccountService;
 import com.synyx.android.reservator.domain.calendar.CalendarMode;
 import com.synyx.android.reservator.domain.calendar.CalendarModeService;
+import com.synyx.android.reservator.domain.room.RoomCalendar;
+
+import io.reactivex.Observable;
+
+import io.reactivex.functions.Function;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.synyx.android.reservator.util.rx.CursorIterable.closeCursorIfLast;
+import static com.synyx.android.reservator.util.rx.CursorIterable.fromCursor;
 
 
 /**
@@ -45,6 +51,22 @@ public class CalendarAdapterImpl implements CalendarAdapter {
     @Override
     public List<Room> getRooms() {
 
+        return mapToRooms(loadRoomCalendars());
+    }
+
+
+    @Override
+    public Observable<RoomCalendar> getNewRooms() {
+
+        return
+            Observable.fromIterable(fromCursor(loadRoomCalendars())) //
+            .doAfterNext(closeCursorIfLast()) //
+            .map(toRoomCalendar());
+    }
+
+
+    private Cursor loadRoomCalendars() {
+
         String[] mProjection = {
             CalendarContract.Calendars._ID, //
             CalendarContract.Calendars.OWNER_ACCOUNT, //
@@ -58,15 +80,19 @@ public class CalendarAdapterImpl implements CalendarAdapter {
         addOwnerAccountSelection(mSelectionClauses, mSelectionArgs);
         addAccountNameSelection(mSelectionClauses, mSelectionArgs);
 
-        @SuppressLint("MissingPermission")
-        Cursor cursor = queryCalendarProvider(mProjection, mSelectionClauses, mSelectionArgs);
-
-        return mapCursorToRooms(cursor);
+        return queryCalendarProvider(mProjection, mSelectionClauses, mSelectionArgs);
     }
 
 
     @NonNull
-    private List<Room> mapCursorToRooms(Cursor cursor) {
+    private static Function<Cursor, RoomCalendar> toRoomCalendar() {
+
+        return c -> new RoomCalendar(getIdFrom(c), getNameFrom(c));
+    }
+
+
+    @NonNull
+    private static List<Room> mapToRooms(Cursor cursor) {
 
         List<Room> rooms = new ArrayList<>();
 
@@ -116,32 +142,31 @@ public class CalendarAdapterImpl implements CalendarAdapter {
 
 
     @NonNull
-    private PlatformCalendarRoom mapCursorEntryToRoom(Cursor cursor) {
+    private static PlatformCalendarRoom mapCursorEntryToRoom(Cursor cursor) {
 
         long id = getIdFrom(cursor);
         String ownerAccount = getOwnerAccountFrom(cursor);
         String name = getNameFrom(cursor);
 
-        // TODO: 12.11.18 Max - Use Synyx Room Entity
         return new PlatformCalendarRoom(name, ownerAccount, id, "", false);
     }
 
 
-    private long getIdFrom(Cursor cursor) {
+    private static long getIdFrom(Cursor cursor) {
 
         return cursor.getLong(cursor.getColumnIndex(CalendarContract.Calendars._ID));
     }
 
 
-    private String getOwnerAccountFrom(Cursor cursor) {
+    private static String getOwnerAccountFrom(Cursor cursor) {
 
         return cursor.getString(cursor.getColumnIndex(CalendarContract.Calendars.OWNER_ACCOUNT));
     }
 
 
-    private String getNameFrom(Cursor cursor) {
+    private static String getNameFrom(Cursor cursor) {
 
-        String name = cursor.getString(cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME));
+        String name = cursor.getString(cursor.getColumnIndex(CalendarContract.Calendars.NAME));
 
         return name == null //
             ? cursor.getString(cursor.getColumnIndex(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME)) //

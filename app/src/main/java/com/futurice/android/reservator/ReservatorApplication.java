@@ -14,6 +14,7 @@ import com.futurice.android.reservator.model.DataProxy;
 import com.futurice.android.reservator.model.platformcalendar.PlatformCalendarDataProxy;
 import com.futurice.android.reservator.model.platformcontacts.PlatformContactsAddressBook;
 
+import com.synyx.android.reservator.config.LobbyConfig;
 import com.synyx.android.reservator.config.Registry;
 import com.synyx.android.reservator.ui.login.LoginConfig;
 import com.synyx.android.reservator.util.proxy.ProxyConfig;
@@ -81,6 +82,7 @@ public class ReservatorApplication extends Application {
 
         ProxyConfig.init(this);
         LoginConfig.init(this);
+        LobbyConfig.init();
     }
 
 
