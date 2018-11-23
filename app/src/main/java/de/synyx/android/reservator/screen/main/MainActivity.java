@@ -1,12 +1,8 @@
-package de.synyx.android.reservator.screen.lobby;
-
-import android.arch.lifecycle.ViewModelProviders;
+package de.synyx.android.reservator.screen.main;
 
 import android.os.Bundle;
 
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 
 import android.view.View;
 
@@ -14,41 +10,35 @@ import android.widget.TextView;
 
 import com.futurice.android.reservator.R;
 
+import de.synyx.android.reservator.screen.main.lobby.LobbyFragment;
+
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.Locale;
 
 
-public class NewLobbyActivity extends AppCompatActivity {
-
-    private LobbyViewModel viewModel;
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
-        viewModel = ViewModelProviders.of(this).get(LobbyViewModel.class);
-
         enableFullscreen();
         setContentView(R.layout.activity_newlobby);
 
-        setRoomRecyclerView();
+        setFragment();
+
         setClock();
     }
 
 
-    private void setRoomRecyclerView() {
+    private void setFragment() {
 
-        RecyclerView roomsRecyclerView = findViewById(R.id.roomRecyclerView);
-        roomsRecyclerView.setHasFixedSize(true);
-        roomsRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
-
-        RoomRecyclerAdapter roomRecyclerAdapter = new RoomRecyclerAdapter();
-        roomsRecyclerView.setAdapter(roomRecyclerAdapter);
-
-        viewModel.getRooms().observe(this, roomRecyclerAdapter::updateRooms);
+        getSupportFragmentManager().beginTransaction()
+            .replace(R.id.content_main, LobbyFragment.newInstance())
+            .commit();
     }
 
 

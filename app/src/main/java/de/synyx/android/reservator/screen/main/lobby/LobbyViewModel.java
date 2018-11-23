@@ -1,4 +1,4 @@
-package de.synyx.android.reservator.screen.lobby;
+package de.synyx.android.reservator.screen.main.lobby;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;

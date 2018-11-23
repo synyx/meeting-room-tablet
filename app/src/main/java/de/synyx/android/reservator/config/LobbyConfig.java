@@ -6,7 +6,7 @@ import de.synyx.android.reservator.data.EventRepositoryImpl;
 import de.synyx.android.reservator.data.RoomRepositoryImpl;
 import de.synyx.android.reservator.domain.event.EventRepository;
 import de.synyx.android.reservator.domain.room.RoomRepository;
-import de.synyx.android.reservator.screen.lobby.LoadRoomsUseCase;
+import de.synyx.android.reservator.screen.main.lobby.LoadRoomsUseCase;
 import de.synyx.android.reservator.util.SchedularFacadeImpl;
 import de.synyx.android.reservator.util.SchedulerFacade;
 

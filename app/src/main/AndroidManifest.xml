@@ -69,7 +69,7 @@
 
         <uses-library android:name="android.test.runner" />
 
-        <activity android:name="de.synyx.android.reservator.screen.lobby.NewLobbyActivity"></activity>
+        <activity android:name="de.synyx.android.reservator.screen.main.MainActivity"></activity>
     </application>
 
 </manifest>

@@ -42,7 +42,7 @@ import com.futurice.android.reservator.model.Room;
 import com.futurice.android.reservator.view.LobbyReservationRowView;
 import com.futurice.android.reservator.view.LobbyReservationRowView.OnReserveListener;
 
-import de.synyx.android.reservator.screen.lobby.NewLobbyActivity;
+import de.synyx.android.reservator.screen.main.MainActivity;
 
 import java.text.Collator;
 
@@ -77,7 +77,7 @@ public class LobbyActivity extends ReservatorActivity implements OnMenuItemClick
         clock.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/EHSMB.TTF"));
 
         findViewById(R.id.newLobby).setOnClickListener(v ->
-                startActivity(new Intent(LobbyActivity.this, NewLobbyActivity.class)));
+                startActivity(new Intent(LobbyActivity.this, MainActivity.class)));
     }
 
 

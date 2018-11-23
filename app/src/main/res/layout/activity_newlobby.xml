@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#000"
     android:padding="12dp"
-    tools:context="de.synyx.android.reservator.screen.lobby.NewLobbyActivity">
+    tools:context="de.synyx.android.reservator.screen.main.MainActivity">
 
     <TextView
         android:id="@+id/lobby_title"
@@ -27,15 +27,15 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:padding="8dp"
-        android:text="05.07.18  |  08:25"
         android:textColor="#fff"
-        android:textSize="22sp" />
+        android:textSize="22sp"
+        tools:ignore="RelativeOverlap"
+        tools:text="05.07.18  |  08:25" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/roomRecyclerView"
+    <FrameLayout
+        android:id="@+id/content_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/lobby_title"
-        android:overScrollMode="never" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/lobby_title" />
 
 </RelativeLayout>
