@@ -87,7 +87,7 @@ public class CalendarAdapterImpl implements CalendarAdapter {
     @NonNull
     private static Function<Cursor, RoomCalendar> toRoomCalendar() {
 
-        return c -> new RoomCalendar(getIdFrom(c), getNameFrom(c));
+        return c -> new RoomCalendar(getIdFrom(c), getNameFrom(c), getOwnerAccountFrom(c));
     }
 
 

@@ -190,5 +190,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="navigation_item_status">STATUS</string>
+    <string name="navigation_item_agenda">WOCHENANSICHT</string>
+    <string name="navigation_item_all_rooms">ALL ROOMS</string>
 
 </resources>

@@ -8,11 +8,13 @@ public class RoomCalendar {
 
     private final String name;
     private final long calendarId;
+    private final String owner;
 
-    public RoomCalendar(long calendarId, String name) {
+    public RoomCalendar(long calendarId, String name, String owner) {
 
         this.calendarId = calendarId;
         this.name = name;
+        this.owner = owner;
     }
 
     public String getName() {
@@ -24,5 +26,11 @@ public class RoomCalendar {
     public long getCalendarId() {
 
         return calendarId;
+    }
+
+
+    public String getOwner() {
+
+        return owner;
     }
 }

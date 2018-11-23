@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_item_room_status"
+        android:enabled="true"
+        android:title="@string/navigation_item_status"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/room_agenda"
+        android:enabled="true"
+        android:title="@string/navigation_item_agenda"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/all_rooms"
+        android:enabled="true"
+        android:title="@string/navigation_item_all_rooms"
+        app:showAsAction="ifRoom" />
+</menu>
