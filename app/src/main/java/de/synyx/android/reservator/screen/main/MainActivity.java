@@ -27,7 +27,7 @@ import java.util.Locale;
 import static de.synyx.android.reservator.legacy.OpenOldRoomActivityAdapter.openRoomActivity;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LobbyFragment.RoomSelectionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
             case R.id.room_agenda:
 
-                // TODO: max 23.11.18 Load default room
+                // TODO: max 23.11.18 - Load default room
                 RoomCalendar roomCalendar = new RoomCalendar(1L, "Holodeck (8)", "wohnzimmmer@synyx.de");
                 openRoomActivity(getApplicationContext(), roomCalendar);
                 break;
@@ -103,5 +103,12 @@ public class MainActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN //
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION //
                 | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
+
+    @Override
+    public void onRoomSelected(long calendarId) {
+
+        replaceFragment(StatusFragment.newInstance(calendarId));
     }
 }

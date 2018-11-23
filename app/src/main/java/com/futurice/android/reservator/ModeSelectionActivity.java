@@ -9,6 +9,8 @@ import android.content.SharedPreferences;
 
 import android.os.Bundle;
 
+import de.synyx.android.reservator.screen.main.MainActivity;
+
 
 public class ModeSelectionActivity extends ReservatorActivity {
 
@@ -40,7 +42,7 @@ public class ModeSelectionActivity extends ReservatorActivity {
 
     public void moveToLobby() {
 
-        Intent i = new Intent(this, LobbyActivity.class);
+        Intent i = new Intent(this, MainActivity.class);
         startActivityForResult(i, REQUEST_LOBBY);
     }
 

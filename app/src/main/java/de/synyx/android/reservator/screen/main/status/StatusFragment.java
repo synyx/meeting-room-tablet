@@ -24,20 +24,20 @@ import java.util.List;
 
 public class StatusFragment extends Fragment {
 
-    private static final String KEY_ROOM_ID = "key-room-id";
+    private static final String CALENDAR_ID = "calendarId";
     private RoomStatusViewModel viewModel;
-    private int roomId;
+    private long calendarId;
 
     public StatusFragment() {
 
         // Required empty public constructor
     }
 
-    public static StatusFragment newInstance(int roomId) {
+    public static StatusFragment newInstance(long calendarId) {
 
         StatusFragment fragment = new StatusFragment();
         Bundle args = new Bundle();
-        args.putInt(KEY_ROOM_ID, roomId);
+        args.putLong(CALENDAR_ID, calendarId);
         fragment.setArguments(args);
 
         return fragment;
@@ -57,7 +57,7 @@ public class StatusFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() != null) {
-            roomId = getArguments().getInt(KEY_ROOM_ID);
+            calendarId = getArguments().getLong(CALENDAR_ID);
         }
 
         viewModel = ViewModelProviders.of(this).get(RoomStatusViewModel.class);

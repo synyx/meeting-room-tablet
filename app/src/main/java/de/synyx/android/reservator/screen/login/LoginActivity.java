@@ -10,12 +10,12 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-import com.futurice.android.reservator.LobbyActivity;
 import com.futurice.android.reservator.R;
 import com.futurice.android.reservator.ReservatorActivity;
 
 import de.synyx.android.reservator.config.Registry;
 import de.synyx.android.reservator.domain.calendar.CalendarMode;
+import de.synyx.android.reservator.screen.main.MainActivity;
 
 
 public class LoginActivity extends ReservatorActivity implements LoginListener {
@@ -72,7 +72,7 @@ public class LoginActivity extends ReservatorActivity implements LoginListener {
     @Override
     public void onCalenderModeClick(CalendarMode calendarMode) {
 
-        Intent intent = new Intent(this, LobbyActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivityForResult(intent, REQUEST_LOBBY);
     }
 }

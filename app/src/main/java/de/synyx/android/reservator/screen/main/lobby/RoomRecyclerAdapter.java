@@ -12,6 +12,10 @@ import com.futurice.android.reservator.R;
 
 import de.synyx.android.reservator.screen.RoomDto;
 
+import io.reactivex.Observable;
+
+import io.reactivex.subjects.PublishSubject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +26,7 @@ import java.util.List;
 public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomViewHolder> {
 
     private List<RoomDto> rooms = new ArrayList<>();
+    private final PublishSubject<RoomDto> onClickSubject = PublishSubject.create();
 
     @NonNull
     @Override
@@ -43,6 +48,8 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomViewHolder> {
         roomViewHolder.eventName.setText(roomDto.getActiveEventName());
         roomViewHolder.nextEventName.setText(roomDto.getNextEventName());
         roomViewHolder.setStatus(roomDto.getStatus());
+
+        roomViewHolder.itemView.setOnClickListener(view -> onClickSubject.onNext(roomDto));
     }
 
 
@@ -58,5 +65,11 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomViewHolder> {
         rooms.clear();
         rooms.addAll(newRooms);
         notifyDataSetChanged();
+    }
+
+
+    public Observable<RoomDto> getItemClicks() {
+
+        return onClickSubject;
     }
 }

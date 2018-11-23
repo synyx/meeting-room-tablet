@@ -5,11 +5,10 @@
     android:layout_height="match_parent"
     tools:context="de.synyx.android.reservator.screen.main.MainActivity">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/room_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/room_status_available"
-        android:text="AVAILABLE" />
+        android:background="@color/room_status_available" />
 
 </FrameLayout>

@@ -74,4 +74,10 @@ public class RoomDto {
 
         return RoomState.UNAVAILABLE;
     }
+
+
+    public long getCalendarId() {
+
+        return room.getCalendarId();
+    }
 }
