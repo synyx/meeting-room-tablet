@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#000"
     android:padding="12dp"
-    tools:context="com.synyx.android.reservator.ui.lobby.NewLobbyActivity">
+    tools:context="de.synyx.android.reservator.screen.lobby.NewLobbyActivity">
 
     <TextView
         android:id="@+id/lobby_title"

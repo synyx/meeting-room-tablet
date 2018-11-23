@@ -14,7 +14,7 @@ import com.futurice.android.reservator.model.DataProxy;
 import com.futurice.android.reservator.model.ReservatorException;
 import com.futurice.android.reservator.model.Room;
 
-import com.synyx.android.reservator.config.Config;
+import de.synyx.android.reservator.config.Config;
 
 
 public class ReservatorActivity extends AppCompatActivity {

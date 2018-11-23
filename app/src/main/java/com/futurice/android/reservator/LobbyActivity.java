@@ -42,7 +42,7 @@ import com.futurice.android.reservator.model.Room;
 import com.futurice.android.reservator.view.LobbyReservationRowView;
 import com.futurice.android.reservator.view.LobbyReservationRowView.OnReserveListener;
 
-import com.synyx.android.reservator.ui.lobby.NewLobbyActivity;
+import de.synyx.android.reservator.screen.lobby.NewLobbyActivity;
 
 import java.text.Collator;
 

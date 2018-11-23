@@ -28,9 +28,9 @@ import com.futurice.android.reservator.model.ReservatorException;
 import com.futurice.android.reservator.model.Room;
 import com.futurice.android.reservator.model.TimeSpan;
 
-import com.synyx.android.reservator.config.Registry;
-import com.synyx.android.reservator.data.CalendarAdapter;
-import com.synyx.android.reservator.util.proxy.PermissionManager;
+import de.synyx.android.reservator.config.Registry;
+import de.synyx.android.reservator.data.CalendarAdapter;
+import de.synyx.android.reservator.util.proxy.PermissionManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
