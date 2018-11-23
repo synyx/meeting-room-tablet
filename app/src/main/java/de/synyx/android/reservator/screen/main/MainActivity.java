@@ -55,7 +55,9 @@ public class MainActivity extends AppCompatActivity {
 
         switch (menuItem.getItemId()) {
             case R.id.menu_item_room_status:
-                replaceFragment(StatusFragment.newInstance());
+
+                // TODO use room id from preferences or the users selection
+                replaceFragment(StatusFragment.newInstance(9));
                 break;
 
             case R.id.room_agenda:
