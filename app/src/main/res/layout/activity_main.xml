@@ -7,6 +7,18 @@
     android:background="#000"
     tools:context="de.synyx.android.reservator.screen.main.MainActivity">
 
+    <Button
+        android:id="@+id/settings_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/Transparent"
+        android:drawableStart="@drawable/ic_settings_white_24dp"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/lobby_title"
         android:layout_width="wrap_content"

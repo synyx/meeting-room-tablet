@@ -1,5 +1,7 @@
 package de.synyx.android.reservator.screen.main;
 
+import android.content.Intent;
+
 import android.os.Bundle;
 
 import android.support.design.widget.BottomNavigationView;
@@ -11,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.futurice.android.reservator.R;
@@ -18,6 +21,7 @@ import com.futurice.android.reservator.R;
 import de.synyx.android.reservator.domain.room.RoomCalendar;
 import de.synyx.android.reservator.screen.main.lobby.LobbyFragment;
 import de.synyx.android.reservator.screen.main.status.StatusFragment;
+import de.synyx.android.reservator.screen.settings.SettingsActivity;
 
 import java.text.SimpleDateFormat;
 
@@ -35,12 +39,20 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
         super.onCreate(savedInstanceState);
 
         enableFullscreen();
-        setContentView(R.layout.activity_newlobby);
+        setContentView(R.layout.activity_main);
 
         replaceFragment(LobbyFragment.newInstance());
         setupNavigation();
+        setupSettingsButton();
 
         setClock();
+    }
+
+
+    private void setupSettingsButton() {
+
+        Button button = findViewById(R.id.settings_button);
+        button.setOnClickListener(view -> startActivity(new Intent(this, SettingsActivity.class)));
     }
 
 
@@ -103,6 +115,14 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN //
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION //
                 | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
+
+    @Override
+    protected void onResume() {
+
+        super.onResume();
+        enableFullscreen();
     }
 
 

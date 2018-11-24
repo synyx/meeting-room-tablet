@@ -193,5 +193,11 @@
     <string name="navigation_item_status">STATUS</string>
     <string name="navigation_item_agenda">WOCHENANSICHT</string>
     <string name="navigation_item_all_rooms">ALL ROOMS</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_default_room">Default Room</string>
+
 
 </resources>
