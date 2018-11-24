@@ -24,4 +24,7 @@ public interface PreferencesService {
 
 
     String getUserAccountType();
+
+
+    Long getCalendarIdOfDefaultRoom();
 }

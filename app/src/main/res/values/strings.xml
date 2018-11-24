@@ -197,7 +197,7 @@
 
     <string name="pref_header_general">General</string>
 
-    <string name="pref_default_room">Default Room</string>
+    <string name="pref_default_room_title">Default Room</string>
 
 
 </resources>

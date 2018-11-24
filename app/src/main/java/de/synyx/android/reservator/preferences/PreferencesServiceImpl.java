@@ -15,11 +15,13 @@ public class PreferencesServiceImpl implements PreferencesService {
     private static final String PREF_USER_ACCOUNT = "calendarAccount"; // TODO rename to "userAccount"
     private static final String PREF_ACCOUNT_TYPE = "accountType";
     private SharedPreferences sharedPreferences;
+    private SharedPreferences defaultPreferences;
     private SharedPreferences.Editor editor;
 
-    public PreferencesServiceImpl(SharedPreferences sharedPreferences) {
+    public PreferencesServiceImpl(SharedPreferences legacyPrefs, SharedPreferences defaultPreferences) {
 
-        this.sharedPreferences = sharedPreferences;
+        this.sharedPreferences = legacyPrefs;
+        this.defaultPreferences = defaultPreferences;
         this.editor = this.sharedPreferences.edit();
     }
 
@@ -82,5 +84,14 @@ public class PreferencesServiceImpl implements PreferencesService {
     public String getUserAccountType() {
 
         return sharedPreferences.getString(PREF_ACCOUNT_TYPE, "");
+    }
+
+
+    @Override
+    public Long getCalendarIdOfDefaultRoom() {
+
+        String calendarId = defaultPreferences.getString("defaultRoom", "0");
+
+        return Long.valueOf(calendarId);
     }
 }

@@ -2,9 +2,9 @@
 
     <ListPreference
         android:defaultValue="-1"
-        android:key="rooms"
+        android:key="defaultRoom"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null"
-        android:title="@string/pref_default_room" />
+        android:title="@string/pref_default_room_title" />
 
 </PreferenceScreen>

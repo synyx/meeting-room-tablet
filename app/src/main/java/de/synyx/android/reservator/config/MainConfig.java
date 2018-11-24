@@ -14,9 +14,9 @@ import de.synyx.android.reservator.util.SchedulerFacade;
 /**
  * @author  Max Dobler - dobler@synyx.de
  */
-public class LobbyConfig {
+public class MainConfig {
 
-    private LobbyConfig() {
+    private MainConfig() {
 
         // hide
     }

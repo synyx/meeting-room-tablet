@@ -18,7 +18,9 @@ import android.widget.TextView;
 
 import com.futurice.android.reservator.R;
 
+import de.synyx.android.reservator.config.Config;
 import de.synyx.android.reservator.domain.room.RoomCalendar;
+import de.synyx.android.reservator.preferences.PreferencesService;
 import de.synyx.android.reservator.screen.main.lobby.LobbyFragment;
 import de.synyx.android.reservator.screen.main.status.StatusFragment;
 import de.synyx.android.reservator.screen.settings.SettingsActivity;
@@ -33,10 +35,14 @@ import static de.synyx.android.reservator.legacy.OpenOldRoomActivityAdapter.open
 
 public class MainActivity extends AppCompatActivity implements LobbyFragment.RoomSelectionListener {
 
+    private PreferencesService preferencesService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        preferencesService = Config.getInstance(this).getPreferencesService();
 
         enableFullscreen();
         setContentView(R.layout.activity_main);
@@ -68,8 +74,7 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
         switch (menuItem.getItemId()) {
             case R.id.menu_item_room_status:
 
-                // TODO use room id from preferences or the users selection
-                replaceFragment(StatusFragment.newInstance(9));
+                replaceFragment(StatusFragment.newInstance(preferencesService.getCalendarIdOfDefaultRoom()));
                 break;
 
             case R.id.room_agenda:

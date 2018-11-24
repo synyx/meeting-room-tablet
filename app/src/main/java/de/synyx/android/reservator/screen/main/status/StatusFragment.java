@@ -15,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.TextView;
+
 import com.futurice.android.reservator.R;
 
 import de.synyx.android.reservator.screen.RoomDto;
@@ -61,8 +63,10 @@ public class StatusFragment extends Fragment {
         }
 
         viewModel = ViewModelProviders.of(this).get(RoomStatusViewModel.class);
-
         viewModel.getRooms().observe(this, this::updateStatus);
+
+        TextView textView = view.findViewById(R.id.room_id);
+        textView.setText(String.valueOf(calendarId));
     }
 
 

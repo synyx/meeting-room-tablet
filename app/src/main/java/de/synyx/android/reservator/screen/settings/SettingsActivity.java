@@ -112,7 +112,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         @NonNull
         private ListPreference setValuesForDefaultRoom() {
 
-            ListPreference defaultRoomPref = (ListPreference) findPreference("rooms");
+            ListPreference defaultRoomPref = (ListPreference) findPreference("defaultRoom");
 
             LoadRoomsUseCase loadRoomUseCase = Registry.get(LoadRoomsUseCase.class);
             Map<Long, String> roomValues =

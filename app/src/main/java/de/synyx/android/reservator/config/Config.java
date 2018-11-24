@@ -3,6 +3,9 @@ package de.synyx.android.reservator.config;
 import android.app.Application;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+
+import android.preference.PreferenceManager;
 
 import android.support.annotation.NonNull;
 
@@ -22,8 +25,9 @@ public class Config {
 
     private Config(@NonNull Context context) {
 
-        preferencesService = new PreferencesServiceImpl(context.getSharedPreferences(PREFS_NAME,
-                    Application.MODE_PRIVATE));
+        SharedPreferences legacyPrefs = context.getSharedPreferences(PREFS_NAME, Application.MODE_PRIVATE);
+        SharedPreferences defaultPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        preferencesService = new PreferencesServiceImpl(legacyPrefs, defaultPreferences);
     }
 
     @NonNull
