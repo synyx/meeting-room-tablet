@@ -18,9 +18,12 @@ import android.view.ViewGroup;
 
 import com.futurice.android.reservator.R;
 
+import de.synyx.android.reservator.screen.ScreenSize;
 import de.synyx.android.reservator.screen.main.MainActivity;
 
 import io.reactivex.disposables.Disposable;
+
+import static de.synyx.android.reservator.util.ScreenUtil.getSizeOfScreen;
 
 
 public class LobbyFragment extends Fragment {
@@ -66,7 +69,10 @@ public class LobbyFragment extends Fragment {
 
         RecyclerView roomsRecyclerView = view.findViewById(R.id.roomRecyclerView);
         roomsRecyclerView.setHasFixedSize(true);
-        roomsRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(),
+                calculateGridSpan(getSizeOfScreen(getActivity())));
+        roomsRecyclerView.setLayoutManager(layoutManager);
 
         RoomRecyclerAdapter roomRecyclerAdapter = new RoomRecyclerAdapter();
         roomsRecyclerView.setAdapter(roomRecyclerAdapter);
@@ -74,6 +80,28 @@ public class LobbyFragment extends Fragment {
         observeItemClicks(roomRecyclerAdapter);
 
         viewModel.getRooms().observe(this, roomRecyclerAdapter::updateRooms);
+    }
+
+
+    private static int calculateGridSpan(ScreenSize screenSize) {
+
+        switch (screenSize) {
+            case XSMALL:
+                return 2;
+
+            case SMALL:
+                return 3;
+
+            case MEDIUM:
+                return 4;
+
+            case LARGE:
+            case XLARGE:
+                return 5;
+
+            default:
+                return 4;
+        }
     }
 
 
