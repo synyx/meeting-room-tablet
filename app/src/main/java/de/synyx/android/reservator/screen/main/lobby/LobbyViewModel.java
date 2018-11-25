@@ -8,9 +8,12 @@ import de.synyx.android.reservator.config.Registry;
 import de.synyx.android.reservator.screen.RoomDto;
 import de.synyx.android.reservator.util.SchedulerFacade;
 
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.Observable;
+
+import io.reactivex.disposables.Disposable;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -23,7 +26,7 @@ public class LobbyViewModel extends ViewModel {
     private LoadRoomsUseCase loadRoomsUseCase;
     private SchedulerFacade schedulerFacade;
 
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private Disposable disposable;
 
     public LobbyViewModel() {
 
@@ -44,9 +47,18 @@ public class LobbyViewModel extends ViewModel {
 
     private void loadRooms() {
 
-        compositeDisposable.add(loadRoomsUseCase.execute()
-            .observeOn(schedulerFacade.io())
-            .subscribeOn(schedulerFacade.mainThread())
-            .subscribe(rooms::postValue));
+        disposable = Observable.interval(0, 1, TimeUnit.MINUTES)
+                .flatMap(ignored -> loadRoomsUseCase.execute().toObservable())
+                .observeOn(schedulerFacade.io())
+                .subscribeOn(schedulerFacade.mainThread())
+                .subscribe(rooms::postValue);
+    }
+
+
+    @Override
+    protected void onCleared() {
+
+        super.onCleared();
+        disposable.dispose();
     }
 }
