@@ -33,6 +33,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import static android.support.design.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_LABELED;
+
 import static de.synyx.android.reservator.legacy.OpenOldRoomActivityAdapter.openRoomActivity;
 
 
@@ -69,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
 
         BottomNavigationView navigationBar = findViewById(R.id.navigation_bar);
         navigationBar.setOnNavigationItemSelectedListener(this::onNavigationSelect);
+        navigationBar.setLabelVisibilityMode(LABEL_VISIBILITY_LABELED);
+        navigationBar.setSelectedItemId(R.id.menu_item_all_rooms);
     }
 
 
@@ -80,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
                 replaceFragment(StatusFragment.newInstance(preferencesService.getCalendarIdOfDefaultRoom()));
                 break;
 
-            case R.id.room_agenda:
+            case R.id.menu_item_room_agenda:
 
                 // TODO: max 23.11.18 - Load default room
                 RoomCalendar roomCalendar = new RoomCalendar(1L, "Holodeck (8)", "wohnzimmmer@synyx.de");
