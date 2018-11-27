@@ -1,6 +1,9 @@
 package de.synyx.android.reservator.screen.main;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 
 import android.os.Bundle;
 
@@ -104,10 +107,14 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
     private void setClock() {
 
         TextView clockView = findViewById(R.id.clock);
-        Date now = new Date();
-        String clockText = new SimpleDateFormat("dd.MM.yy  |  HH:mm", Locale.getDefault()).format(now);
+        clockView.setText(formatDateAndTime());
+        this.registerReceiver(new TimeTickBroadcastReciever(clockView), new IntentFilter(Intent.ACTION_TIME_TICK));
+    }
 
-        clockView.setText(clockText);
+
+    private String formatDateAndTime() {
+
+        return new SimpleDateFormat("dd.MM.yy  |  HH:mm", Locale.getDefault()).format(new Date());
     }
 
 
@@ -135,5 +142,21 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
     public void onRoomSelected(long calendarId) {
 
         replaceFragment(StatusFragment.newInstance(calendarId));
+    }
+
+    private class TimeTickBroadcastReciever extends BroadcastReceiver {
+
+        private final TextView clockView;
+
+        public TimeTickBroadcastReciever(TextView clockView) {
+
+            this.clockView = clockView;
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            clockView.setText(formatDateAndTime());
+        }
     }
 }
