@@ -4,6 +4,10 @@ import de.synyx.android.reservator.domain.event.Event;
 import de.synyx.android.reservator.domain.room.RoomCalendar;
 import de.synyx.android.reservator.domain.room.RoomState;
 
+import org.joda.time.Period;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
+
 
 /**
  * @author  Max Dobler - dobler@synyx.de
@@ -30,21 +34,37 @@ public class RoomDto {
     public String getRoomTime() {
 
         if (event != null) {
-            return event.getRemainingTime().getMinutes() + " Min";
+            return printPeriod(event.getRemainingTime());
         }
 
         if (nextEvent != null) {
-            return nextEvent.getTimeUntilBegin().getMinutes() + " Min";
+            return printPeriod(nextEvent.getTimeUntilBegin());
         }
 
-        return "Frei für den ganzen Tag";
+        return "Frei für den restlichen Tag";
+    }
+
+
+    private String printPeriod(Period remainingTime) {
+
+        PeriodFormatter formatter = new PeriodFormatterBuilder().appendDays()
+                .appendSuffix(" day", " days")
+                .appendSeparator(" ")
+                .appendHours()
+                .appendSuffix(" h")
+                .appendSeparator(" ")
+                .appendMinutes()
+                .appendSuffix(" min")
+                .toFormatter();
+
+        return formatter.print(remainingTime.normalizedStandard());
     }
 
 
     public String getActiveEventName() {
 
         if (event == null) {
-            return "VERFÜGBAR";
+            return null;
         }
 
         return event.getName();
@@ -54,7 +74,7 @@ public class RoomDto {
     public String getNextEventName() {
 
         if (nextEvent == null) {
-            return "";
+            return null;
         }
 
         return nextEvent.getName();

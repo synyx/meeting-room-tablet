@@ -2,7 +2,7 @@ package de.synyx.android.reservator.domain.event;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
-import org.joda.time.Minutes;
+import org.joda.time.Period;
 
 
 /**
@@ -47,15 +47,15 @@ public class Event implements Comparable<Event> {
     }
 
 
-    public Minutes getRemainingTime() {
+    public Period getRemainingTime() {
 
-        return Minutes.minutesBetween(LocalDateTime.now(), end);
+        return new Period(LocalDateTime.now(), end);
     }
 
 
-    public Minutes getTimeUntilBegin() {
+    public Period getTimeUntilBegin() {
 
-        return Minutes.minutesBetween(LocalDateTime.now(), begin);
+        return new Period(LocalDateTime.now(), begin);
     }
 
 

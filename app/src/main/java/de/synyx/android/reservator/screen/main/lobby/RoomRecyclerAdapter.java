@@ -45,11 +45,31 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomViewHolder> {
 
         roomViewHolder.roomName.setText(roomDto.getRoomName());
         roomViewHolder.roomTime.setText(roomDto.getRoomTime());
-        roomViewHolder.eventName.setText(roomDto.getActiveEventName());
-        roomViewHolder.nextEventName.setText(roomDto.getNextEventName());
+        roomViewHolder.eventName.setText(getActiveReservationTitle(roomDto));
+        roomViewHolder.nextEventName.setText(getNextReservationTitle(roomDto));
         roomViewHolder.setStatus(roomDto.getStatus());
 
         roomViewHolder.itemView.setOnClickListener(view -> onClickSubject.onNext(roomDto));
+    }
+
+
+    private String getNextReservationTitle(RoomDto roomDto) {
+
+        String nextReservationTitle = roomDto.getNextEventName();
+
+        return nextReservationTitle != null //
+            ? nextReservationTitle //
+            : "";
+    }
+
+
+    private String getActiveReservationTitle(RoomDto roomDto) {
+
+        String activeEventName = roomDto.getActiveEventName();
+
+        return activeEventName != null //
+            ? activeEventName //
+            : "VERFÜGBAR";
     }
 
 

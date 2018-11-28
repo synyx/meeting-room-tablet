@@ -32,7 +32,6 @@ import static de.synyx.android.reservator.util.rx.CursorIterable.fromCursor;
 public class EventAdapterImpl implements EventAdapter {
 
     private static final String NO_SORT = null;
-    private static final int ONE_DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
     private final ContentResolver contentResolver;
 
     public EventAdapterImpl() {
@@ -53,8 +52,9 @@ public class EventAdapterImpl implements EventAdapter {
 
         Uri.Builder builder = CalendarContract.Instances.CONTENT_URI.buildUpon();
         long now = new Date().getTime();
-        ContentUris.appendId(builder, now - ONE_DAY_IN_MILLIS);
-        ContentUris.appendId(builder, now + ONE_DAY_IN_MILLIS);
+        long endOfDay = LocalDateTime.now().withTime(23, 59, 59, 999).toDate().getTime();
+        ContentUris.appendId(builder, now);
+        ContentUris.appendId(builder, endOfDay);
 
         Cursor result = contentResolver.query(builder.build(), mProjection, selectionClause, mSelectionArgs, NO_SORT);
 
