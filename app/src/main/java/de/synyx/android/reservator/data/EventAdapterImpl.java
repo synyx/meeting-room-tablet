@@ -7,7 +7,7 @@ import android.database.Cursor;
 
 import android.net.Uri;
 
-import android.provider.CalendarContract;
+import android.provider.CalendarContract.Instances;
 
 import android.support.annotation.NonNull;
 
@@ -31,7 +31,6 @@ import static de.synyx.android.reservator.util.rx.CursorIterable.fromCursor;
  */
 public class EventAdapterImpl implements EventAdapter {
 
-    private static final String NO_SORT = null;
     private final ContentResolver contentResolver;
 
     public EventAdapterImpl() {
@@ -42,25 +41,32 @@ public class EventAdapterImpl implements EventAdapter {
     @Override
     public Observable<Event> getEventsForRoom(long roomId) {
 
-        String[] mProjection = {
-            CalendarContract.Instances.EVENT_ID, CalendarContract.Instances.TITLE, CalendarContract.Instances.BEGIN,
-            CalendarContract.Instances.END, CalendarContract.Instances.ORGANIZER
+        String[] projection = {
+            Instances.EVENT_ID, //
+            Instances.TITLE, //
+            Instances.BEGIN, //
+            Instances.END,
         };
-        String selectionClause = CalendarContract.Instances.CALENDAR_ID + " = " + roomId;
+        String selection = Instances.CALENDAR_ID + " = " + roomId;
+        String sortChronological = Instances.BEGIN + " ASC";
 
-        String[] mSelectionArgs = {};
+        Cursor result = contentResolver.query(constructContentUri(), projection, selection, null, sortChronological);
 
-        Uri.Builder builder = CalendarContract.Instances.CONTENT_URI.buildUpon();
+        return Observable.fromIterable(fromCursor(result)) //
+            .doAfterNext(closeCursorIfLast()) //
+            .map(toEvent());
+    }
+
+
+    private Uri constructContentUri() {
+
+        Uri.Builder builder = Instances.CONTENT_URI.buildUpon();
         long now = new Date().getTime();
         long endOfDay = LocalDateTime.now().withTime(23, 59, 59, 999).toDate().getTime();
         ContentUris.appendId(builder, now);
         ContentUris.appendId(builder, endOfDay);
 
-        Cursor result = contentResolver.query(builder.build(), mProjection, selectionClause, mSelectionArgs, NO_SORT);
-
-        return Observable.fromIterable(fromCursor(result)) //
-            .doAfterNext(closeCursorIfLast()) //
-            .map(toEvent());
+        return builder.build();
     }
 
 
@@ -69,10 +75,10 @@ public class EventAdapterImpl implements EventAdapter {
 
         return
             cursor -> {
-            long eventId = cursor.getLong(cursor.getColumnIndex(CalendarContract.Instances.EVENT_ID));
-            String title = cursor.getString(cursor.getColumnIndex(CalendarContract.Instances.TITLE));
-            long beginMillis = cursor.getLong(cursor.getColumnIndex(CalendarContract.Instances.BEGIN));
-            long endMillis = cursor.getLong(cursor.getColumnIndex(CalendarContract.Instances.END));
+            long eventId = cursor.getLong(cursor.getColumnIndex(Instances.EVENT_ID));
+            String title = cursor.getString(cursor.getColumnIndex(Instances.TITLE));
+            long beginMillis = cursor.getLong(cursor.getColumnIndex(Instances.BEGIN));
+            long endMillis = cursor.getLong(cursor.getColumnIndex(Instances.END));
 
             LocalDateTime begin = LocalDateTime.fromDateFields(new Date(beginMillis));
             LocalDateTime end = LocalDateTime.fromDateFields(new Date(endMillis));

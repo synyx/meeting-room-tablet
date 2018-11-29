@@ -15,7 +15,6 @@ import io.reactivex.Single;
 import io.reactivex.functions.Function;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -45,19 +44,8 @@ public class LoadRoomsUseCase {
     private Observable<RoomDto> loadEventsAndConstructRoomDto(RoomCalendar roomCalendar) {
 
         return loadEventsFor(roomCalendar) //
-            .map(sortChronological()).map(toRoomDto(roomCalendar)) //
+            .map(toRoomDto(roomCalendar)) //
             .toObservable();
-    }
-
-
-    private Function<List<Event>, List<Event>> sortChronological() {
-
-        return
-            events -> {
-            Collections.sort(events, (e1, e2) -> e1.getBegin().compareTo(e2.getBegin()));
-
-            return events;
-        };
     }
 
 
