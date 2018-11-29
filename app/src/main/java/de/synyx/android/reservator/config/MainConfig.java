@@ -1,5 +1,7 @@
 package de.synyx.android.reservator.config;
 
+import de.synyx.android.reservator.data.AttendeeAdapter;
+import de.synyx.android.reservator.data.AttendeeAdapterImpl;
 import de.synyx.android.reservator.data.EventAdapter;
 import de.synyx.android.reservator.data.EventAdapterImpl;
 import de.synyx.android.reservator.data.EventRepositoryImpl;
@@ -23,6 +25,7 @@ public class MainConfig {
 
     public static void init() {
 
+        Registry.put(AttendeeAdapter.class, new AttendeeAdapterImpl());
         Registry.put(EventAdapter.class, new EventAdapterImpl());
         Registry.put(EventRepository.class, new EventRepositoryImpl());
         Registry.put(SchedulerFacade.class, new SchedularFacadeImpl());

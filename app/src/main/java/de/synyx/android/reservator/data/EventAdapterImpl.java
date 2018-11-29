@@ -69,6 +69,7 @@ public class EventAdapterImpl implements EventAdapter {
 
         return
             cursor -> {
+            long eventId = cursor.getLong(cursor.getColumnIndex(CalendarContract.Instances.EVENT_ID));
             String title = cursor.getString(cursor.getColumnIndex(CalendarContract.Instances.TITLE));
             long beginMillis = cursor.getLong(cursor.getColumnIndex(CalendarContract.Instances.BEGIN));
             long endMillis = cursor.getLong(cursor.getColumnIndex(CalendarContract.Instances.END));
@@ -76,7 +77,7 @@ public class EventAdapterImpl implements EventAdapter {
             LocalDateTime begin = LocalDateTime.fromDateFields(new Date(beginMillis));
             LocalDateTime end = LocalDateTime.fromDateFields(new Date(endMillis));
 
-            return new Event(title, begin, end);
+            return new Event(eventId, title, begin, end);
         };
     }
 }

@@ -1,8 +1,13 @@
 package de.synyx.android.reservator.domain.event;
 
+import de.synyx.android.reservator.domain.attendee.Attendee;
+
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.Period;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -10,16 +15,25 @@ import org.joda.time.Period;
  */
 public class Event implements Comparable<Event> {
 
+    private final Long id;
     private final String name;
     private final LocalDateTime begin;
     private final LocalDateTime end;
+    private List<Attendee> attendees = new ArrayList<>();
 
-    public Event(String name, LocalDateTime begin, LocalDateTime end) {
+    public Event(Long id, String name, LocalDateTime begin, LocalDateTime end) {
 
+        this.id = id;
         this.name = name;
         this.begin = begin;
         this.end = end;
     }
+
+    public Long getId() {
+
+        return id;
+    }
+
 
     public String getName() {
 
@@ -69,5 +83,23 @@ public class Event implements Comparable<Event> {
     public LocalDateTime getBegin() {
 
         return begin;
+    }
+
+
+    public void addAttendee(Attendee attendee) {
+
+        this.attendees.add(attendee);
+    }
+
+
+    public boolean hasAttendeeCanceled(String attendeeName) {
+
+        for (Attendee attendee : attendees) {
+            if (attendee.getName().equals(attendeeName) && attendee.getStatus() == 2) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

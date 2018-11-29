@@ -70,6 +70,10 @@ public class LoadRoomsUseCase {
             Event nextUpcomingEvent = null;
 
             for (Event event : events) {
+                if (event.hasAttendeeCanceled(roomCalendar.getName())) {
+                    continue;
+                }
+
                 if (event.isCurrent()) {
                     currentEvent = event;
 
