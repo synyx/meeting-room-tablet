@@ -32,5 +32,5 @@ public interface PreferencesService {
     Long getCalendarIdOfDefaultRoom();
 
 
-    Set<String> getLobbyRooms();
+    Set<String> getHiddenRoomIds();
 }

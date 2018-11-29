@@ -101,8 +101,8 @@ public class PreferencesServiceImpl implements PreferencesService {
 
 
     @Override
-    public Set<String> getLobbyRooms() {
+    public Set<String> getHiddenRoomIds() {
 
-        return defaultPreferences.getStringSet("lobby_rooms", emptySet());
+        return defaultPreferences.getStringSet("hidden_rooms", emptySet());
     }
 }

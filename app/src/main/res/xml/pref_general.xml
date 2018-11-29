@@ -6,7 +6,7 @@
         android:title="@string/pref_default_room_title" />
 
     <MultiSelectListPreference
-        android:key="lobby_rooms"
-        android:title="Rooms to show in lobby" />
+        android:key="hidden_rooms"
+        android:title="Rooms to hide" />
 
 </PreferenceScreen>

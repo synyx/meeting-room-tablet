@@ -114,7 +114,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         private ListPreference setValuesForDefaultRoom() {
 
             ListPreference defaultRoomPref = (ListPreference) findPreference("defaultRoom");
-            MultiSelectListPreference lobbyRooms = (MultiSelectListPreference) findPreference("lobby_rooms");
+            MultiSelectListPreference hiddenRooms = (MultiSelectListPreference) findPreference("hidden_rooms");
 
             LoadRoomsUseCase loadRoomUseCase = Registry.get(LoadRoomsUseCase.class);
             Map<Long, String> roomValues =
@@ -124,11 +124,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
             String[] roomNames = toArray(roomValues.values(), String.class);
             defaultRoomPref.setEntries(roomNames);
-            lobbyRooms.setEntries(roomNames);
+            hiddenRooms.setEntries(roomNames);
 
             String[] roomCalendarIds = mapToArray(roomValues.keySet(), String::valueOf, String.class);
             defaultRoomPref.setEntryValues(roomCalendarIds);
-            lobbyRooms.setEntryValues(roomCalendarIds);
+            hiddenRooms.setEntryValues(roomCalendarIds);
 
             return defaultRoomPref;
         }

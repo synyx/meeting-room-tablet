@@ -83,18 +83,18 @@ public class CalendarAdapterImpl implements CalendarAdapter {
 
         addOwnerAccountSelection(selectionClauses, selectionArgs);
         addAccountNameSelection(selectionClauses, selectionArgs);
-        addSelectedRooms(selectionClauses);
+        addHiddenRoomsClause(selectionClauses);
 
         return queryCalendarProvider(mProjection, selectionClauses, selectionArgs);
     }
 
 
-    private void addSelectedRooms(List<String> selectionClauses) {
+    private void addHiddenRoomsClause(List<String> selectionClauses) {
 
-        Set<String> lobbyRooms = preferencesService.getLobbyRooms();
+        Set<String> hiddenRoomIds = preferencesService.getHiddenRoomIds();
 
-        String allRooms = TextUtils.join(",", lobbyRooms);
-        String clause = CalendarContract.Calendars._ID + " IN (" + allRooms + ")";
+        String hiddenRooms = TextUtils.join(",", hiddenRoomIds);
+        String clause = CalendarContract.Calendars._ID + " NOT IN (" + hiddenRooms + ")";
         selectionClauses.add(clause);
     }
 
