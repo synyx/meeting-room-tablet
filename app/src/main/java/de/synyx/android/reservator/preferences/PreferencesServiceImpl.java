@@ -2,6 +2,10 @@ package de.synyx.android.reservator.preferences;
 
 import android.content.SharedPreferences;
 
+import java.util.Set;
+
+import static java.util.Collections.emptySet;
+
 
 /**
  * @author  Julian Heetel - heetel@synyx.de
@@ -93,5 +97,12 @@ public class PreferencesServiceImpl implements PreferencesService {
         String calendarId = defaultPreferences.getString("defaultRoom", "0");
 
         return Long.valueOf(calendarId);
+    }
+
+
+    @Override
+    public Set<String> getLobbyRooms() {
+
+        return defaultPreferences.getStringSet("lobby_rooms", emptySet());
     }
 }

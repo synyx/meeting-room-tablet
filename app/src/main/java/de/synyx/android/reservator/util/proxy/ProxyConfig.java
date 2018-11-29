@@ -5,6 +5,7 @@ import android.content.Context;
 
 import android.support.annotation.NonNull;
 
+import de.synyx.android.reservator.config.Config;
 import de.synyx.android.reservator.config.Registry;
 import de.synyx.android.reservator.data.CalendarAdapter;
 import de.synyx.android.reservator.data.CalendarAdapterImpl;
@@ -30,6 +31,7 @@ public class ProxyConfig {
         Registry.put(ContentResolver.class, context.getContentResolver());
         Registry.put(CalendarModeService.class, new CalendarModeServiceImpl(context));
         Registry.put(AccountService.class, new AccountServiceImpl(context));
-        Registry.put(CalendarAdapter.class, new CalendarAdapterImpl());
+        Registry.put(CalendarAdapter.class,
+            new CalendarAdapterImpl(Config.getInstance(context).getPreferencesService()));
     }
 }

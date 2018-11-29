@@ -3,8 +3,10 @@
     <ListPreference
         android:defaultValue="-1"
         android:key="defaultRoom"
-        android:negativeButtonText="@null"
-        android:positiveButtonText="@null"
         android:title="@string/pref_default_room_title" />
+
+    <MultiSelectListPreference
+        android:key="lobby_rooms"
+        android:title="Rooms to show in lobby" />
 
 </PreferenceScreen>

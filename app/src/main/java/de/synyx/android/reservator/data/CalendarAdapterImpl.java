@@ -18,6 +18,7 @@ import de.synyx.android.reservator.domain.account.AccountService;
 import de.synyx.android.reservator.domain.calendar.CalendarMode;
 import de.synyx.android.reservator.domain.calendar.CalendarModeService;
 import de.synyx.android.reservator.domain.room.RoomCalendar;
+import de.synyx.android.reservator.preferences.PreferencesService;
 
 import io.reactivex.Observable;
 
@@ -25,6 +26,7 @@ import io.reactivex.functions.Function;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static de.synyx.android.reservator.util.rx.CursorIterable.closeCursorIfLast;
 import static de.synyx.android.reservator.util.rx.CursorIterable.fromCursor;
@@ -40,12 +42,14 @@ public class CalendarAdapterImpl implements CalendarAdapter {
     private final CalendarModeService calendarModeService;
     private final ContentResolver contentResolver;
     private final AccountService accountService;
+    private final PreferencesService preferencesService;
 
-    public CalendarAdapterImpl() {
+    public CalendarAdapterImpl(PreferencesService preferencesService) {
 
         this.contentResolver = Registry.get(ContentResolver.class);
         this.calendarModeService = Registry.get(CalendarModeService.class);
         this.accountService = Registry.get(AccountService.class);
+        this.preferencesService = preferencesService;
     }
 
     @Override
@@ -74,13 +78,24 @@ public class CalendarAdapterImpl implements CalendarAdapter {
             CalendarContract.Calendars.CALENDAR_DISPLAY_NAME
         };
 
-        List<String> mSelectionClauses = new ArrayList<>();
-        List<String> mSelectionArgs = new ArrayList<>();
+        List<String> selectionClauses = new ArrayList<>();
+        List<String> selectionArgs = new ArrayList<>();
 
-        addOwnerAccountSelection(mSelectionClauses, mSelectionArgs);
-        addAccountNameSelection(mSelectionClauses, mSelectionArgs);
+        addOwnerAccountSelection(selectionClauses, selectionArgs);
+        addAccountNameSelection(selectionClauses, selectionArgs);
+        addSelectedRooms(selectionClauses);
 
-        return queryCalendarProvider(mProjection, mSelectionClauses, mSelectionArgs);
+        return queryCalendarProvider(mProjection, selectionClauses, selectionArgs);
+    }
+
+
+    private void addSelectedRooms(List<String> selectionClauses) {
+
+        Set<String> lobbyRooms = preferencesService.getLobbyRooms();
+
+        String allRooms = TextUtils.join(",", lobbyRooms);
+        String clause = CalendarContract.Calendars._ID + " IN (" + allRooms + ")";
+        selectionClauses.add(clause);
     }
 
 

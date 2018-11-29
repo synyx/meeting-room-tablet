@@ -1,5 +1,8 @@
 package de.synyx.android.reservator.preferences;
 
+import java.util.Set;
+
+
 /**
  * @author  Julian Heetel - heetel@synyx.de
  */
@@ -27,4 +30,7 @@ public interface PreferencesService {
 
 
     Long getCalendarIdOfDefaultRoom();
+
+
+    Set<String> getLobbyRooms();
 }
