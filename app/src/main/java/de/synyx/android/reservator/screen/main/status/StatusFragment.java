@@ -13,11 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.TextView;
-
 import com.futurice.android.reservator.R;
 
 import de.synyx.android.reservator.screen.RoomDto;
+import de.synyx.android.reservator.screen.main.MainActivity;
 
 
 public class StatusFragment extends Fragment {
@@ -25,7 +24,6 @@ public class StatusFragment extends Fragment {
     private static final String CALENDAR_ID = "calendarId";
     private RoomStatusViewModel viewModel;
     private long calendarId;
-    private TextView roomName;
 
     public StatusFragment() {
 
@@ -61,14 +59,12 @@ public class StatusFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(this).get(RoomStatusViewModel.class);
         viewModel.getRoom(calendarId).observe(this, this::updateStatus);
-
-        roomName = view.findViewById(R.id.room_name);
-        roomName.setText(String.valueOf(calendarId));
     }
 
 
     void updateStatus(RoomDto room) {
 
-        roomName.setText(room.getRoomName());
+        MainActivity activity = (MainActivity) getActivity();
+        activity.setTitle(room.getRoomName());
     }
 }

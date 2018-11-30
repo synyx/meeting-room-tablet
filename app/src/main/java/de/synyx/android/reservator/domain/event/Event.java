@@ -86,6 +86,12 @@ public class Event implements Comparable<Event> {
     }
 
 
+    public LocalDateTime getEnd() {
+
+        return end;
+    }
+
+
     public void addAttendee(Attendee attendee) {
 
         this.attendees.add(attendee);

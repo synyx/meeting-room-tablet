@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import com.futurice.android.reservator.R;
 
 import de.synyx.android.reservator.screen.ScreenSize;
+import de.synyx.android.reservator.screen.main.HeaderTitleListener;
 import de.synyx.android.reservator.screen.main.MainActivity;
 
 import io.reactivex.disposables.Disposable;
@@ -31,6 +32,7 @@ public class LobbyFragment extends Fragment {
     private LobbyViewModel viewModel;
     private RoomSelectionListener roomSelectionListener;
     private Disposable roomSelectionObservable;
+    private HeaderTitleListener headerTitleListener;
 
     public LobbyFragment() {
 
@@ -117,7 +119,10 @@ public class LobbyFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
         super.onActivityCreated(savedInstanceState);
-        roomSelectionListener = (MainActivity) getActivity();
+
+        MainActivity activity = (MainActivity) getActivity();
+        roomSelectionListener = activity;
+        activity.setTitle(getString(R.string.header_title_lobby));
     }
 
 

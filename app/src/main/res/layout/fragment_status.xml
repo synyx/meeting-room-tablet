@@ -3,12 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/room_status_available"
+    android:paddingTop="50dp"
     tools:context="de.synyx.android.reservator.screen.main.MainActivity">
-
-    <TextView
-        android:id="@+id/room_name"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/room_status_available" />
 
 </FrameLayout>

@@ -1,18 +1,19 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
-        android:entries="@array/languages"
-        android:entryValues="@array/languageKeys"
-        android:key="language"
-        android:title="Display language" />
-
-    <ListPreference
         android:defaultValue="-1"
         android:key="defaultRoom"
         android:title="@string/pref_default_room_title" />
 
     <MultiSelectListPreference
         android:key="hidden_rooms"
-        android:title="Rooms to hide" />
+        android:title="@string/settings_hidden_rooms_title" />
+
+    <ListPreference
+        android:enabled="false"
+        android:entries="@array/languages"
+        android:entryValues="@array/languageKeys"
+        android:key="language"
+        android:title="@string/settings_languages_title" />
 
 </PreferenceScreen>

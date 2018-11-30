@@ -16,17 +16,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.futurice.android.reservator.R;
 
 import de.synyx.android.reservator.config.Config;
-import de.synyx.android.reservator.domain.room.RoomCalendar;
 import de.synyx.android.reservator.preferences.PreferencesService;
+import de.synyx.android.reservator.screen.ScreenSize;
+import de.synyx.android.reservator.screen.agenda.AgendaFragment;
 import de.synyx.android.reservator.screen.main.lobby.LobbyFragment;
 import de.synyx.android.reservator.screen.main.status.StatusFragment;
 import de.synyx.android.reservator.screen.settings.SettingsActivity;
+import de.synyx.android.reservator.util.ScreenUtil;
 
 import java.text.SimpleDateFormat;
 
@@ -35,12 +37,13 @@ import java.util.Locale;
 
 import static android.support.design.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_LABELED;
 
-import static de.synyx.android.reservator.legacy.OpenOldRoomActivityAdapter.openRoomActivity;
+import static de.synyx.android.reservator.screen.ScreenSize.XSMALL;
 
 
 public class MainActivity extends AppCompatActivity implements LobbyFragment.RoomSelectionListener {
 
     private PreferencesService preferencesService;
+    private TextView headerTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,8 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
         preferencesService = Config.getInstance(this).getPreferencesService();
 
         setContentView(R.layout.activity_main);
+
+        headerTitle = findViewById(R.id.main_header_title);
 
         replaceFragment(LobbyFragment.newInstance());
         setupNavigation();
@@ -61,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
 
     private void setupSettingsButton() {
 
-        Button button = findViewById(R.id.settings_button);
+        ImageButton button = findViewById(R.id.settings_button);
         button.setOnClickListener(view -> startActivity(new Intent(this, SettingsActivity.class)));
     }
 
@@ -85,9 +90,7 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
 
             case R.id.menu_item_room_agenda:
 
-                // TODO: max 23.11.18 - Load default room
-                RoomCalendar roomCalendar = new RoomCalendar(1L, "Holodeck (8)", "wohnzimmmer@synyx.de");
-                openRoomActivity(this, roomCalendar);
+                replaceFragment(AgendaFragment.newInstance(preferencesService.getCalendarIdOfDefaultRoom()));
                 break;
 
             default:
@@ -117,7 +120,19 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
 
     private String formatDateAndTime() {
 
-        return new SimpleDateFormat("dd.MM.yy  |  HH:mm", Locale.getDefault()).format(new Date());
+        String clockFormat = getClockFormat(ScreenUtil.getSizeOfScreen(this));
+
+        return new SimpleDateFormat(clockFormat, Locale.getDefault()).format(new Date());
+    }
+
+
+    private static String getClockFormat(ScreenSize screenSize) {
+
+        if (screenSize == XSMALL) {
+            return "HH:mm";
+        }
+
+        return "dd.MM.yy  |  HH:mm";
     }
 
 
@@ -145,6 +160,13 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
     public void onRoomSelected(long calendarId) {
 
         replaceFragment(StatusFragment.newInstance(calendarId));
+    }
+
+
+    @Override
+    public void setTitle(CharSequence title) {
+
+        headerTitle.setText(title);
     }
 
     private class TimeTickBroadcastReciever extends BroadcastReceiver {

@@ -7,37 +7,47 @@
     android:background="#000"
     tools:context="de.synyx.android.reservator.screen.main.MainActivity">
 
-    <Button
+    <FrameLayout
+        android:id="@+id/content_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/navigation_bar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
         android:id="@+id/settings_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="@dimen/header_margin_top"
+        android:layout_marginTop="@dimen/header_margin_top"
         android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:drawableStart="@drawable/ic_settings"
-        android:paddingStart="16dp"
-        android:paddingTop="@dimen/header_padding_top"
-        android:paddingEnd="16dp"
+        android:contentDescription="@string/main_acitivity_settings_button_description"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_settings"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/lobby_title"
+        android:id="@+id/main_header_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/header_margin_top"
+        android:background="@color/Transparent"
         android:gravity="center"
-        android:paddingTop="@dimen/header_padding_top"
         android:paddingBottom="@dimen/header_padding_bottom"
-        android:text="@string/lobby_title"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="@dimen/header_font_size"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="All Rooms" />
 
     <TextView
         android:id="@+id/clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/header_padding_top"
+        android:background="@color/Transparent"
+        android:padding="@dimen/header_margin_top"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="@dimen/header_font_size"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,18 +55,13 @@
         tools:ignore="RelativeOverlap"
         tools:text="05.07.18  |  08:25" />
 
-    <FrameLayout
-        android:id="@+id/content_main"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/navigation_bar"
-        app:layout_constraintTop_toBottomOf="@id/lobby_title" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:itemIconSize="16dp"
+        android:paddingTop="8dp"
+        app:itemIconSize="12dp"
         app:itemIconTint="@drawable/icon_color_selector"
         app:itemTextColor="@drawable/icon_color_selector"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -171,11 +171,17 @@
     <!--EditView-->
     <string name="setRoomFree">Raum freigeben</string>
     <string name="cancelTitle">Reservierung abbrechen</string>
-    <string name="lobby_title">Alle Räume</string>
 
     <string-array name="languages">
         <item>Englisch</item>
         <item>Deutsch</item>
     </string-array>
+    <string name="navigation_item_all_rooms">ALLE RÄUME</string>
+    <string name="title_activity_settings">Einstellungen</string>
+    <string name="pref_default_room_title">Standard Raum</string>
+    <string name="main_acitivity_settings_button_description">Einstellungen</string>
+    <string name="header_title_lobby">Alle Räume</string>
+    <string name="settings_hidden_rooms_title">Ausgeblendete Räume</string>
+    <string name="settings_languages_title">Sprache</string>
 
 </resources>
