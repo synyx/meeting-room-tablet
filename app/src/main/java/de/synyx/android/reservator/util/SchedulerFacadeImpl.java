@@ -10,7 +10,7 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * @author  Max Dobler - dobler@synyx.de
  */
-public class SchedularFacadeImpl implements SchedulerFacade {
+public class SchedulerFacadeImpl implements SchedulerFacade {
 
     @Override
     public Scheduler io() {

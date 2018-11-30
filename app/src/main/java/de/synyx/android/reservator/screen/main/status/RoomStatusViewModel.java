@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModel;
 
 import de.synyx.android.reservator.config.Registry;
 import de.synyx.android.reservator.screen.RoomDto;
-import de.synyx.android.reservator.util.SchedularFacadeImpl;
 import de.synyx.android.reservator.util.SchedulerFacade;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -27,7 +26,7 @@ public class RoomStatusViewModel extends ViewModel {
     public RoomStatusViewModel() {
 
         loadRoomUseCase = new LoadRoomUseCase();
-        schedulerFacade = Registry.get(SchedularFacadeImpl.class);
+        schedulerFacade = Registry.get(SchedulerFacade.class);
     }
 
     public LiveData<RoomDto> getRoom(long id) {
