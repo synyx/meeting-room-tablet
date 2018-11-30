@@ -172,4 +172,9 @@
     <string name="setRoomFree">unblock room</string>
     <string name="cancelTitle">Cancel reservation</string>
 
+    <string-array name="languages">
+        <item>English</item>
+        <item>German</item>
+    </string-array>
+
 </resources>

@@ -1,6 +1,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ListPreference
+        android:entries="@array/languages"
+        android:entryValues="@array/languageKeys"
+        android:key="language"
+        android:title="Display language" />
+
+    <ListPreference
         android:defaultValue="-1"
         android:key="defaultRoom"
         android:title="@string/pref_default_room_title" />

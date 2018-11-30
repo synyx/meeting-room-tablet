@@ -173,4 +173,9 @@
     <string name="cancelTitle">Reservierung abbrechen</string>
     <string name="lobby_title">Alle Räume</string>
 
+    <string-array name="languages">
+        <item>Englisch</item>
+        <item>Deutsch</item>
+    </string-array>
+
 </resources>
