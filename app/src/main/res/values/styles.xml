@@ -6,7 +6,11 @@
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
-        
+
+    </style>
+
+    <style name="BottomNav" parent="AppThemeDark">
+        <item name="android:colorPrimaryDark">#888</item>
     </style>
 
     <style name="CalendarFont" parent="@android:style/TextAppearance.Medium">

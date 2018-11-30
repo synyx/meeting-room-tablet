@@ -11,7 +11,7 @@
         android:id="@+id/settings_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/Transparent"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
         android:drawableStart="@drawable/ic_settings"
         android:paddingStart="16dp"
         android:paddingTop="12dp"
@@ -57,7 +57,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#222"
-        app:itemTextColor="?android:attr/textColorPrimary"
+        app:itemIconTint="@drawable/icon_color_selector"
+        app:itemTextColor="@drawable/icon_color_selector"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/bottom_navigation_menu" />
 
