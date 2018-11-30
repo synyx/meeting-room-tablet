@@ -4,6 +4,7 @@ import de.synyx.android.reservator.config.Registry;
 import de.synyx.android.reservator.domain.room.RoomCalendar;
 import de.synyx.android.reservator.domain.room.RoomRepository;
 
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 
@@ -23,5 +24,12 @@ public class RoomRepositoryImpl implements RoomRepository {
     public Observable<RoomCalendar> loadAllRooms() {
 
         return calendarAdapter.loadVisibleRooms();
+    }
+
+
+    @Override
+    public Maybe<RoomCalendar> loadRoom(long id) {
+
+        return calendarAdapter.loadRoom(id);
     }
 }

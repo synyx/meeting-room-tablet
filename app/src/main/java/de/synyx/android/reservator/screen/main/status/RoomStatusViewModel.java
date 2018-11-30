@@ -4,13 +4,12 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
+import de.synyx.android.reservator.config.Registry;
 import de.synyx.android.reservator.screen.RoomDto;
 import de.synyx.android.reservator.util.SchedularFacadeImpl;
 import de.synyx.android.reservator.util.SchedulerFacade;
 
 import io.reactivex.disposables.CompositeDisposable;
-
-import java.util.List;
 
 
 /**
@@ -18,7 +17,7 @@ import java.util.List;
  */
 public class RoomStatusViewModel extends ViewModel {
 
-    private MutableLiveData<List<RoomDto>> rooms;
+    private MutableLiveData<RoomDto> room;
 
     private LoadRoomUseCase loadRoomUseCase;
     private SchedulerFacade schedulerFacade;
@@ -27,28 +26,27 @@ public class RoomStatusViewModel extends ViewModel {
 
     public RoomStatusViewModel() {
 
-        // TODO move to registry
         loadRoomUseCase = new LoadRoomUseCase();
-        schedulerFacade = new SchedularFacadeImpl();
+        schedulerFacade = Registry.get(SchedularFacadeImpl.class);
     }
 
-    public LiveData<List<RoomDto>> getRooms() {
+    public LiveData<RoomDto> getRoom(long id) {
 
-        if (rooms == null) {
-            rooms = new MutableLiveData<>();
-            loadRooms();
+        if (room == null) {
+            room = new MutableLiveData<>();
+            loadRooms(id);
         }
 
-        return rooms;
+        return room;
     }
 
 
-    private void loadRooms() {
+    private void loadRooms(long id) {
 
-        // TODO load single room by roomId, not list
-        compositeDisposable.add(loadRoomUseCase.execute()
+        // TODO load room once per minute (like in LobbyViewModel)
+        compositeDisposable.add(loadRoomUseCase.execute(id)
             .observeOn(schedulerFacade.io())
             .subscribeOn(schedulerFacade.mainThread())
-            .subscribe(rooms::postValue));
+            .subscribe(room::postValue));
     }
 }

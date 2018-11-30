@@ -9,8 +9,6 @@ import android.support.annotation.Nullable;
 
 import android.support.v4.app.Fragment;
 
-import android.util.Log;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +19,13 @@ import com.futurice.android.reservator.R;
 
 import de.synyx.android.reservator.screen.RoomDto;
 
-import java.util.List;
-
 
 public class StatusFragment extends Fragment {
 
     private static final String CALENDAR_ID = "calendarId";
     private RoomStatusViewModel viewModel;
     private long calendarId;
+    private TextView roomName;
 
     public StatusFragment() {
 
@@ -63,15 +60,15 @@ public class StatusFragment extends Fragment {
         }
 
         viewModel = ViewModelProviders.of(this).get(RoomStatusViewModel.class);
-        viewModel.getRooms().observe(this, this::updateStatus);
+        viewModel.getRoom(calendarId).observe(this, this::updateStatus);
 
-        TextView textView = view.findViewById(R.id.room_id);
-        textView.setText(String.valueOf(calendarId));
+        roomName = view.findViewById(R.id.room_name);
+        roomName.setText(String.valueOf(calendarId));
     }
 
 
-    void updateStatus(List<RoomDto> newRooms) {
+    void updateStatus(RoomDto room) {
 
-        Log.e(this.getClass().getSimpleName(), viewModel.getRooms().toString());
+        roomName.setText(room.getRoomName());
     }
 }

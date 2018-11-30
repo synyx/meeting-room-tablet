@@ -1,5 +1,7 @@
 package de.synyx.android.reservator.data;
 
+import android.annotation.SuppressLint;
+
 import android.content.ContentResolver;
 
 import android.database.Cursor;
@@ -20,6 +22,7 @@ import de.synyx.android.reservator.domain.calendar.CalendarModeService;
 import de.synyx.android.reservator.domain.room.RoomCalendar;
 import de.synyx.android.reservator.preferences.PreferencesService;
 
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 import io.reactivex.functions.Function;
@@ -82,6 +85,19 @@ public class CalendarAdapterImpl implements CalendarAdapter {
     }
 
 
+    @Override
+    public Maybe<RoomCalendar> loadRoom(long id) {
+
+        Cursor cursor = loadRoomCalendarById(id);
+
+        if (!cursor.moveToFirst()) {
+            return Maybe.empty();
+        }
+
+        return Maybe.just(cursor).map(toRoomCalendar());
+    }
+
+
     private Cursor loadRoomCalendars(boolean visibleOnly) {
 
         String[] mProjection = {
@@ -102,6 +118,24 @@ public class CalendarAdapterImpl implements CalendarAdapter {
         }
 
         return queryCalendarProvider(mProjection, selectionClauses, selectionArgs);
+    }
+
+
+    @SuppressLint("MissingPermission")
+    private Cursor loadRoomCalendarById(long id) {
+
+        String[] mProjection = {
+            CalendarContract.Calendars._ID, //
+            CalendarContract.Calendars.OWNER_ACCOUNT, //
+            CalendarContract.Calendars.NAME, //
+            CalendarContract.Calendars.CALENDAR_DISPLAY_NAME
+        };
+
+        String selection = CalendarContract.Calendars._ID + " = ?";
+        String[] selectionArgs = { String.valueOf(id) };
+
+        return contentResolver.query(CalendarContract.Calendars.CONTENT_URI, mProjection, selection, selectionArgs,
+                null);
     }
 
 
@@ -139,6 +173,7 @@ public class CalendarAdapterImpl implements CalendarAdapter {
     }
 
 
+    @SuppressLint("MissingPermission")
     private Cursor queryCalendarProvider(String[] mProjection, List<String> mSelectionClauses,
         List<String> selectionArgs) {
 

@@ -4,6 +4,7 @@ import com.futurice.android.reservator.model.Room;
 
 import de.synyx.android.reservator.domain.room.RoomCalendar;
 
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 import java.util.List;
@@ -21,4 +22,7 @@ public interface CalendarAdapter {
 
 
     Observable<RoomCalendar> loadVisibleRooms();
+
+
+    Maybe<RoomCalendar> loadRoom(long id);
 }

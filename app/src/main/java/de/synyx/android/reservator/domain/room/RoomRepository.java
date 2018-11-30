@@ -1,5 +1,6 @@
 package de.synyx.android.reservator.domain.room;
 
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 
@@ -9,4 +10,7 @@ import io.reactivex.Observable;
 public interface RoomRepository {
 
     Observable<RoomCalendar> loadAllRooms();
+
+
+    Maybe<RoomCalendar> loadRoom(long id);
 }

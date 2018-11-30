@@ -9,12 +9,11 @@ import de.synyx.android.reservator.domain.room.RoomCalendar;
 import de.synyx.android.reservator.domain.room.RoomRepository;
 import de.synyx.android.reservator.screen.RoomDto;
 
-import io.reactivex.Observable;
+import io.reactivex.Maybe;
 import io.reactivex.Single;
 
 import io.reactivex.functions.Function;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -33,18 +32,15 @@ public class LoadRoomUseCase {
         eventRepository = Registry.get(EventRepository.class);
     }
 
-    // TODO load single room by roomId, not list
-    public Single<List<RoomDto>> execute() {
+    public Maybe<RoomDto> execute(long id) {
 
-        return roomRepository.loadAllRooms()
-            .flatMap(this::loadEventsAndConstructRoomDto)
-            .collect(ArrayList::new, List::add);
+        return roomRepository.loadRoom(id).flatMap(this::loadEventsAndConstructRoomDto);
     }
 
 
-    private Observable<RoomDto> loadEventsAndConstructRoomDto(RoomCalendar roomCalendar) {
+    private Maybe<RoomDto> loadEventsAndConstructRoomDto(RoomCalendar roomCalendar) {
 
-        return loadEventsFor(roomCalendar).map(sortChronological()).map(toRoomDto(roomCalendar)).toObservable();
+        return loadEventsFor(roomCalendar).map(toRoomDto(roomCalendar)).toMaybe();
     }
 
 
