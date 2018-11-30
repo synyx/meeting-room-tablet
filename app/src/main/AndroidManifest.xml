@@ -63,7 +63,8 @@
 
         <uses-library android:name="android.test.runner" />
 
-        <activity android:name="de.synyx.android.reservator.screen.main.MainActivity" />
+        <activity android:name="de.synyx.android.reservator.screen.main.MainActivity"
+            android:theme="@style/AppThemeDark"/>
         <activity
             android:name="de.synyx.android.reservator.screen.settings.SettingsActivity"
             android:label="@string/title_activity_settings"></activity>

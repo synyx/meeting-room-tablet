@@ -5,6 +5,10 @@
         <!--<item name="dialogTheme" -->
     </style>
 
+    <style name="AppThemeDark" parent="Theme.AppCompat.NoActionBar">
+        
+    </style>
+
     <style name="CalendarFont" parent="@android:style/TextAppearance.Medium">
         <item name="android:textColor">#666</item>
         <item name="android:textSize">18pt</item>
