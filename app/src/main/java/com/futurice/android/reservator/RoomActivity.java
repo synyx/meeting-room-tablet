@@ -1,12 +1,12 @@
 package com.futurice.android.reservator;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 
 import android.app.AlertDialog.Builder;
 
 import android.app.ProgressDialog;
 
-import android.content.Context;
 import android.content.DialogInterface;
 
 import android.content.DialogInterface.OnDismissListener;
@@ -69,6 +69,7 @@ public class RoomActivity extends ReservatorActivity implements OnMenuItemClickL
 
     public static final String ROOM_EXTRA = "room";
     public static final long ROOMLIST_REFRESH_PERIOD = 10 * 1000;
+    static DataProxy proxy;
     final Handler handler = new Handler();
     final Runnable refreshDataRunnable = new Runnable() {
 
@@ -83,7 +84,6 @@ public class RoomActivity extends ReservatorActivity implements OnMenuItemClickL
     };
 
     final int DEFAULT_BOOK_NOW_DURATION = 30; // mins
-    static DataProxy proxy;
     Room currentRoom;
     WeekView weekView;
     TextView roomNameLabel;
@@ -96,12 +96,12 @@ public class RoomActivity extends ReservatorActivity implements OnMenuItemClickL
     private ReservatorApplication application;
 
     /**
-     * Helper for starting MakeReservationTask RoomActivity
+     * Helper for starting MakeReservationTask RoomActivity.
      *
      * @param  context
      * @param  room
      */
-    public static void startWith(Context context, Room room, DataProxy dataProxy) {
+    public static void startWith(Activity context, Room room, DataProxy dataProxy) {
 
         Intent i = new Intent(context, RoomActivity.class);
         i.putExtra(ROOM_EXTRA, room);
@@ -226,16 +226,20 @@ public class RoomActivity extends ReservatorActivity implements OnMenuItemClickL
         trafficLights.setBookNowListener(getBookNowListener());
 
         weekView.setOnReservationClickListener(new OnReservationClickListener() {
-            @Override
-            public void onReservationClick(View v, Reservation reservation) {
-                final EditReservationPopup d = new EditReservationPopup(RoomActivity.this, reservation, currentRoom,
-                    new EditReservationPopup.OnReservationCancelledListener() {
-                        @Override
-                        public void onReservationCancelled(Reservation r) {
-                            refreshData();
-                            roomReservationsUpdated(currentRoom);
-                        }
-                    });
+
+                @Override
+                public void onReservationClick(View v, Reservation reservation) {
+
+                    final EditReservationPopup d = new EditReservationPopup(RoomActivity.this, reservation,
+                            currentRoom, new EditReservationPopup.OnReservationCancelledListener() {
+
+                                @Override
+                                public void onReservationCancelled(Reservation r) {
+
+                                    refreshData();
+                                    roomReservationsUpdated(currentRoom);
+                                }
+                            });
 
                     RoomActivity.this.trafficLights.disable();
                     d.setOnDismissListener(new OnDismissListener() {
@@ -321,13 +325,16 @@ public class RoomActivity extends ReservatorActivity implements OnMenuItemClickL
             aboutBuilder.setNegativeButton(R.string.close, null);
             alertDialog = aboutBuilder.show();
 
-            //	Makes links clickable.
-            ((TextView) alertDialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+            // Makes links clickable.
+            ((TextView) alertDialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod
+                    .getInstance());
         }
 
         return true;
     }
 
+
+    @Override
     public void onUserInteraction() {
 
         super.onUserInteraction();
@@ -353,7 +360,8 @@ public class RoomActivity extends ReservatorActivity implements OnMenuItemClickL
 
 
     private void refreshData() {
-        //showLoading();
+
+        // showLoading();
         if (proxy instanceof CachedDataProxy) {
             ((CachedDataProxy) proxy).forceRefreshRoomReservations(currentRoom);
         } else {
@@ -374,43 +382,43 @@ public class RoomActivity extends ReservatorActivity implements OnMenuItemClickL
     }
     /*
      *
-	 * These do no create any extra value for the user.
-	 * 
+     * These do no create any extra value for the user.
+     *
 
-	private void showLoading() {
-		showLoadingCount++;
-		if (this.progressDialog == null) {
-			this.progressDialog = ProgressDialog.show(this, "Loading",
-					"Refreshing reservations", true, false);
-		}
+    private void showLoading() {
+        showLoadingCount++;
+        if (this.progressDialog == null) {
+                this.progressDialog = ProgressDialog.show(this, "Loading",
+                                "Refreshing reservations", true, false);
+        }
 
-	}
+    }
 
-	private void hideLoading() {
-		showLoadingCount--;
-		if (showLoadingCount <= 0) {
-			if (this.progressDialog != null) {
-				this.progressDialog.dismiss();
-				this.progressDialog = null;
-			}
-		}
-	}*/
+    private void hideLoading() {
+        showLoadingCount--;
+        if (showLoadingCount <= 0) {
+                if (this.progressDialog != null) {
+                        this.progressDialog.dismiss();
+                        this.progressDialog = null;
+                }
+        }
+    }*/
 
     @Override
     public void roomListUpdated(List<Room> rooms) {
 
         // XXX: todo
-		/*
-		for (Room r : rooms) {
-			if (r.getEmail().equals(roomEmail)) {
-				final Room theRoom = r;
-				setRoom(theRoom);
-				return;
-			}
-		}
-		// TODO what if the room is not in the list?
-		throw new RuntimeException("Requested room not in the list.");
-		*/
+        /*
+        for (Room r : rooms) {
+                if (r.getEmail().equals(roomEmail)) {
+                        final Room theRoom = r;
+                        setRoom(theRoom);
+                        return;
+                }
+        }
+        // TODO what if the room is not in the list?
+        throw new RuntimeException("Requested room not in the list.");
+         */
     }
 
 
@@ -424,13 +432,14 @@ public class RoomActivity extends ReservatorActivity implements OnMenuItemClickL
         // let's update the cache (otherwise the changes (eg. new employees) won't be shown in the lists before restart)
         AddressBook ab = getResApplication().getAddressBook();
         ab.prefetchEntries();
-        //hideLoading();
+        // hideLoading();
     }
 
 
     @Override
     public void refreshFailed(ReservatorException e) {
-        //hideLoading();
+
+        // hideLoading();
         stopAutoRefreshData();
 
         Toast err = Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG);
@@ -527,32 +536,6 @@ public class RoomActivity extends ReservatorActivity implements OnMenuItemClickL
         };
     }
 
-    private class MakeReservationTask extends AsyncTask<Void, Void, Void> {
-        private final TimeSpan timeSpan;
-        private final String name;
-
-        public MakeReservationTask(TimeSpan timeSpan, String name){
-            this.timeSpan = timeSpan;
-            this.name = name;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try {
-                new MakeReservations().doReservation(application,
-                        currentRoom.getShownRoomName(), currentRoom, timeSpan, name);
-            } catch (ReservatorException e) {
-                showDialog(application.getString(R.string.ERROR), e.getMessage());
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void v) {
-            showDialog(application.getString(R.string.SUCCESS), application.getString(R.string.SUCCESS_Message));
-        }
-    }
 
     private void showDialog(String titel, String message) {
 
@@ -592,5 +575,37 @@ public class RoomActivity extends ReservatorActivity implements OnMenuItemClickL
             });
 
         handler.postDelayed(runnable, 3000);
+    }
+
+    private class MakeReservationTask extends AsyncTask<Void, Void, Void> {
+
+        private final TimeSpan timeSpan;
+        private final String name;
+
+        public MakeReservationTask(TimeSpan timeSpan, String name) {
+
+            this.timeSpan = timeSpan;
+            this.name = name;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            try {
+                new MakeReservations().doReservation(application, currentRoom.getShownRoomName(), currentRoom,
+                    timeSpan, name);
+            } catch (ReservatorException e) {
+                showDialog(application.getString(R.string.ERROR), e.getMessage());
+            }
+
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void v) {
+
+            showDialog(application.getString(R.string.SUCCESS), application.getString(R.string.SUCCESS_Message));
+        }
     }
 }

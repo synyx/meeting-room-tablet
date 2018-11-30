@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
 
                 // TODO: max 23.11.18 - Load default room
                 RoomCalendar roomCalendar = new RoomCalendar(1L, "Holodeck (8)", "wohnzimmmer@synyx.de");
-                openRoomActivity(getApplicationContext(), roomCalendar);
+                openRoomActivity(this, roomCalendar);
                 break;
 
             default:
