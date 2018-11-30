@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModel;
 
 import de.synyx.android.reservator.config.Registry;
 import de.synyx.android.reservator.screen.RoomDto;
-import de.synyx.android.reservator.screen.main.lobby.LoadRoomsUseCase;
+import de.synyx.android.reservator.screen.main.lobby.LoadVisibleRoomsUseCase;
 import de.synyx.android.reservator.util.SchedulerFacade;
 
 import io.reactivex.disposables.Disposable;
@@ -21,13 +21,13 @@ public class SettingsViewModel extends ViewModel {
 
     private MutableLiveData<List<RoomDto>> rooms;
 
-    private LoadRoomsUseCase loadRoomsUseCase;
+    private LoadVisibleRoomsUseCase loadRoomsUseCase;
     private SchedulerFacade schedulerFacade;
     private Disposable disposable;
 
     public SettingsViewModel() {
 
-        loadRoomsUseCase = Registry.get(LoadRoomsUseCase.class);
+        loadRoomsUseCase = Registry.get(LoadVisibleRoomsUseCase.class);
         schedulerFacade = Registry.get(SchedulerFacade.class);
     }
 

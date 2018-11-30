@@ -16,9 +16,8 @@ import android.view.MenuItem;
 
 import com.futurice.android.reservator.R;
 
-import de.synyx.android.reservator.config.Registry;
 import de.synyx.android.reservator.screen.RoomDto;
-import de.synyx.android.reservator.screen.main.lobby.LoadRoomsUseCase;
+import de.synyx.android.reservator.screen.main.lobby.LoadAllRoomsUseCase;
 
 import java.util.Map;
 
@@ -116,7 +115,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             ListPreference defaultRoomPref = (ListPreference) findPreference("defaultRoom");
             MultiSelectListPreference hiddenRooms = (MultiSelectListPreference) findPreference("hidden_rooms");
 
-            LoadRoomsUseCase loadRoomUseCase = Registry.get(LoadRoomsUseCase.class);
+            LoadAllRoomsUseCase loadRoomUseCase = new LoadAllRoomsUseCase();
             Map<Long, String> roomValues =
                 loadRoomUseCase.execute() //
                 .map(rooms -> toMap(rooms, RoomDto::getCalendarId, RoomDto::getRoomName)) //

@@ -13,7 +13,8 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.MINUTES;
 
 
 /**
@@ -23,14 +24,14 @@ public class LobbyViewModel extends ViewModel {
 
     private MutableLiveData<List<RoomDto>> rooms;
 
-    private LoadRoomsUseCase loadRoomsUseCase;
+    private LoadVisibleRoomsUseCase loadVisibleRoomsUseCase;
     private SchedulerFacade schedulerFacade;
 
     private Disposable disposable;
 
     public LobbyViewModel() {
 
-        loadRoomsUseCase = Registry.get(LoadRoomsUseCase.class);
+        loadVisibleRoomsUseCase = new LoadVisibleRoomsUseCase();
         schedulerFacade = Registry.get(SchedulerFacade.class);
     }
 
@@ -47,8 +48,8 @@ public class LobbyViewModel extends ViewModel {
 
     private void loadRooms() {
 
-        disposable = Observable.interval(0, 1, TimeUnit.MINUTES)
-                .flatMap(ignored -> loadRoomsUseCase.execute().toObservable())
+        disposable = Observable.interval(0, 1, MINUTES)
+                .flatMap(ignored -> loadVisibleRoomsUseCase.execute().toObservable())
                 .observeOn(schedulerFacade.io())
                 .subscribeOn(schedulerFacade.mainThread())
                 .subscribe(rooms::postValue);

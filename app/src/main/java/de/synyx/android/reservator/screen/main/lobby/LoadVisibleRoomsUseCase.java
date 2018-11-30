@@ -21,12 +21,12 @@ import java.util.List;
 /**
  * @author  Max Dobler - dobler@synyx.de
  */
-public class LoadRoomsUseCase {
+public class LoadVisibleRoomsUseCase {
 
     private final RoomRepository roomRepository;
     private final EventRepository eventRepository;
 
-    public LoadRoomsUseCase() {
+    public LoadVisibleRoomsUseCase() {
 
         roomRepository = Registry.get(RoomRepository.class);
         eventRepository = Registry.get(EventRepository.class);
@@ -35,7 +35,7 @@ public class LoadRoomsUseCase {
     public Single<List<RoomDto>> execute() {
 
         return
-            roomRepository.loadAllRooms() //
+            roomRepository.loadVisibleRooms() //
             .flatMap(this::loadEventsAndConstructRoomDto) //
             .collect(ArrayList::new, List::add);
     }

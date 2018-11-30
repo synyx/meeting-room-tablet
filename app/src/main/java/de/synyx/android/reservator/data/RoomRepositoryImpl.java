@@ -23,6 +23,13 @@ public class RoomRepositoryImpl implements RoomRepository {
     @Override
     public Observable<RoomCalendar> loadAllRooms() {
 
+        return calendarAdapter.loadAllRooms();
+    }
+
+
+    @Override
+    public Observable<RoomCalendar> loadVisibleRooms() {
+
         return calendarAdapter.loadVisibleRooms();
     }
 

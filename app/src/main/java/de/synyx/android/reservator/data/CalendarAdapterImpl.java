@@ -65,14 +65,14 @@ public class CalendarAdapterImpl implements CalendarAdapter {
     @Override
     public Observable<RoomCalendar> loadAllRooms() {
 
-        return loadRooms(true);
+        return loadRooms(false);
     }
 
 
     @Override
     public Observable<RoomCalendar> loadVisibleRooms() {
 
-        return loadRooms(false);
+        return loadRooms(true);
     }
 
 

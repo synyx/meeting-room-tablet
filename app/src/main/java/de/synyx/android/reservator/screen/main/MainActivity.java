@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
 
         preferencesService = Config.getInstance(this).getPreferencesService();
 
-        enableFullscreen();
         setContentView(R.layout.activity_main);
 
         replaceFragment(LobbyFragment.newInstance());
