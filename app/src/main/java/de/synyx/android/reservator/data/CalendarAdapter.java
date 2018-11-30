@@ -17,5 +17,8 @@ public interface CalendarAdapter {
     List<Room> getRooms();
 
 
-    Observable<RoomCalendar> getNewRooms();
+    Observable<RoomCalendar> loadAllRooms();
+
+
+    Observable<RoomCalendar> loadVisibleRooms();
 }

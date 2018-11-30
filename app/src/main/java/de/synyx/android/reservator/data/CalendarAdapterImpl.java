@@ -55,21 +55,34 @@ public class CalendarAdapterImpl implements CalendarAdapter {
     @Override
     public List<Room> getRooms() {
 
-        return mapToRooms(loadRoomCalendars());
+        return mapToRooms(loadRoomCalendars(true));
     }
 
 
     @Override
-    public Observable<RoomCalendar> getNewRooms() {
+    public Observable<RoomCalendar> loadAllRooms() {
+
+        return loadRooms(true);
+    }
+
+
+    @Override
+    public Observable<RoomCalendar> loadVisibleRooms() {
+
+        return loadRooms(false);
+    }
+
+
+    private Observable<RoomCalendar> loadRooms(boolean visibleOnly) {
 
         return
-            Observable.fromIterable(fromCursor(loadRoomCalendars())) //
+            Observable.fromIterable(fromCursor(loadRoomCalendars(visibleOnly))) //
             .doAfterNext(closeCursorIfLast()) //
             .map(toRoomCalendar());
     }
 
 
-    private Cursor loadRoomCalendars() {
+    private Cursor loadRoomCalendars(boolean visibleOnly) {
 
         String[] mProjection = {
             CalendarContract.Calendars._ID, //
@@ -83,7 +96,10 @@ public class CalendarAdapterImpl implements CalendarAdapter {
 
         addOwnerAccountSelection(selectionClauses, selectionArgs);
         addAccountNameSelection(selectionClauses, selectionArgs);
-        addHiddenRoomsClause(selectionClauses);
+
+        if (visibleOnly) {
+            addHiddenRoomsClause(selectionClauses);
+        }
 
         return queryCalendarProvider(mProjection, selectionClauses, selectionArgs);
     }

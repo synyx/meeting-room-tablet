@@ -22,6 +22,6 @@ public class RoomRepositoryImpl implements RoomRepository {
     @Override
     public Observable<RoomCalendar> loadAllRooms() {
 
-        return calendarAdapter.getNewRooms();
+        return calendarAdapter.loadVisibleRooms();
     }
 }
