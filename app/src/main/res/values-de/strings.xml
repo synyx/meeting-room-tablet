@@ -183,5 +183,6 @@
     <string name="header_title_lobby">Alle Räume</string>
     <string name="settings_hidden_rooms_title">Ausgeblendete Räume</string>
     <string name="settings_languages_title">Sprache</string>
+    <string name="agenda_title">Agenda für %1$s</string>
 
 </resources>

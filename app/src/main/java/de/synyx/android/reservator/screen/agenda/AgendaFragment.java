@@ -27,6 +27,9 @@ public class AgendaFragment extends Fragment {
 
     private static final String CALENDAR_ID = "calendarId";
     private AgendaViewModel viewModel;
+    private long calendarId;
+    private TextView agendaTitle;
+    private ReservationsRecyclerAdapter reservationsRecyclerAdapter;
 
     public static AgendaFragment newInstance(long calendarId) {
 
@@ -37,6 +40,16 @@ public class AgendaFragment extends Fragment {
         agendaFragment.setArguments(args);
 
         return agendaFragment;
+    }
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+
+        Bundle arguments = getArguments();
+        calendarId = arguments.getLong(CALENDAR_ID);
     }
 
 
@@ -52,13 +65,44 @@ public class AgendaFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
+        viewModel = ViewModelProviders.of(this).get(AgendaViewModel.class);
 
-        TextView agendaTitle = view.findViewById(R.id.agenda_title);
-        agendaTitle.setText("Agenda für Nullpointer");
+        agendaTitle = view.findViewById(R.id.agenda_title);
+
+        setupReservationsRecyclerView(view);
+
+        loadData();
+    }
+
+
+    private void loadData() {
+
+        viewModel.getAgenda(calendarId) //
+        .observe(getActivity(),
+            agendaDto -> {
+                reservationsRecyclerAdapter.updateReservations(agendaDto.getReservations());
+
+                String roomName = agendaDto.getRoomName();
+                agendaTitle.setText(getString(R.string.agenda_title, roomName));
+                setHeaderTitle(roomName);
+            });
+    }
+
+
+    private void setupReservationsRecyclerView(@NonNull View view) {
 
         RecyclerView reservationsRecyclerView = view.findViewById(R.id.agenda_reservations);
         reservationsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        reservationsRecyclerView.setAdapter(new ReservationsRecyclerAdapter());
+
+        reservationsRecyclerAdapter = new ReservationsRecyclerAdapter();
+        reservationsRecyclerView.setAdapter(reservationsRecyclerAdapter);
+    }
+
+
+    private void setHeaderTitle(String title) {
+
+        MainActivity activity = (MainActivity) getActivity();
+        activity.setTitle(title);
     }
 
 
@@ -66,9 +110,5 @@ public class AgendaFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
         super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(AgendaViewModel.class);
-
-        MainActivity activity = (MainActivity) getActivity();
-        activity.setTitle("Nullpointer");
     }
 }

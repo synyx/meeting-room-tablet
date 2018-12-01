@@ -197,6 +197,7 @@
     <string name="header_title_lobby">All rooms</string>
     <string name="settings_hidden_rooms_title">Rooms to hide</string>
     <string name="settings_languages_title">Display language</string>
+    <string name="agenda_title">Agenda for %1$s</string>
 
     <string-array name="languages">
         <item>English</item>
