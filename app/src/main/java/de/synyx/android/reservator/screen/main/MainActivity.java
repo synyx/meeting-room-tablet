@@ -24,7 +24,7 @@ import com.futurice.android.reservator.R;
 import de.synyx.android.reservator.config.Config;
 import de.synyx.android.reservator.preferences.PreferencesService;
 import de.synyx.android.reservator.screen.ScreenSize;
-import de.synyx.android.reservator.screen.agenda.AgendaFragment;
+import de.synyx.android.reservator.screen.main.agenda.AgendaFragment;
 import de.synyx.android.reservator.screen.main.lobby.LobbyFragment;
 import de.synyx.android.reservator.screen.main.status.StatusFragment;
 import de.synyx.android.reservator.screen.settings.SettingsActivity;

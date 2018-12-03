@@ -1,4 +1,4 @@
-package de.synyx.android.reservator.screen.agenda;
+package de.synyx.android.reservator.screen.main.agenda;
 
 import android.support.annotation.NonNull;
 

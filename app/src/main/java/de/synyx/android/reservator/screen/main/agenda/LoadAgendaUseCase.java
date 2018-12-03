@@ -1,4 +1,4 @@
-package de.synyx.android.reservator.screen.agenda;
+package de.synyx.android.reservator.screen.main.agenda;
 
 import de.synyx.android.reservator.config.Registry;
 import de.synyx.android.reservator.domain.event.Event;
