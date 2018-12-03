@@ -89,8 +89,8 @@ public class StatusFragment extends Fragment {
 
         fragmentContainer.setBackgroundColor(getActivity().getColor(room.getStatus().getColorRes()));
 
-        btnReserve.setBackgroundColor(getActivity().getColor(room.getStatus().getColorRes()));
-        btnBookNow.setBackgroundColor(getActivity().getColor(room.getStatus().getColorRes()));
+        btnReserve.setTextColor(getActivity().getColor(room.getStatus().getColorRes()));
+        btnBookNow.setTextColor(getActivity().getColor(room.getStatus().getColorRes()));
 
         tvAvailability.setText(room.getStatus().getStringRes());
         tvEventDuration.setText(room.getRoomTime());
