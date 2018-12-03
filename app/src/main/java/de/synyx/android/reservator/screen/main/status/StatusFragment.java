@@ -13,6 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
+import android.widget.TextView;
+
 import com.futurice.android.reservator.R;
 
 import de.synyx.android.reservator.screen.RoomDto;
@@ -24,6 +27,13 @@ public class StatusFragment extends Fragment {
     private static final String CALENDAR_ID = "calendarId";
     private RoomStatusViewModel viewModel;
     private long calendarId;
+    private TextView tvAvailability;
+    private TextView tvEventName;
+    private TextView tvEventDuration;
+    private TextView tvNextEventName;
+    private Button btnReserve;
+    private Button btnBookNow;
+    private ViewGroup fragmentContainer;
 
     public StatusFragment() {
 
@@ -59,6 +69,16 @@ public class StatusFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(this).get(RoomStatusViewModel.class);
         viewModel.getRoom(calendarId).observe(this, this::updateStatus);
+
+        fragmentContainer = view.findViewById(R.id.status_fragment_container);
+
+        tvAvailability = view.findViewById(R.id.availability);
+        tvEventName = view.findViewById(R.id.event_name);
+        tvEventDuration = view.findViewById(R.id.event_duration);
+        tvNextEventName = view.findViewById(R.id.next_event_name);
+
+        btnReserve = view.findViewById(R.id.reserve);
+        btnBookNow = view.findViewById(R.id.book_now);
     }
 
 
@@ -66,5 +86,15 @@ public class StatusFragment extends Fragment {
 
         MainActivity activity = (MainActivity) getActivity();
         activity.setTitle(room.getRoomName());
+
+        fragmentContainer.setBackgroundColor(getActivity().getColor(room.getStatus().getColorRes()));
+
+        btnReserve.setBackgroundColor(getActivity().getColor(room.getStatus().getColorRes()));
+        btnBookNow.setBackgroundColor(getActivity().getColor(room.getStatus().getColorRes()));
+
+        tvAvailability.setText(room.getStatus().getStringRes());
+        tvEventDuration.setText(room.getRoomTime());
+        tvEventName.setText(room.getActiveEventName());
+        tvNextEventName.setText(room.getNextEventName());
     }
 }
