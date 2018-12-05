@@ -1,9 +1,9 @@
-package de.synyx.android.reservator.domain.event;
+package de.synyx.android.reservator.business.event;
 
-import de.synyx.android.reservator.domain.attendee.Attendee;
+import de.synyx.android.reservator.domain.Attendee;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
 import org.joda.time.Period;
 
 import java.util.ArrayList;
@@ -17,11 +17,11 @@ public class Event implements Comparable<Event> {
 
     private final Long id;
     private final String name;
-    private final LocalDateTime begin;
-    private final LocalDateTime end;
+    private final DateTime begin;
+    private final DateTime end;
     private List<Attendee> attendees = new ArrayList<>();
 
-    public Event(Long id, String name, LocalDateTime begin, LocalDateTime end) {
+    public Event(Long id, String name, DateTime begin, DateTime end) {
 
         this.id = id;
         this.name = name;
@@ -43,7 +43,7 @@ public class Event implements Comparable<Event> {
 
     public boolean isCurrent() {
 
-        LocalDateTime now = LocalDateTime.now();
+        DateTime now = DateTime.now();
 
         return begin.isBefore(now) && end.isAfter(now);
     }
@@ -51,7 +51,7 @@ public class Event implements Comparable<Event> {
 
     public boolean isNextUpcoming() {
 
-        return isSameDay() && begin.isAfter(LocalDateTime.now());
+        return isSameDay() && begin.isAfter(DateTime.now());
     }
 
 
@@ -63,13 +63,13 @@ public class Event implements Comparable<Event> {
 
     public Period getRemainingTime() {
 
-        return new Period(LocalDateTime.now(), end);
+        return new Period(DateTime.now(), end);
     }
 
 
     public Period getTimeUntilBegin() {
 
-        return new Period(LocalDateTime.now(), begin);
+        return new Period(DateTime.now(), begin);
     }
 
 
@@ -80,13 +80,13 @@ public class Event implements Comparable<Event> {
     }
 
 
-    public LocalDateTime getBegin() {
+    public DateTime getBegin() {
 
         return begin;
     }
 
 
-    public LocalDateTime getEnd() {
+    public DateTime getEnd() {
 
         return end;
     }

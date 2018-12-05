@@ -79,10 +79,10 @@ public class AgendaFragment extends Fragment {
 
         viewModel.getAgenda(calendarId) //
         .observe(getActivity(),
-            agendaDto -> {
-                reservationsRecyclerAdapter.updateReservations(agendaDto.getReservations());
+            meetingRoom -> {
+                reservationsRecyclerAdapter.updateReservations(meetingRoom.getReservations());
 
-                String roomName = agendaDto.getRoomName();
+                String roomName = meetingRoom.getName();
                 agendaTitle.setText(getString(R.string.agenda_title, roomName));
                 setHeaderTitle(roomName);
             });

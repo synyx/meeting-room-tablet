@@ -1,10 +1,11 @@
-package de.synyx.android.reservator.domain.attendee;
+package de.synyx.android.reservator.domain;
 
 /**
  * @author  Max Dobler - dobler@synyx.de
  */
 public class Attendee {
 
+    private Long attendeeId;
     private final String name;
     private final int status;
 

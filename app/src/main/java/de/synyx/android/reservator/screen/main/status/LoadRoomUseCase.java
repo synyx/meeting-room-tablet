@@ -1,21 +1,14 @@
 package de.synyx.android.reservator.screen.main.status;
 
-import android.support.annotation.NonNull;
-
+import de.synyx.android.reservator.business.event.Event;
+import de.synyx.android.reservator.business.event.EventRepository;
+import de.synyx.android.reservator.business.room.RoomRepository;
 import de.synyx.android.reservator.config.Registry;
-import de.synyx.android.reservator.domain.event.Event;
-import de.synyx.android.reservator.domain.event.EventRepository;
-import de.synyx.android.reservator.domain.room.RoomCalendar;
-import de.synyx.android.reservator.domain.room.RoomRepository;
-import de.synyx.android.reservator.screen.RoomDto;
+import de.synyx.android.reservator.domain.MeetingRoom;
+import de.synyx.android.reservator.domain.Reservation;
 
 import io.reactivex.Maybe;
-import io.reactivex.Single;
-
-import io.reactivex.functions.Function;
-
-import java.util.Collections;
-import java.util.List;
+import io.reactivex.Observable;
 
 
 /**
@@ -32,58 +25,25 @@ public class LoadRoomUseCase {
         eventRepository = Registry.get(EventRepository.class);
     }
 
-    public Maybe<RoomDto> execute(long id) {
+    public Maybe<MeetingRoom> execute(long calendarId) {
 
-        return roomRepository.loadRoom(id).flatMap(this::loadEventsAndConstructRoomDto);
+        return roomRepository.loadRoom(calendarId)
+            .map(roomCalendar -> new MeetingRoom(roomCalendar.getCalendarId(), roomCalendar.getName()))
+            .flatMap(this::addReservations);
     }
 
 
-    private Maybe<RoomDto> loadEventsAndConstructRoomDto(RoomCalendar roomCalendar) {
+    private Maybe<MeetingRoom> addReservations(MeetingRoom meetingRoom) {
 
-        return loadEventsFor(roomCalendar).map(toRoomDto(roomCalendar)).toMaybe();
+        return loadEventsFor(meetingRoom) //
+            .map(event -> new Reservation(event.getId(), event.getName(), event.getBegin(), event.getEnd())) //
+            .collectInto(meetingRoom, MeetingRoom::addReservation) //
+            .toMaybe();
     }
 
 
-    private Function<List<Event>, List<Event>> sortChronological() {
+    private Observable<Event> loadEventsFor(MeetingRoom meetingRoom) {
 
-        return
-            events -> {
-            Collections.sort(events, (e1, e2) -> e1.getBegin().compareTo(e2.getBegin()));
-
-            return events;
-        };
-    }
-
-
-    @NonNull
-    private static Function<List<Event>, RoomDto> toRoomDto(RoomCalendar roomCalendar) {
-
-        return
-            events -> {
-            Event currentEvent = null;
-            Event nextUpcomingEvent = null;
-
-            for (Event event : events) {
-                if (event.isCurrent()) {
-                    currentEvent = event;
-
-                    continue;
-                }
-
-                if (event.isNextUpcoming()) {
-                    nextUpcomingEvent = event;
-
-                    break;
-                }
-            }
-
-            return new RoomDto(roomCalendar, currentEvent, nextUpcomingEvent);
-        };
-    }
-
-
-    private Single<List<Event>> loadEventsFor(RoomCalendar roomCalendar) {
-
-        return eventRepository.loadAllEventsForRoom(roomCalendar.getCalendarId());
+        return eventRepository.loadAllEventsForRoom(meetingRoom.getCalendarId());
     }
 }

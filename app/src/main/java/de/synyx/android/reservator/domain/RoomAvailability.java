@@ -1,4 +1,4 @@
-package de.synyx.android.reservator.domain.room;
+package de.synyx.android.reservator.domain;
 
 import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
@@ -9,7 +9,7 @@ import com.futurice.android.reservator.R;
 /**
  * @author  Max Dobler - dobler@synyx.de
  */
-public enum RoomState {
+public enum RoomAvailability {
 
     AVAILABLE(R.color.room_status_available, R.string.free),
     RESERVED(R.color.room_status_reserved, R.string.defaultTitleForReservation),
@@ -20,7 +20,7 @@ public enum RoomState {
     @ColorRes
     private int stringRes;
 
-    RoomState(int colorRes, int stringRes) {
+    RoomAvailability(int colorRes, int stringRes) {
 
         this.colorRes = colorRes;
         this.stringRes = stringRes;

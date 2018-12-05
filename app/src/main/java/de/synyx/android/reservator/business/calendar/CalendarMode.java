@@ -1,4 +1,4 @@
-package de.synyx.android.reservator.domain.calendar;
+package de.synyx.android.reservator.business.calendar;
 
 /**
  * @author  Julian Heetel - heetel@synyx.de

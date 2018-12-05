@@ -1,4 +1,4 @@
-package de.synyx.android.reservator.domain.room;
+package de.synyx.android.reservator.business.room;
 
 import com.futurice.android.reservator.R;
 

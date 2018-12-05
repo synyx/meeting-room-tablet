@@ -1,4 +1,4 @@
-package de.synyx.android.reservator.screen.main.lobby;
+package de.synyx.android.reservator.screen.settings;
 
 import android.support.annotation.NonNull;
 
@@ -20,12 +20,12 @@ import java.util.List;
 /**
  * @author  Max Dobler - dobler@synyx.de
  */
-public class LoadVisibleRoomsUseCase {
+public class LoadAllRoomsUseCase {
 
     private final RoomRepository roomRepository;
     private final EventRepository eventRepository;
 
-    public LoadVisibleRoomsUseCase() {
+    public LoadAllRoomsUseCase() {
 
         roomRepository = Registry.get(RoomRepository.class);
         eventRepository = Registry.get(EventRepository.class);
@@ -34,7 +34,7 @@ public class LoadVisibleRoomsUseCase {
     public Single<List<MeetingRoom>> execute() {
 
         return
-            roomRepository.loadVisibleRooms() //
+            roomRepository.loadAllRooms() //
             .map(this::toMeetingRoom) //
             .flatMapSingle(this::addReservations) //
             .collect(ArrayList::new, List::add);

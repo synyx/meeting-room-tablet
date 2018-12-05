@@ -13,8 +13,8 @@ import android.support.v4.app.FragmentManager;
 import com.futurice.android.reservator.R;
 import com.futurice.android.reservator.ReservatorActivity;
 
+import de.synyx.android.reservator.business.calendar.CalendarMode;
 import de.synyx.android.reservator.config.Registry;
-import de.synyx.android.reservator.domain.calendar.CalendarMode;
 import de.synyx.android.reservator.screen.main.MainActivity;
 
 

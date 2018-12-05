@@ -1,6 +1,6 @@
 package de.synyx.android.reservator.data;
 
-import de.synyx.android.reservator.domain.attendee.Attendee;
+import de.synyx.android.reservator.domain.Attendee;
 
 import io.reactivex.Observable;
 

@@ -1,5 +1,9 @@
 package de.synyx.android.reservator.util;
 
+import org.joda.time.Duration;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
+
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
@@ -18,5 +22,22 @@ public class DateFormatter {
 
         // we have to place the colon ourselves, as SimpleDateFormat only supports timezone without colon
         return dateFormat.format(date).replaceAll("(.*)(\\d\\d)$", "$1:$2");
+    }
+
+
+    // TODO: 07.12.18 - internationalisierung
+    public static String formatToString(Duration remainingTime) {
+
+        PeriodFormatter formatter = new PeriodFormatterBuilder().appendDays()
+                .appendSuffix(" day", " days")
+                .appendSeparator(" ")
+                .appendHours()
+                .appendSuffix(" h")
+                .appendSeparator(" ")
+                .appendMinutes()
+                .appendSuffix(" min")
+                .toFormatter();
+
+        return formatter.print(remainingTime.toPeriod());
     }
 }

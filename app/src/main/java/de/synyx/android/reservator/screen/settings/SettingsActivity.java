@@ -16,8 +16,7 @@ import android.view.MenuItem;
 
 import com.futurice.android.reservator.R;
 
-import de.synyx.android.reservator.screen.RoomDto;
-import de.synyx.android.reservator.screen.main.lobby.LoadAllRoomsUseCase;
+import de.synyx.android.reservator.domain.MeetingRoom;
 
 import java.util.Map;
 
@@ -118,7 +117,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             LoadAllRoomsUseCase loadRoomUseCase = new LoadAllRoomsUseCase();
             Map<Long, String> roomValues =
                 loadRoomUseCase.execute() //
-                .map(rooms -> toMap(rooms, RoomDto::getCalendarId, RoomDto::getRoomName)) //
+                .map(rooms -> toMap(rooms, MeetingRoom::getCalendarId, MeetingRoom::getName)) //
                 .blockingGet();
 
             String[] roomNames = toArray(roomValues.values(), String.class);

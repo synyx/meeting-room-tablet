@@ -1,4 +1,4 @@
-package de.synyx.android.reservator.domain.account;
+package de.synyx.android.reservator.business.account;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;

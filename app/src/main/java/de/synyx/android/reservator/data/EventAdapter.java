@@ -1,6 +1,6 @@
 package de.synyx.android.reservator.data;
 
-import de.synyx.android.reservator.domain.event.Event;
+import de.synyx.android.reservator.business.event.Event;
 
 import io.reactivex.Observable;
 

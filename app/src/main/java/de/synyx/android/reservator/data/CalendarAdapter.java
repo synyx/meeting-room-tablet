@@ -2,7 +2,7 @@ package de.synyx.android.reservator.data;
 
 import com.futurice.android.reservator.model.Room;
 
-import de.synyx.android.reservator.domain.room.RoomCalendar;
+import de.synyx.android.reservator.business.room.RoomCalendar;
 
 import io.reactivex.Maybe;
 import io.reactivex.Observable;

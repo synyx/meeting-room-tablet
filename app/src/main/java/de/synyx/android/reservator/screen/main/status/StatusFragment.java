@@ -18,7 +18,9 @@ import android.widget.TextView;
 
 import com.futurice.android.reservator.R;
 
-import de.synyx.android.reservator.screen.RoomDto;
+import de.synyx.android.reservator.domain.MeetingRoom;
+import de.synyx.android.reservator.domain.Reservation;
+import de.synyx.android.reservator.domain.RoomAvailability;
 import de.synyx.android.reservator.screen.main.MainActivity;
 
 
@@ -82,19 +84,36 @@ public class StatusFragment extends Fragment {
     }
 
 
-    void updateStatus(RoomDto room) {
+    void updateStatus(MeetingRoom meetingRoom) {
 
         MainActivity activity = (MainActivity) getActivity();
-        activity.setTitle(room.getRoomName());
+        activity.setTitle(meetingRoom.getName());
 
-        fragmentContainer.setBackgroundColor(getActivity().getColor(room.getStatus().getColorRes()));
+        RoomAvailability roomAvailablility = meetingRoom.getAvailability();
+        fragmentContainer.setBackgroundColor(getActivity().getColor(roomAvailablility.getColorRes()));
 
-        btnReserve.setTextColor(getActivity().getColor(room.getStatus().getColorRes()));
-        btnBookNow.setTextColor(getActivity().getColor(room.getStatus().getColorRes()));
+        btnReserve.setTextColor(getActivity().getColor(roomAvailablility.getColorRes()));
+        btnBookNow.setTextColor(getActivity().getColor(roomAvailablility.getColorRes()));
 
-        tvAvailability.setText(room.getStatus().getStringRes());
-        tvEventDuration.setText(room.getRoomTime());
-        tvEventName.setText(room.getActiveEventName());
-        tvNextEventName.setText(room.getNextEventName());
+        tvAvailability.setText(roomAvailablility.getStringRes());
+        tvEventDuration.setText(meetingRoom.getAvailabilityTime());
+        tvEventName.setText(getCurrentMeetingText(meetingRoom));
+        tvNextEventName.setText(getNextReservationText(meetingRoom));
+    }
+
+
+    private String getNextReservationText(MeetingRoom meetingRoom) {
+
+        Reservation upcomingReservation = meetingRoom.getUpcomingReservation();
+
+        return upcomingReservation != null ? upcomingReservation.getTitle() : "";
+    }
+
+
+    private String getCurrentMeetingText(MeetingRoom meetingRoom) {
+
+        Reservation currentMeeting = meetingRoom.getCurrentMeeting();
+
+        return currentMeeting != null ? currentMeeting.getTitle() : "";
     }
 }

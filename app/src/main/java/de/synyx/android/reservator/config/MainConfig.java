@@ -1,13 +1,13 @@
 package de.synyx.android.reservator.config;
 
+import de.synyx.android.reservator.business.event.EventRepository;
+import de.synyx.android.reservator.business.room.RoomRepository;
 import de.synyx.android.reservator.data.AttendeeAdapter;
 import de.synyx.android.reservator.data.AttendeeAdapterImpl;
 import de.synyx.android.reservator.data.EventAdapter;
 import de.synyx.android.reservator.data.EventAdapterImpl;
 import de.synyx.android.reservator.data.EventRepositoryImpl;
 import de.synyx.android.reservator.data.RoomRepositoryImpl;
-import de.synyx.android.reservator.domain.event.EventRepository;
-import de.synyx.android.reservator.domain.room.RoomRepository;
 import de.synyx.android.reservator.util.SchedulerFacade;
 import de.synyx.android.reservator.util.SchedulerFacadeImpl;
 

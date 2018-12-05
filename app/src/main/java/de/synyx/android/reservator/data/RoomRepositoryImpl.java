@@ -1,8 +1,8 @@
 package de.synyx.android.reservator.data;
 
+import de.synyx.android.reservator.business.room.RoomCalendar;
+import de.synyx.android.reservator.business.room.RoomRepository;
 import de.synyx.android.reservator.config.Registry;
-import de.synyx.android.reservator.domain.room.RoomCalendar;
-import de.synyx.android.reservator.domain.room.RoomRepository;
 
 import io.reactivex.Maybe;
 import io.reactivex.Observable;

@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import com.futurice.android.reservator.R;
 
-import de.synyx.android.reservator.domain.event.Event;
+import de.synyx.android.reservator.domain.Reservation;
 
-import org.joda.time.LocalDateTime;
+import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
 import static java.lang.String.format;
@@ -28,21 +28,21 @@ class ReservationViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    void bind(Event reservation) {
+    void bind(Reservation reservation) {
 
         setTitle(reservation);
         setTimespan(reservation);
     }
 
 
-    private void setTitle(Event reservation) {
+    private void setTitle(Reservation reservation) {
 
         TextView reservationTitle = itemView.findViewById(R.id.reservation_title);
-        reservationTitle.setText(reservation.getName());
+        reservationTitle.setText(reservation.getTitle());
     }
 
 
-    private void setTimespan(Event reservation) {
+    private void setTimespan(Reservation reservation) {
 
         TextView reservationTimespan = itemView.findViewById(R.id.reservation_timespan);
         String beginTime = formatTime(reservation.getBegin());
@@ -51,7 +51,7 @@ class ReservationViewHolder extends RecyclerView.ViewHolder {
     }
 
 
-    private String formatTime(LocalDateTime dateTime) {
+    private String formatTime(DateTime dateTime) {
 
         return DateTimeFormat.forPattern("HH:mm").print(dateTime);
     }

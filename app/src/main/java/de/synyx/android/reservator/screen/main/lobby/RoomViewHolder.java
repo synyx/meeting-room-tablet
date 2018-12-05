@@ -10,9 +10,7 @@ import android.widget.TextView;
 
 import com.futurice.android.reservator.R;
 
-import de.synyx.android.reservator.domain.room.RoomState;
-
-import static de.synyx.android.reservator.domain.room.RoomState.AVAILABLE;
+import de.synyx.android.reservator.domain.RoomAvailability;
 
 
 /**
@@ -20,24 +18,23 @@ import static de.synyx.android.reservator.domain.room.RoomState.AVAILABLE;
  */
 class RoomViewHolder extends RecyclerView.ViewHolder {
 
-    TextView roomName;
-    TextView roomTime;
-    TextView eventName;
-    TextView nextEventName;
+    TextView meetingRommName;
+    TextView availabilityTime;
+    TextView currentMeetingTitle;
+    TextView upcomingReservationTitle;
 
     RoomViewHolder(@NonNull View itemView) {
 
         super(itemView);
 
-        roomName = itemView.findViewById(R.id.roomName);
-        roomTime = itemView.findViewById(R.id.roomTime);
-        eventName = itemView.findViewById(R.id.eventName);
-        nextEventName = itemView.findViewById(R.id.nextEventName);
+        meetingRommName = itemView.findViewById(R.id.roomName);
+        availabilityTime = itemView.findViewById(R.id.roomTime);
+        currentMeetingTitle = itemView.findViewById(R.id.current_meeting_title);
+        upcomingReservationTitle = itemView.findViewById(R.id.upcoming_reservervation_title);
     }
 
-    void setStatus(RoomState status) {
+    void setStatus(RoomAvailability roomAvailability) {
 
-        int color = status == AVAILABLE ? R.color.room_status_available : R.color.room_status_unavailable;
-        itemView.setBackgroundResource(color);
+        itemView.setBackgroundResource(roomAvailability.getColorRes());
     }
 }

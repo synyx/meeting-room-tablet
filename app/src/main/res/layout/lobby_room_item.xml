@@ -16,6 +16,7 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
+
     <TextView
         android:id="@+id/roomTime"
         android:layout_width="match_parent"
@@ -25,7 +26,7 @@
         android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/eventName"
+        android:id="@+id/current_meeting_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -35,12 +36,11 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/nextEventName"
+        android:id="@+id/upcoming_reservervation_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingTop="4dp"
         android:textColor="#fff"
-        android:textSize="12sp" />
-
+        android:textSize="12sp"
+        android:textStyle="bold" />
 </LinearLayout>

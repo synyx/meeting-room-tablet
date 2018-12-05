@@ -5,14 +5,14 @@ import android.content.Context;
 
 import android.support.annotation.NonNull;
 
+import de.synyx.android.reservator.business.account.AccountService;
+import de.synyx.android.reservator.business.account.AccountServiceImpl;
+import de.synyx.android.reservator.business.calendar.CalendarModeService;
+import de.synyx.android.reservator.business.calendar.CalendarModeServiceImpl;
 import de.synyx.android.reservator.config.Config;
 import de.synyx.android.reservator.config.Registry;
 import de.synyx.android.reservator.data.CalendarAdapter;
 import de.synyx.android.reservator.data.CalendarAdapterImpl;
-import de.synyx.android.reservator.domain.account.AccountService;
-import de.synyx.android.reservator.domain.account.AccountServiceImpl;
-import de.synyx.android.reservator.domain.calendar.CalendarModeService;
-import de.synyx.android.reservator.domain.calendar.CalendarModeServiceImpl;
 
 
 /**

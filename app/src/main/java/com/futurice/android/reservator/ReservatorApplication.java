@@ -80,6 +80,7 @@ public class ReservatorApplication extends Application {
 
     private void initConfig() {
 
+        DefaultConfig.init();
         ProxyConfig.init(this);
         LoginConfig.init(this);
         MainConfig.init();

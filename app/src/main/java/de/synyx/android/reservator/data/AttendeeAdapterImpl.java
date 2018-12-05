@@ -7,7 +7,7 @@ import android.database.Cursor;
 import android.provider.CalendarContract;
 
 import de.synyx.android.reservator.config.Registry;
-import de.synyx.android.reservator.domain.attendee.Attendee;
+import de.synyx.android.reservator.domain.Attendee;
 
 import io.reactivex.Observable;
 

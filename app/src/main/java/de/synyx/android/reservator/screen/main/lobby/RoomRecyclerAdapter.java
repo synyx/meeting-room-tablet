@@ -10,7 +10,8 @@ import android.view.ViewGroup;
 
 import com.futurice.android.reservator.R;
 
-import de.synyx.android.reservator.screen.RoomDto;
+import de.synyx.android.reservator.domain.MeetingRoom;
+import de.synyx.android.reservator.domain.Reservation;
 
 import io.reactivex.Observable;
 
@@ -25,8 +26,8 @@ import java.util.List;
  */
 public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomViewHolder> {
 
-    private List<RoomDto> rooms = new ArrayList<>();
-    private final PublishSubject<RoomDto> onClickSubject = PublishSubject.create();
+    private List<MeetingRoom> rooms = new ArrayList<>();
+    private final PublishSubject<MeetingRoom> onClickSubject = PublishSubject.create();
 
     @NonNull
     @Override
@@ -41,35 +42,33 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull RoomViewHolder roomViewHolder, int index) {
 
-        RoomDto roomDto = rooms.get(index);
+        MeetingRoom meetingRoom = rooms.get(index);
 
-        roomViewHolder.roomName.setText(roomDto.getRoomName());
-        roomViewHolder.roomTime.setText(roomDto.getRoomTime());
-        roomViewHolder.eventName.setText(getActiveReservationTitle(roomDto));
-        roomViewHolder.nextEventName.setText(getNextReservationTitle(roomDto));
-        roomViewHolder.setStatus(roomDto.getStatus());
+        roomViewHolder.meetingRommName.setText(meetingRoom.getName());
+        roomViewHolder.availabilityTime.setText(meetingRoom.getAvailabilityTime());
+        roomViewHolder.currentMeetingTitle.setText(getCurrentMeetingText(meetingRoom));
+        roomViewHolder.setStatus(meetingRoom.getAvailability());
+        roomViewHolder.upcomingReservationTitle.setText(getUpcomingReservationText(meetingRoom));
 
-        roomViewHolder.itemView.setOnClickListener(view -> onClickSubject.onNext(roomDto));
+        roomViewHolder.itemView.setOnClickListener(view -> onClickSubject.onNext(meetingRoom));
     }
 
 
-    private String getNextReservationTitle(RoomDto roomDto) {
+    private String getUpcomingReservationText(MeetingRoom meetingRoom) {
 
-        String nextReservationTitle = roomDto.getNextEventName();
+        Reservation upcomingReservation = meetingRoom.getUpcomingReservation();
 
-        return nextReservationTitle != null //
-            ? nextReservationTitle //
+        return upcomingReservation != null //
+            ? upcomingReservation.getTitle() //
             : "";
     }
 
 
-    private String getActiveReservationTitle(RoomDto roomDto) {
+    private String getCurrentMeetingText(MeetingRoom meetingRoom) {
 
-        String activeEventName = roomDto.getActiveEventName();
+        Reservation currentMeeting = meetingRoom.getCurrentMeeting();
 
-        return activeEventName != null //
-            ? activeEventName //
-            : "VERFÜGBAR";
+        return currentMeeting != null ? currentMeeting.getTitle() : "";
     }
 
 
@@ -80,7 +79,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomViewHolder> {
     }
 
 
-    public void updateRooms(List<RoomDto> newRooms) {
+    public void updateRooms(List<MeetingRoom> newRooms) {
 
         rooms.clear();
         rooms.addAll(newRooms);
@@ -88,7 +87,7 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomViewHolder> {
     }
 
 
-    public Observable<RoomDto> getItemClicks() {
+    public Observable<MeetingRoom> getItemClicks() {
 
         return onClickSubject;
     }

@@ -11,13 +11,14 @@ import android.provider.CalendarContract.Instances;
 
 import android.support.annotation.NonNull;
 
+import de.synyx.android.reservator.business.event.Event;
 import de.synyx.android.reservator.config.Registry;
-import de.synyx.android.reservator.domain.event.Event;
 
 import io.reactivex.Observable;
 
 import io.reactivex.functions.Function;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 
 import java.util.Date;
@@ -80,8 +81,8 @@ public class EventAdapterImpl implements EventAdapter {
             long beginMillis = cursor.getLong(cursor.getColumnIndex(Instances.BEGIN));
             long endMillis = cursor.getLong(cursor.getColumnIndex(Instances.END));
 
-            LocalDateTime begin = LocalDateTime.fromDateFields(new Date(beginMillis));
-            LocalDateTime end = LocalDateTime.fromDateFields(new Date(endMillis));
+            DateTime begin = new DateTime(beginMillis);
+            DateTime end = new DateTime(endMillis);
 
             return new Event(eventId, title, begin, end);
         };

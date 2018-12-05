@@ -2,17 +2,13 @@ package de.synyx.android.reservator.data;
 
 import android.support.annotation.NonNull;
 
+import de.synyx.android.reservator.business.event.Event;
+import de.synyx.android.reservator.business.event.EventRepository;
 import de.synyx.android.reservator.config.Registry;
-import de.synyx.android.reservator.domain.event.Event;
-import de.synyx.android.reservator.domain.event.EventRepository;
 
 import io.reactivex.Observable;
-import io.reactivex.Single;
 
 import io.reactivex.functions.Function;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -30,11 +26,10 @@ public class EventRepositoryImpl implements EventRepository {
     }
 
     @Override
-    public Single<List<Event>> loadAllEventsForRoom(long roomId) {
+    public Observable<Event> loadAllEventsForRoom(long roomId) {
 
         return eventAdapter.getEventsForRoom(roomId) //
-            .flatMap(loadAttendees()) //
-            .collect(ArrayList::new, List::add);
+            .flatMap(loadAttendees());
     }
 
 

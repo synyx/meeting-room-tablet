@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import de.synyx.android.reservator.config.Registry;
-import de.synyx.android.reservator.screen.RoomDto;
+import de.synyx.android.reservator.domain.MeetingRoom;
 import de.synyx.android.reservator.screen.main.lobby.LoadVisibleRoomsUseCase;
 import de.synyx.android.reservator.util.SchedulerFacade;
 
@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class SettingsViewModel extends ViewModel {
 
-    private MutableLiveData<List<RoomDto>> rooms;
+    private MutableLiveData<List<MeetingRoom>> rooms;
 
     private LoadVisibleRoomsUseCase loadRoomsUseCase;
     private SchedulerFacade schedulerFacade;
@@ -31,7 +31,7 @@ public class SettingsViewModel extends ViewModel {
         schedulerFacade = Registry.get(SchedulerFacade.class);
     }
 
-    public LiveData<List<RoomDto>> getRooms() {
+    public LiveData<List<MeetingRoom>> getRooms() {
 
         if (rooms == null) {
             rooms = new MutableLiveData<>();

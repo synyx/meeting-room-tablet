@@ -1,4 +1,4 @@
-package de.synyx.android.reservator.domain.account;
+package de.synyx.android.reservator.business.account;
 
 /**
  * @author  Julian Heetel - heetel@synyx.de

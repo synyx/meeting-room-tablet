@@ -5,6 +5,8 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import de.synyx.android.reservator.config.Registry;
+import de.synyx.android.reservator.domain.MeetingRoom;
+import de.synyx.android.reservator.screen.main.status.LoadRoomUseCase;
 import de.synyx.android.reservator.util.SchedulerFacade;
 
 import io.reactivex.disposables.Disposable;
@@ -12,35 +14,35 @@ import io.reactivex.disposables.Disposable;
 
 public class AgendaViewModel extends ViewModel {
 
-    private MutableLiveData<AgendaDto> agenda;
+    private MutableLiveData<MeetingRoom> meetingRoom;
     private SchedulerFacade schedulerFacade;
-    private LoadAgendaUseCase loadAgendaUseCase;
+    private LoadRoomUseCase loadRoomUseCase;
     private Disposable disposable;
 
     public AgendaViewModel() {
 
         schedulerFacade = Registry.get(SchedulerFacade.class);
-        loadAgendaUseCase = new LoadAgendaUseCase();
+        loadRoomUseCase = new LoadRoomUseCase();
     }
 
-    public LiveData<AgendaDto> getAgenda(long calendarId) {
+    public LiveData<MeetingRoom> getAgenda(long calendarId) {
 
-        if (agenda == null) {
-            agenda = new MutableLiveData<>();
+        if (meetingRoom == null) {
+            meetingRoom = new MutableLiveData<>();
             loadAgenda(calendarId);
         }
 
-        return agenda;
+        return meetingRoom;
     }
 
 
     private void loadAgenda(long calendarId) {
 
         disposable =
-            loadAgendaUseCase.execute(calendarId) //
+            loadRoomUseCase.execute(calendarId) //
             .observeOn(schedulerFacade.io()) //
             .subscribeOn(schedulerFacade.mainThread()) //
-            .subscribe(agenda::postValue);
+            .subscribe(meetingRoom::postValue);
     }
 
 

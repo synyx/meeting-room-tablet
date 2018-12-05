@@ -5,7 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import de.synyx.android.reservator.config.Registry;
-import de.synyx.android.reservator.screen.RoomDto;
+import de.synyx.android.reservator.domain.MeetingRoom;
 import de.synyx.android.reservator.util.SchedulerFacade;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -16,7 +16,7 @@ import io.reactivex.disposables.CompositeDisposable;
  */
 public class RoomStatusViewModel extends ViewModel {
 
-    private MutableLiveData<RoomDto> room;
+    private MutableLiveData<MeetingRoom> room;
 
     private LoadRoomUseCase loadRoomUseCase;
     private SchedulerFacade schedulerFacade;
@@ -29,7 +29,7 @@ public class RoomStatusViewModel extends ViewModel {
         schedulerFacade = Registry.get(SchedulerFacade.class);
     }
 
-    public LiveData<RoomDto> getRoom(long id) {
+    public LiveData<MeetingRoom> getRoom(long id) {
 
         if (room == null) {
             room = new MutableLiveData<>();

@@ -15,11 +15,11 @@ import android.text.TextUtils;
 import com.futurice.android.reservator.model.Room;
 import com.futurice.android.reservator.model.platformcalendar.PlatformCalendarRoom;
 
+import de.synyx.android.reservator.business.account.AccountService;
+import de.synyx.android.reservator.business.calendar.CalendarMode;
+import de.synyx.android.reservator.business.calendar.CalendarModeService;
+import de.synyx.android.reservator.business.room.RoomCalendar;
 import de.synyx.android.reservator.config.Registry;
-import de.synyx.android.reservator.domain.account.AccountService;
-import de.synyx.android.reservator.domain.calendar.CalendarMode;
-import de.synyx.android.reservator.domain.calendar.CalendarModeService;
-import de.synyx.android.reservator.domain.room.RoomCalendar;
 import de.synyx.android.reservator.preferences.PreferencesService;
 
 import io.reactivex.Maybe;

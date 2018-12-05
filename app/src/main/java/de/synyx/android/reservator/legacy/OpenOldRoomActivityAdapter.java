@@ -6,8 +6,8 @@ import com.futurice.android.reservator.RoomActivity;
 import com.futurice.android.reservator.model.DataProxy;
 import com.futurice.android.reservator.model.Room;
 
+import de.synyx.android.reservator.business.room.RoomCalendar;
 import de.synyx.android.reservator.config.Registry;
-import de.synyx.android.reservator.domain.room.RoomCalendar;
 
 
 /**

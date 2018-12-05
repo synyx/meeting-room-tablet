@@ -1,4 +1,4 @@
-package de.synyx.android.reservator.domain.calendar;
+package de.synyx.android.reservator.business.calendar;
 
 import android.content.Context;
 

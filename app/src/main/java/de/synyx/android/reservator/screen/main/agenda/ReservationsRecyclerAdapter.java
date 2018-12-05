@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.futurice.android.reservator.R;
 
-import de.synyx.android.reservator.domain.event.Event;
+import de.synyx.android.reservator.domain.Reservation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class ReservationsRecyclerAdapter extends RecyclerView.Adapter<ReservationViewHolder> {
 
-    private List<Event> reservations = new ArrayList<>();
+    private List<Reservation> reservations = new ArrayList<>();
 
     @NonNull
     @Override
@@ -36,7 +36,7 @@ public class ReservationsRecyclerAdapter extends RecyclerView.Adapter<Reservatio
     @Override
     public void onBindViewHolder(@NonNull ReservationViewHolder reservationViewHolder, int index) {
 
-        Event reservation = reservations.get(index);
+        Reservation reservation = reservations.get(index);
         reservationViewHolder.bind(reservation);
     }
 
@@ -48,7 +48,7 @@ public class ReservationsRecyclerAdapter extends RecyclerView.Adapter<Reservatio
     }
 
 
-    public void updateReservations(List<Event> newReservations) {
+    public void updateReservations(List<Reservation> newReservations) {
 
         reservations.clear();
         reservations.addAll(newReservations);
