@@ -21,35 +21,18 @@ import android.widget.TextView;
 import com.futurice.android.reservator.R;
 
 import de.synyx.android.reservator.screen.main.MainActivity;
+import de.synyx.android.reservator.screen.main.status.MeetingRoomViewModel;
 
 
 public class AgendaFragment extends Fragment {
 
-    private static final String CALENDAR_ID = "calendarId";
-    private AgendaViewModel viewModel;
-    private long calendarId;
+    private MeetingRoomViewModel viewModel;
     private TextView agendaTitle;
     private ReservationsRecyclerAdapter reservationsRecyclerAdapter;
 
-    public static AgendaFragment newInstance(long calendarId) {
+    public static AgendaFragment newInstance() {
 
-        AgendaFragment agendaFragment = new AgendaFragment();
-
-        Bundle args = new Bundle();
-        args.putLong(CALENDAR_ID, calendarId);
-        agendaFragment.setArguments(args);
-
-        return agendaFragment;
-    }
-
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-
-        Bundle arguments = getArguments();
-        calendarId = arguments.getLong(CALENDAR_ID);
+        return new AgendaFragment();
     }
 
 
@@ -65,7 +48,7 @@ public class AgendaFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(AgendaViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(MeetingRoomViewModel.class);
 
         agendaTitle = view.findViewById(R.id.agenda_title);
 
@@ -77,8 +60,8 @@ public class AgendaFragment extends Fragment {
 
     private void loadData() {
 
-        viewModel.getAgenda(calendarId) //
-        .observe(getActivity(),
+        viewModel.getRoom() //
+        .observe(this,
             meetingRoom -> {
                 reservationsRecyclerAdapter.updateReservations(meetingRoom.getReservations());
 

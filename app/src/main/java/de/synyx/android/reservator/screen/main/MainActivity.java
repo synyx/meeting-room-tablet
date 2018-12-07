@@ -1,7 +1,7 @@
 package de.synyx.android.reservator.screen.main;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
+import android.arch.lifecycle.ViewModelProviders;
+
 import android.content.Intent;
 import android.content.IntentFilter;
 
@@ -26,7 +26,9 @@ import de.synyx.android.reservator.preferences.PreferencesService;
 import de.synyx.android.reservator.screen.ScreenSize;
 import de.synyx.android.reservator.screen.main.agenda.AgendaFragment;
 import de.synyx.android.reservator.screen.main.lobby.LobbyFragment;
+import de.synyx.android.reservator.screen.main.status.MeetingRoomViewModel;
 import de.synyx.android.reservator.screen.main.status.StatusFragment;
+import de.synyx.android.reservator.screen.main.status.TimeTickReceiver;
 import de.synyx.android.reservator.screen.settings.SettingsActivity;
 import de.synyx.android.reservator.util.ScreenUtil;
 
@@ -45,8 +47,8 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
     private PreferencesService preferencesService;
     private TextView headerTitle;
     private BottomNavigationView navigationBar;
-    private TextView clockView;
-    private TimeTickBroadcastReciever timeTickBroadcastReciever;
+    private MeetingRoomViewModel roomViewModel;
+    private TimeTickReceiver timeTickReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,12 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
         super.onCreate(savedInstanceState);
 
         preferencesService = Config.getInstance(this).getPreferencesService();
+
+        roomViewModel = ViewModelProviders.of(this).get(MeetingRoomViewModel.class);
+        roomViewModel.setCalendarId(preferencesService.getCalendarIdOfDefaultRoom());
+
+        timeTickReceiver = new TimeTickReceiver();
+        timeTickReceiver.getTicks().subscribe(ignored -> doEveryMinute());
 
         setContentView(R.layout.activity_main);
 
@@ -63,6 +71,13 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
         setupNavigation();
         setupSettingsButton();
 
+        setClock();
+    }
+
+
+    private void doEveryMinute() {
+
+        roomViewModel.tick();
         setClock();
     }
 
@@ -88,12 +103,12 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
         switch (menuItem.getItemId()) {
             case R.id.menu_item_room_status:
 
-                replaceFragment(StatusFragment.newInstance(preferencesService.getCalendarIdOfDefaultRoom()));
+                replaceFragment(StatusFragment.newInstance());
                 break;
 
             case R.id.menu_item_room_agenda:
 
-                replaceFragment(AgendaFragment.newInstance(preferencesService.getCalendarIdOfDefaultRoom()));
+                replaceFragment(AgendaFragment.newInstance());
                 break;
 
             default:
@@ -115,15 +130,14 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
 
     private void setClock() {
 
-        clockView = findViewById(R.id.clock);
+        TextView clockView = findViewById(R.id.clock);
         clockView.setText(formatDateAndTime());
     }
 
 
     private void registerToTimeTickIntent() {
 
-        timeTickBroadcastReciever = new TimeTickBroadcastReciever(clockView);
-        this.registerReceiver(timeTickBroadcastReciever, new IntentFilter(Intent.ACTION_TIME_TICK));
+        this.registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
     }
 
 
@@ -170,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
     protected void onPause() {
 
         super.onPause();
-        unregisterReceiver(timeTickBroadcastReciever);
+        unregisterReceiver(timeTickReceiver);
     }
 
 
@@ -178,7 +192,8 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
     public void onRoomSelected(long calendarId) {
 
         navigationBar.setSelectedItemId(R.id.menu_item_room_status);
-        replaceFragment(StatusFragment.newInstance(calendarId));
+        roomViewModel.setCalendarId(calendarId);
+        replaceFragment(StatusFragment.newInstance());
     }
 
 
@@ -186,21 +201,5 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
     public void setTitle(CharSequence title) {
 
         headerTitle.setText(title);
-    }
-
-    private class TimeTickBroadcastReciever extends BroadcastReceiver {
-
-        private final TextView clockView;
-
-        public TimeTickBroadcastReciever(TextView clockView) {
-
-            this.clockView = clockView;
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-            clockView.setText(formatDateAndTime());
-        }
     }
 }

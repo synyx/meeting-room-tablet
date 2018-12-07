@@ -14,7 +14,7 @@ import io.reactivex.disposables.Disposable;
 /**
  * @author  Julian Heetel - heetel@synyx.de
  */
-public class RoomStatusViewModel extends ViewModel {
+public class MeetingRoomViewModel extends ViewModel {
 
     private MutableLiveData<MeetingRoom> room;
 
@@ -24,28 +24,33 @@ public class RoomStatusViewModel extends ViewModel {
     private long calendarId;
     private Disposable disposable;
 
-    public RoomStatusViewModel() {
+    public MeetingRoomViewModel() {
 
         loadRoomUseCase = new LoadRoomUseCase();
         schedulerFacade = Registry.get(SchedulerFacade.class);
     }
 
-    public LiveData<MeetingRoom> getRoom(long id) {
+    public LiveData<MeetingRoom> getRoom() {
 
-        if (room == null) {
-            room = new MutableLiveData<>();
-            loadRoom(id);
-        }
+        loadRoom();
 
         return room;
     }
 
 
-    private void loadRoom(long id) {
+    public void setCalendarId(Long calendarId) {
 
-        calendarId = id;
+        this.calendarId = calendarId;
+    }
 
-        disposable = loadRoomUseCase.execute(id)
+
+    private void loadRoom() {
+
+        if (room == null) {
+            room = new MutableLiveData<>();
+        }
+
+        disposable = loadRoomUseCase.execute(calendarId)
                 .observeOn(schedulerFacade.io())
                 .subscribeOn(schedulerFacade.mainThread())
                 .subscribe(room::postValue);
@@ -55,7 +60,7 @@ public class RoomStatusViewModel extends ViewModel {
     public void tick() {
 
         disposable.dispose();
-        loadRoom(calendarId);
+        loadRoom();
     }
 
 

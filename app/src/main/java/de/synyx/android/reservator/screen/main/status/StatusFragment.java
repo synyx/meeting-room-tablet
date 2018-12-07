@@ -2,9 +2,6 @@ package de.synyx.android.reservator.screen.main.status;
 
 import android.arch.lifecycle.ViewModelProviders;
 
-import android.content.Intent;
-import android.content.IntentFilter;
-
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
@@ -30,9 +27,7 @@ import de.synyx.android.reservator.util.DateFormatter;
 
 public class StatusFragment extends Fragment {
 
-    private static final String CALENDAR_ID = "calendarId";
-    private RoomStatusViewModel viewModel;
-    private long calendarId;
+    private MeetingRoomViewModel viewModel;
     private TextView tvAvailability;
     private TextView tvEventName;
     private TextView tvEventDuration;
@@ -40,21 +35,15 @@ public class StatusFragment extends Fragment {
     private Button btnReserve;
     private Button btnBookNow;
     private ViewGroup fragmentContainer;
-    private TimeTickReceiver timeTickReceiver;
 
     public StatusFragment() {
 
         // Required empty public constructor
     }
 
-    public static StatusFragment newInstance(long calendarId) {
+    public static StatusFragment newInstance() {
 
-        StatusFragment fragment = new StatusFragment();
-        Bundle args = new Bundle();
-        args.putLong(CALENDAR_ID, calendarId);
-        fragment.setArguments(args);
-
-        return fragment;
+        return new StatusFragment();
     }
 
 
@@ -70,14 +59,8 @@ public class StatusFragment extends Fragment {
 
         super.onViewCreated(view, savedInstanceState);
 
-        if (getArguments() != null) {
-            calendarId = getArguments().getLong(CALENDAR_ID);
-        }
-
-        viewModel = ViewModelProviders.of(this).get(RoomStatusViewModel.class);
-        viewModel.getRoom(calendarId).observe(this, this::updateStatus);
-        timeTickReceiver = new TimeTickReceiver();
-        timeTickReceiver.getTicks().subscribe(ignored -> viewModel.tick());
+        viewModel = ViewModelProviders.of(getActivity()).get(MeetingRoomViewModel.class);
+        viewModel.getRoom().observe(this, this::updateStatus);
 
         fragmentContainer = view.findViewById(R.id.status_fragment_container);
 
@@ -106,24 +89,6 @@ public class StatusFragment extends Fragment {
         tvEventDuration.setText(meetingRoom.getAvailabilityTime(() -> DateFormatter.periodFormatter(getContext())));
         tvEventName.setText(getCurrentMeetingText(meetingRoom));
         tvNextEventName.setText(getNextReservationText(meetingRoom));
-    }
-
-
-    @Override
-    public void onResume() {
-
-        super.onResume();
-
-        getContext().registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
-    }
-
-
-    @Override
-    public void onPause() {
-
-        super.onPause();
-
-        getContext().unregisterReceiver(timeTickReceiver);
     }
 
 
