@@ -8,7 +8,7 @@ import de.synyx.android.reservator.config.Registry;
 import de.synyx.android.reservator.domain.MeetingRoom;
 import de.synyx.android.reservator.util.SchedulerFacade;
 
-import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 
 /**
@@ -21,7 +21,8 @@ public class RoomStatusViewModel extends ViewModel {
     private LoadRoomUseCase loadRoomUseCase;
     private SchedulerFacade schedulerFacade;
 
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private long calendarId;
+    private Disposable disposable;
 
     public RoomStatusViewModel() {
 
@@ -33,19 +34,35 @@ public class RoomStatusViewModel extends ViewModel {
 
         if (room == null) {
             room = new MutableLiveData<>();
-            loadRooms(id);
+            loadRoom(id);
         }
 
         return room;
     }
 
 
-    private void loadRooms(long id) {
+    private void loadRoom(long id) {
 
-        // TODO load room once per minute (like in LobbyViewModel)
-        compositeDisposable.add(loadRoomUseCase.execute(id)
-            .observeOn(schedulerFacade.io())
-            .subscribeOn(schedulerFacade.mainThread())
-            .subscribe(room::postValue));
+        calendarId = id;
+
+        disposable = loadRoomUseCase.execute(id)
+                .observeOn(schedulerFacade.io())
+                .subscribeOn(schedulerFacade.mainThread())
+                .subscribe(room::postValue);
+    }
+
+
+    public void tick() {
+
+        disposable.dispose();
+        loadRoom(calendarId);
+    }
+
+
+    @Override
+    protected void onCleared() {
+
+        super.onCleared();
+        disposable.dispose();
     }
 }

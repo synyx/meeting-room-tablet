@@ -2,6 +2,9 @@ package de.synyx.android.reservator.screen.main.status;
 
 import android.arch.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
+import android.content.IntentFilter;
+
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
@@ -37,6 +40,7 @@ public class StatusFragment extends Fragment {
     private Button btnReserve;
     private Button btnBookNow;
     private ViewGroup fragmentContainer;
+    private TimeTickReceiver timeTickReceiver;
 
     public StatusFragment() {
 
@@ -72,6 +76,8 @@ public class StatusFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(this).get(RoomStatusViewModel.class);
         viewModel.getRoom(calendarId).observe(this, this::updateStatus);
+        timeTickReceiver = new TimeTickReceiver();
+        timeTickReceiver.getTicks().subscribe(ignored -> viewModel.tick());
 
         fragmentContainer = view.findViewById(R.id.status_fragment_container);
 
@@ -100,6 +106,24 @@ public class StatusFragment extends Fragment {
         tvEventDuration.setText(meetingRoom.getAvailabilityTime(() -> DateFormatter.periodFormatter(getContext())));
         tvEventName.setText(getCurrentMeetingText(meetingRoom));
         tvNextEventName.setText(getNextReservationText(meetingRoom));
+    }
+
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+
+        getContext().registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+    }
+
+
+    @Override
+    public void onPause() {
+
+        super.onPause();
+
+        getContext().unregisterReceiver(timeTickReceiver);
     }
 
 
