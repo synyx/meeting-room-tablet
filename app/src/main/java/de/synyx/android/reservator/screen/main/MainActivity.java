@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
 
     private PreferencesService preferencesService;
     private TextView headerTitle;
+    private BottomNavigationView navigationBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
 
     private void setupNavigation() {
 
-        BottomNavigationView navigationBar = findViewById(R.id.navigation_bar);
+        navigationBar = findViewById(R.id.navigation_bar);
         navigationBar.setOnNavigationItemSelectedListener(this::onNavigationSelect);
         navigationBar.setLabelVisibilityMode(LABEL_VISIBILITY_LABELED);
         navigationBar.setSelectedItemId(R.id.menu_item_all_rooms);
@@ -159,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
     @Override
     public void onRoomSelected(long calendarId) {
 
+        navigationBar.setSelectedItemId(R.id.menu_item_room_status);
         replaceFragment(StatusFragment.newInstance(calendarId));
     }
 
