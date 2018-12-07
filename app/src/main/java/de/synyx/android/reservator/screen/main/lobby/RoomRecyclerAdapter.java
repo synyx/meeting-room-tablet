@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import com.futurice.android.reservator.R;
 
 import de.synyx.android.reservator.domain.MeetingRoom;
-import de.synyx.android.reservator.domain.Reservation;
 
 import io.reactivex.Observable;
 
@@ -44,31 +43,8 @@ public class RoomRecyclerAdapter extends RecyclerView.Adapter<RoomViewHolder> {
 
         MeetingRoom meetingRoom = rooms.get(index);
 
-        roomViewHolder.meetingRommName.setText(meetingRoom.getName());
-        roomViewHolder.availabilityTime.setText(meetingRoom.getAvailabilityTime());
-        roomViewHolder.currentMeetingTitle.setText(getCurrentMeetingText(meetingRoom));
-        roomViewHolder.setStatus(meetingRoom.getAvailability());
-        roomViewHolder.upcomingReservationTitle.setText(getUpcomingReservationText(meetingRoom));
-
+        roomViewHolder.bind(meetingRoom);
         roomViewHolder.itemView.setOnClickListener(view -> onClickSubject.onNext(meetingRoom));
-    }
-
-
-    private String getUpcomingReservationText(MeetingRoom meetingRoom) {
-
-        Reservation upcomingReservation = meetingRoom.getUpcomingReservation();
-
-        return upcomingReservation != null //
-            ? upcomingReservation.getTitle() //
-            : "";
-    }
-
-
-    private String getCurrentMeetingText(MeetingRoom meetingRoom) {
-
-        Reservation currentMeeting = meetingRoom.getCurrentMeeting();
-
-        return currentMeeting != null ? currentMeeting.getTitle() : "";
     }
 
 

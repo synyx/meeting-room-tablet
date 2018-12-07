@@ -10,7 +10,10 @@ import android.widget.TextView;
 
 import com.futurice.android.reservator.R;
 
+import de.synyx.android.reservator.domain.MeetingRoom;
+import de.synyx.android.reservator.domain.Reservation;
 import de.synyx.android.reservator.domain.RoomAvailability;
+import de.synyx.android.reservator.util.DateFormatter;
 
 
 /**
@@ -18,10 +21,10 @@ import de.synyx.android.reservator.domain.RoomAvailability;
  */
 class RoomViewHolder extends RecyclerView.ViewHolder {
 
-    TextView meetingRommName;
-    TextView availabilityTime;
-    TextView currentMeetingTitle;
-    TextView upcomingReservationTitle;
+    private TextView meetingRommName;
+    private TextView availabilityTime;
+    private TextView currentMeetingTitle;
+    private TextView upcomingReservationTitle;
 
     RoomViewHolder(@NonNull View itemView) {
 
@@ -36,5 +39,33 @@ class RoomViewHolder extends RecyclerView.ViewHolder {
     void setStatus(RoomAvailability roomAvailability) {
 
         itemView.setBackgroundResource(roomAvailability.getColorRes());
+    }
+
+
+    public void bind(MeetingRoom meetingRoom) {
+
+        meetingRommName.setText(meetingRoom.getName());
+        availabilityTime.setText(meetingRoom.getAvailabilityTime(DateFormatter::smallPeriodFormatter));
+        currentMeetingTitle.setText(getCurrentMeetingText(meetingRoom));
+        setStatus(meetingRoom.getAvailability());
+        upcomingReservationTitle.setText(getUpcomingReservationText(meetingRoom));
+    }
+
+
+    private String getUpcomingReservationText(MeetingRoom meetingRoom) {
+
+        Reservation upcomingReservation = meetingRoom.getUpcomingReservation();
+
+        return upcomingReservation != null //
+            ? upcomingReservation.getTitle() //
+            : "Kein Folgetermin";
+    }
+
+
+    private String getCurrentMeetingText(MeetingRoom meetingRoom) {
+
+        Reservation currentMeeting = meetingRoom.getCurrentMeeting();
+
+        return currentMeeting != null ? currentMeeting.getTitle() : "";
     }
 }

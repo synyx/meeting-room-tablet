@@ -1,6 +1,11 @@
 package de.synyx.android.reservator.util;
 
-import org.joda.time.Duration;
+import android.content.Context;
+
+import android.support.annotation.NonNull;
+
+import com.futurice.android.reservator.R;
+
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
@@ -25,19 +30,40 @@ public class DateFormatter {
     }
 
 
-    // TODO: 07.12.18 - internationalisierung
-    public static String formatToString(Duration remainingTime) {
+    public static PeriodFormatter periodFormatter(Context context) {
 
-        PeriodFormatter formatter = new PeriodFormatterBuilder().appendDays()
-                .appendSuffix(" day", " days")
-                .appendSeparator(" ")
-                .appendHours()
-                .appendSuffix(" h")
-                .appendSeparator(" ")
-                .appendMinutes()
-                .appendSuffix(" min")
-                .toFormatter();
+        return new PeriodFormatterBuilder().appendDays()
+            .appendSuffix(addSpaceBefore(context, R.string.time_suffix_day),
+                    addSpaceBefore(context, R.string.time_suffix_days))
+            .appendSeparator(" ")
+            .appendHours()
+            .appendSuffix(addSpaceBefore(context, R.string.time_suffix_hour),
+                    addSpaceBefore(context, R.string.time_suffix_hours))
+            .appendSeparator(" ")
+            .appendMinutes()
+            .appendSuffix(addSpaceBefore(context, R.string.time_suffix_minute),
+                addSpaceBefore(context, R.string.time_suffix_minutes))
+            .toFormatter();
+    }
 
-        return formatter.print(remainingTime.toPeriod());
+
+    @NonNull
+    private static String addSpaceBefore(Context context, int stringResource) {
+
+        return " " + context.getString(stringResource);
+    }
+
+
+    public static PeriodFormatter smallPeriodFormatter() {
+
+        return new PeriodFormatterBuilder().appendDays()
+            .appendSuffix(" d")
+            .appendSeparator(" ")
+            .appendHours()
+            .appendSuffix(" h")
+            .appendSeparator(" ")
+            .appendMinutes()
+            .appendSuffix(" min")
+            .toFormatter();
     }
 }

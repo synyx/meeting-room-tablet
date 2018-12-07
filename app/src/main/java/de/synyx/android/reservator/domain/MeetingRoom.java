@@ -4,8 +4,6 @@ import org.joda.time.Duration;
 
 import java.util.List;
 
-import static de.synyx.android.reservator.util.DateFormatter.formatToString;
-
 
 /**
  * @author  Max Dobler - dobler@synyx.de
@@ -98,20 +96,26 @@ public class MeetingRoom {
     }
 
 
-    public String getAvailabilityTime() {
+    public String getAvailabilityTime(FormatStrategy formatStrategy) {
 
         RoomAvailability availability = getAvailability();
 
         if (availability == RoomAvailability.UNAVAILABLE) {
             Duration timeUntilAvailable = getTimeUntilAvailable();
 
-            return "frei in " + formatToString(timeUntilAvailable);
+            return "frei in " + formatDuration(formatStrategy, timeUntilAvailable);
         }
 
         Duration timeUntilNextMeeting = getTimeUntilNextMeeting();
 
         return timeUntilNextMeeting != null //
-            ? "für " + formatToString(timeUntilNextMeeting) //
-            : "für den restlichen Tag";
+            ? "für " + formatDuration(formatStrategy, timeUntilNextMeeting) //
+            : "Frei";
+    }
+
+
+    private String formatDuration(FormatStrategy formatStrategy, Duration timeUntilNextMeeting) {
+
+        return formatStrategy.getFormat().print(timeUntilNextMeeting.toPeriod());
     }
 }

@@ -199,6 +199,13 @@
     <string name="settings_languages_title">Display language</string>
     <string name="agenda_title">Agenda for %1$s</string>
 
+    <string name="time_suffix_day">day</string>
+    <string name="time_suffix_days">days</string>
+    <string name="time_suffix_hour">hour</string>
+    <string name="time_suffix_hours">hours</string>
+    <string name="time_suffix_minute">minute</string>
+    <string name="time_suffix_minutes">minutes</string>
+
     <string-array name="languages">
         <item>English</item>
         <item>German</item>

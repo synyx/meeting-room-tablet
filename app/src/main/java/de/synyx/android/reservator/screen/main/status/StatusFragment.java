@@ -22,6 +22,7 @@ import de.synyx.android.reservator.domain.MeetingRoom;
 import de.synyx.android.reservator.domain.Reservation;
 import de.synyx.android.reservator.domain.RoomAvailability;
 import de.synyx.android.reservator.screen.main.MainActivity;
+import de.synyx.android.reservator.util.DateFormatter;
 
 
 public class StatusFragment extends Fragment {
@@ -96,7 +97,7 @@ public class StatusFragment extends Fragment {
         btnBookNow.setTextColor(getActivity().getColor(roomAvailablility.getColorRes()));
 
         tvAvailability.setText(roomAvailablility.getStringRes());
-        tvEventDuration.setText(meetingRoom.getAvailabilityTime());
+        tvEventDuration.setText(meetingRoom.getAvailabilityTime(() -> DateFormatter.periodFormatter(context)));
         tvEventName.setText(getCurrentMeetingText(meetingRoom));
         tvNextEventName.setText(getNextReservationText(meetingRoom));
     }
@@ -106,7 +107,7 @@ public class StatusFragment extends Fragment {
 
         Reservation upcomingReservation = meetingRoom.getUpcomingReservation();
 
-        return upcomingReservation != null ? upcomingReservation.getTitle() : "";
+        return upcomingReservation != null ? upcomingReservation.getTitle() : "Kein Folgetermin vorhanden";
     }
 
 
