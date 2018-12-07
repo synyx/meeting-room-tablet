@@ -59,7 +59,10 @@ public class MeetingRoomViewModel extends ViewModel {
 
     public void tick() {
 
-        disposable.dispose();
+        if (disposable != null) {
+            disposable.dispose();
+        }
+
         loadRoom();
     }
 

@@ -2,6 +2,9 @@ package de.synyx.android.reservator.screen.main.lobby;
 
 import android.arch.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
+import android.content.IntentFilter;
+
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
@@ -19,8 +22,8 @@ import android.view.ViewGroup;
 import com.futurice.android.reservator.R;
 
 import de.synyx.android.reservator.screen.ScreenSize;
-import de.synyx.android.reservator.screen.main.HeaderTitleListener;
 import de.synyx.android.reservator.screen.main.MainActivity;
+import de.synyx.android.reservator.screen.main.status.TimeTickReceiver;
 
 import io.reactivex.disposables.Disposable;
 
@@ -32,7 +35,7 @@ public class LobbyFragment extends Fragment {
     private LobbyViewModel viewModel;
     private RoomSelectionListener roomSelectionListener;
     private Disposable roomSelectionObservable;
-    private HeaderTitleListener headerTitleListener;
+    private TimeTickReceiver timeTickReceiver;
 
     public LobbyFragment() {
 
@@ -62,7 +65,8 @@ public class LobbyFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = ViewModelProviders.of(this).get(LobbyViewModel.class);
-
+        timeTickReceiver = new TimeTickReceiver();
+        timeTickReceiver.getTicks().subscribe(ignored -> viewModel.tick());
         setRoomRecyclerView(view);
     }
 
@@ -131,6 +135,23 @@ public class LobbyFragment extends Fragment {
 
         super.onDestroy();
         roomSelectionObservable.dispose();
+    }
+
+
+    @Override
+    public void onResume() {
+
+        super.onResume();
+
+        getActivity().registerReceiver(timeTickReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+    }
+
+
+    @Override
+    public void onPause() {
+
+        super.onPause();
+        getActivity().unregisterReceiver(timeTickReceiver);
     }
 
     public interface RoomSelectionListener {

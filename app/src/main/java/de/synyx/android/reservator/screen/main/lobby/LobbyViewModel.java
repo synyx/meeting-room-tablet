@@ -8,13 +8,9 @@ import de.synyx.android.reservator.config.Registry;
 import de.synyx.android.reservator.domain.MeetingRoom;
 import de.synyx.android.reservator.util.SchedulerFacade;
 
-import io.reactivex.Observable;
-
 import io.reactivex.disposables.Disposable;
 
 import java.util.List;
-
-import static java.util.concurrent.TimeUnit.MINUTES;
 
 
 /**
@@ -48,8 +44,7 @@ public class LobbyViewModel extends ViewModel {
 
     private void loadRooms() {
 
-        disposable = Observable.interval(0, 1, MINUTES)
-                .flatMap(ignored -> loadVisibleRoomsUseCase.execute().toObservable())
+        disposable = loadVisibleRoomsUseCase.execute()
                 .observeOn(schedulerFacade.io())
                 .subscribeOn(schedulerFacade.mainThread())
                 .subscribe(rooms::postValue);
@@ -61,5 +56,15 @@ public class LobbyViewModel extends ViewModel {
 
         super.onCleared();
         disposable.dispose();
+    }
+
+
+    public void tick() {
+
+        if (disposable != null) {
+            disposable.dispose();
+        }
+
+        loadRooms();
     }
 }
