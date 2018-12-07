@@ -72,9 +72,11 @@ public class MeetingRoom {
 
     public RoomAvailability getAvailability() {
 
-        // TODO: 06.12.18 - alle fälle behandeln
+        if (!isAvailable()) {
+            return RoomAvailability.UNAVAILABLE;
+        }
 
-        return isAvailable() ? RoomAvailability.AVAILABLE : RoomAvailability.UNAVAILABLE;
+        return isNextMeetingInNearFuture() ? RoomAvailability.RESERVED : RoomAvailability.AVAILABLE;
     }
 
 
