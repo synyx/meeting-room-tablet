@@ -10,7 +10,7 @@
     </style>
 
     <style name="ReserveButton" parent="Widget.AppCompat.Button">
-        <item name="android:background">#eee</item>
+        <item name="android:background">@drawable/bg_white_rounded_corners</item>
         <item name="android:textColor">#222</item>
         <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>

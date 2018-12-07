@@ -11,47 +11,54 @@
         android:id="@+id/content_main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/navigation_bar"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/navigation_bar" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="@dimen/header_height"
+        />
 
     <ImageButton
         android:id="@+id/settings_button"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="1:1"
         android:layout_marginStart="@dimen/header_margin_top"
-        android:layout_marginTop="@dimen/header_margin_top"
+        android:padding="8dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/main_acitivity_settings_button_description"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_settings"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_header"/>
 
     <TextView
         android:id="@+id/main_header_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/header_margin_top"
-        android:background="@color/Transparent"
-        android:gravity="center"
-        android:paddingBottom="@dimen/header_padding_bottom"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="@dimen/header_font_size"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_header"
         tools:text="All Rooms" />
 
     <TextView
         android:id="@+id/clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/Transparent"
-        android:padding="@dimen/header_margin_top"
+        android:layout_marginEnd="@dimen/header_margin_top"
         android:textColor="?android:attr/textColorPrimary"
         android:textSize="@dimen/header_font_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_header"
         tools:ignore="RelativeOverlap"
         tools:text="05.07.18  |  08:25" />
 

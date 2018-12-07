@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_dark"
-    android:paddingTop="50dp"
+    android:paddingTop="@dimen/header_height"
     tools:context="de.synyx.android.reservator.screen.main.MainActivity">
 
     <android.support.v7.widget.RecyclerView

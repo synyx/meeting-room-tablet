@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 
 import android.support.v7.app.AppCompatActivity;
 
@@ -123,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
 
         getSupportFragmentManager() //
         .beginTransaction() //
+        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN) //
         .replace(R.id.content_main, fragment) //
         .commit();
     }

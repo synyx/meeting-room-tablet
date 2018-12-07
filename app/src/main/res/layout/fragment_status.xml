@@ -68,6 +68,7 @@
     <Button
         android:id="@+id/reserve"
         style="@style/ReserveButton"
+        android:foreground="?android:attr/selectableItemBackground"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/reserve"
