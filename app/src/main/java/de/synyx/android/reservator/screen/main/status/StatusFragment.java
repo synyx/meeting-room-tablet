@@ -97,7 +97,7 @@ public class StatusFragment extends Fragment {
         btnBookNow.setTextColor(getActivity().getColor(roomAvailablility.getColorRes()));
 
         tvAvailability.setText(roomAvailablility.getStringRes());
-        tvEventDuration.setText(meetingRoom.getAvailabilityTime(() -> DateFormatter.periodFormatter(context)));
+        tvEventDuration.setText(meetingRoom.getAvailabilityTime(() -> DateFormatter.periodFormatter(getContext())));
         tvEventName.setText(getCurrentMeetingText(meetingRoom));
         tvNextEventName.setText(getNextReservationText(meetingRoom));
     }

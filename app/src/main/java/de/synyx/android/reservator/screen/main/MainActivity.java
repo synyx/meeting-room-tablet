@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
     private PreferencesService preferencesService;
     private TextView headerTitle;
     private BottomNavigationView navigationBar;
+    private TextView clockView;
+    private TimeTickBroadcastReciever timeTickBroadcastReciever;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,9 +115,15 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
 
     private void setClock() {
 
-        TextView clockView = findViewById(R.id.clock);
+        clockView = findViewById(R.id.clock);
         clockView.setText(formatDateAndTime());
-        this.registerReceiver(new TimeTickBroadcastReciever(clockView), new IntentFilter(Intent.ACTION_TIME_TICK));
+    }
+
+
+    private void registerToTimeTickIntent() {
+
+        timeTickBroadcastReciever = new TimeTickBroadcastReciever(clockView);
+        this.registerReceiver(timeTickBroadcastReciever, new IntentFilter(Intent.ACTION_TIME_TICK));
     }
 
 
@@ -154,6 +162,15 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
 
         super.onResume();
         enableFullscreen();
+        registerToTimeTickIntent();
+    }
+
+
+    @Override
+    protected void onPause() {
+
+        super.onPause();
+        unregisterReceiver(timeTickBroadcastReciever);
     }
 
 
