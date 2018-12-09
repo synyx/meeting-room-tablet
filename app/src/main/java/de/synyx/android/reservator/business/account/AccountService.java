@@ -12,4 +12,7 @@ public interface AccountService {
 
 
     String getUserAccountType();
+
+
+    void syncCalendar();
 }

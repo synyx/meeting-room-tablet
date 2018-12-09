@@ -22,7 +22,9 @@ import android.widget.TextView;
 
 import com.futurice.android.reservator.R;
 
+import de.synyx.android.reservator.business.account.AccountService;
 import de.synyx.android.reservator.config.Config;
+import de.synyx.android.reservator.config.Registry;
 import de.synyx.android.reservator.preferences.PreferencesService;
 import de.synyx.android.reservator.screen.ScreenSize;
 import de.synyx.android.reservator.screen.main.agenda.AgendaFragment;
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
     private BottomNavigationView navigationBar;
     private MeetingRoomViewModel roomViewModel;
     private TimeTickReceiver timeTickReceiver;
+    private AccountService accountSevice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
         super.onCreate(savedInstanceState);
 
         preferencesService = Config.getInstance(this).getPreferencesService();
+        accountSevice = Registry.get(AccountService.class);
 
         roomViewModel = ViewModelProviders.of(this).get(MeetingRoomViewModel.class);
         roomViewModel.setCalendarId(preferencesService.getCalendarIdOfDefaultRoom());
@@ -78,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
 
     private void doEveryMinute() {
 
+        accountSevice.syncCalendar();
         roomViewModel.tick();
         setClock();
     }

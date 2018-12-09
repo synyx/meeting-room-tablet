@@ -5,13 +5,21 @@ import android.accounts.AccountManager;
 
 import android.content.Context;
 
+import android.os.Bundle;
+
 import de.synyx.android.reservator.config.Config;
+
+import io.reactivex.Observable;
+
+import static android.content.ContentResolver.requestSync;
 
 
 /**
  * @author  Julian Heetel - heetel@synyx.de
  */
 public class AccountServiceImpl implements AccountService {
+
+    private final String CALENDAR_SYNC_AUTHORITY = "com.android.calendar";
 
     private Context context;
 
@@ -25,13 +33,11 @@ public class AccountServiceImpl implements AccountService {
 
         Account[] accounts = AccountManager.get(context).getAccounts();
 
-        String[] accountNames = new String[accounts.length];
-
-        for (int i = 0; i < accounts.length; i++) {
-            accountNames[i] = accounts[i].name;
-        }
-
-        return accountNames;
+        return Observable.fromArray(accounts)
+            .map(account -> account.name)
+            .toList(accounts.length)
+            .blockingGet()
+            .toArray(new String[accounts.length]);
     }
 
 
@@ -46,5 +52,18 @@ public class AccountServiceImpl implements AccountService {
     public String getUserAccountType() {
 
         return Config.getInstance(context).getPreferencesService().getUserAccountType();
+    }
+
+
+    @Override
+    public void syncCalendar() {
+
+        String userAccountName = getUserAccountName();
+        Account[] accounts = AccountManager.get(context).getAccounts();
+
+        Observable.fromArray(accounts)
+            .filter(account -> account.name.equals(userAccountName))
+            .firstElement()
+            .subscribe(account -> requestSync(account, CALENDAR_SYNC_AUTHORITY, new Bundle()));
     }
 }
