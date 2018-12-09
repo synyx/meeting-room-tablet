@@ -1,7 +1,7 @@
 package de.synyx.android.reservator.data;
 
-import de.synyx.android.reservator.business.room.RoomCalendar;
-import de.synyx.android.reservator.business.room.RoomRepository;
+import de.synyx.android.reservator.business.calendar.RoomCalendarModel;
+import de.synyx.android.reservator.business.calendar.RoomCalendarRepository;
 import de.synyx.android.reservator.config.Registry;
 
 import io.reactivex.Maybe;
@@ -11,31 +11,31 @@ import io.reactivex.Observable;
 /**
  * @author  Max Dobler - dobler@synyx.de
  */
-public class RoomRepositoryImpl implements RoomRepository {
+public class RoomCalendarRepositoryImpl implements RoomCalendarRepository {
 
     private CalendarAdapter calendarAdapter;
 
-    public RoomRepositoryImpl() {
+    public RoomCalendarRepositoryImpl() {
 
         calendarAdapter = Registry.get(CalendarAdapter.class);
     }
 
     @Override
-    public Observable<RoomCalendar> loadAllRooms() {
+    public Observable<RoomCalendarModel> loadAllRooms() {
 
         return calendarAdapter.loadAllRooms();
     }
 
 
     @Override
-    public Observable<RoomCalendar> loadVisibleRooms() {
+    public Observable<RoomCalendarModel> loadVisibleRooms() {
 
         return calendarAdapter.loadVisibleRooms();
     }
 
 
     @Override
-    public Maybe<RoomCalendar> loadRoom(long id) {
+    public Maybe<RoomCalendarModel> loadRoom(long id) {
 
         return calendarAdapter.loadRoom(id);
     }

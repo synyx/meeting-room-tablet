@@ -1,6 +1,6 @@
 package de.synyx.android.reservator.util.proxy.room;
 
-import de.synyx.android.reservator.business.room.RoomCalendar;
+import de.synyx.android.reservator.business.calendar.RoomCalendarModel;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
 public class ResourceRoomProxy extends RoomProxy {
 
     @Override
-    public List<RoomCalendar> getRooms() {
+    public List<RoomCalendarModel> getRooms() {
 
         return null;
     }

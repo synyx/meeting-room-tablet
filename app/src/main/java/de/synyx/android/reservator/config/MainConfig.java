@@ -1,13 +1,13 @@
 package de.synyx.android.reservator.config;
 
+import de.synyx.android.reservator.business.calendar.RoomCalendarRepository;
 import de.synyx.android.reservator.business.event.EventRepository;
-import de.synyx.android.reservator.business.room.RoomRepository;
 import de.synyx.android.reservator.data.AttendeeAdapter;
 import de.synyx.android.reservator.data.AttendeeAdapterImpl;
 import de.synyx.android.reservator.data.EventAdapter;
 import de.synyx.android.reservator.data.EventAdapterImpl;
 import de.synyx.android.reservator.data.EventRepositoryImpl;
-import de.synyx.android.reservator.data.RoomRepositoryImpl;
+import de.synyx.android.reservator.data.RoomCalendarRepositoryImpl;
 import de.synyx.android.reservator.util.SchedulerFacade;
 import de.synyx.android.reservator.util.SchedulerFacadeImpl;
 
@@ -28,6 +28,6 @@ public class MainConfig {
         Registry.put(EventAdapter.class, new EventAdapterImpl());
         Registry.put(EventRepository.class, new EventRepositoryImpl());
         Registry.put(SchedulerFacade.class, new SchedulerFacadeImpl());
-        Registry.put(RoomRepository.class, new RoomRepositoryImpl());
+        Registry.put(RoomCalendarRepository.class, new RoomCalendarRepositoryImpl());
     }
 }

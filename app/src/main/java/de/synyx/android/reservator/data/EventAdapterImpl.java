@@ -11,7 +11,7 @@ import android.provider.CalendarContract.Instances;
 
 import android.support.annotation.NonNull;
 
-import de.synyx.android.reservator.business.event.Event;
+import de.synyx.android.reservator.business.event.EventModel;
 import de.synyx.android.reservator.config.Registry;
 
 import io.reactivex.Observable;
@@ -40,7 +40,7 @@ public class EventAdapterImpl implements EventAdapter {
     }
 
     @Override
-    public Observable<Event> getEventsForRoom(long roomId) {
+    public Observable<EventModel> getEventsForRoom(long roomId) {
 
         String[] projection = {
             Instances.EVENT_ID, //
@@ -72,7 +72,7 @@ public class EventAdapterImpl implements EventAdapter {
 
 
     @NonNull
-    private Function<Cursor, Event> toEvent() {
+    private Function<Cursor, EventModel> toEvent() {
 
         return
             cursor -> {
@@ -84,7 +84,7 @@ public class EventAdapterImpl implements EventAdapter {
             DateTime begin = new DateTime(beginMillis);
             DateTime end = new DateTime(endMillis);
 
-            return new Event(eventId, title, begin, end);
+            return new EventModel(eventId, title, begin, end);
         };
     }
 }

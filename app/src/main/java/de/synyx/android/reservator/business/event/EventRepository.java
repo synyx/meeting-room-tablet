@@ -8,5 +8,5 @@ import io.reactivex.Observable;
  */
 public interface EventRepository {
 
-    Observable<Event> loadAllEventsForRoom(long roomId);
+    Observable<EventModel> loadAllEventsForRoom(long roomId);
 }

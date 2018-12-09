@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @author  Max Dobler - dobler@synyx.de
  */
-public class Event implements Comparable<Event> {
+public class EventModel implements Comparable<EventModel> {
 
     private final Long id;
     private final String name;
@@ -21,7 +21,7 @@ public class Event implements Comparable<Event> {
     private final DateTime end;
     private List<Attendee> attendees = new ArrayList<>();
 
-    public Event(Long id, String name, DateTime begin, DateTime end) {
+    public EventModel(Long id, String name, DateTime begin, DateTime end) {
 
         this.id = id;
         this.name = name;
@@ -74,7 +74,7 @@ public class Event implements Comparable<Event> {
 
 
     @Override
-    public int compareTo(Event other) {
+    public int compareTo(EventModel other) {
 
         return begin.compareTo(other.begin);
     }

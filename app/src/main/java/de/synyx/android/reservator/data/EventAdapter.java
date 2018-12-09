@@ -1,6 +1,6 @@
 package de.synyx.android.reservator.data;
 
-import de.synyx.android.reservator.business.event.Event;
+import de.synyx.android.reservator.business.event.EventModel;
 
 import io.reactivex.Observable;
 
@@ -10,5 +10,5 @@ import io.reactivex.Observable;
  */
 public interface EventAdapter {
 
-    Observable<Event> getEventsForRoom(long roomId);
+    Observable<EventModel> getEventsForRoom(long roomId);
 }

@@ -1,6 +1,6 @@
 package de.synyx.android.reservator.screen.login;
 
-import de.synyx.android.reservator.business.calendar.CalendarMode;
+import de.synyx.android.reservator.domain.CalendarMode;
 
 
 /**

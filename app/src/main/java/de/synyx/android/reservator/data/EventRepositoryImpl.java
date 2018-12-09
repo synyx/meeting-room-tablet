@@ -2,7 +2,7 @@ package de.synyx.android.reservator.data;
 
 import android.support.annotation.NonNull;
 
-import de.synyx.android.reservator.business.event.Event;
+import de.synyx.android.reservator.business.event.EventModel;
 import de.synyx.android.reservator.business.event.EventRepository;
 import de.synyx.android.reservator.config.Registry;
 
@@ -26,7 +26,7 @@ public class EventRepositoryImpl implements EventRepository {
     }
 
     @Override
-    public Observable<Event> loadAllEventsForRoom(long roomId) {
+    public Observable<EventModel> loadAllEventsForRoom(long roomId) {
 
         return eventAdapter.getEventsForRoom(roomId) //
             .flatMap(loadAttendees());
@@ -34,12 +34,12 @@ public class EventRepositoryImpl implements EventRepository {
 
 
     @NonNull
-    private Function<Event, Observable<Event>> loadAttendees() {
+    private Function<EventModel, Observable<EventModel>> loadAttendees() {
 
         return
             event ->
                 attendeeAdapter.getAttendeesForEvent(event.getId())
-                .collectInto(event, Event::addAttendee)
+                .collectInto(event, EventModel::addAttendee)
                 .toObservable();
     }
 }

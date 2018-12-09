@@ -1,8 +1,8 @@
 package de.synyx.android.reservator.screen.main.status;
 
-import de.synyx.android.reservator.business.event.Event;
+import de.synyx.android.reservator.business.calendar.RoomCalendarRepository;
+import de.synyx.android.reservator.business.event.EventModel;
 import de.synyx.android.reservator.business.event.EventRepository;
-import de.synyx.android.reservator.business.room.RoomRepository;
 import de.synyx.android.reservator.config.Registry;
 import de.synyx.android.reservator.domain.MeetingRoom;
 import de.synyx.android.reservator.domain.Reservation;
@@ -16,18 +16,18 @@ import io.reactivex.Observable;
  */
 public class LoadRoomUseCase {
 
-    private final RoomRepository roomRepository;
+    private final RoomCalendarRepository roomCalendarRepository;
     private final EventRepository eventRepository;
 
     public LoadRoomUseCase() {
 
-        roomRepository = Registry.get(RoomRepository.class);
+        roomCalendarRepository = Registry.get(RoomCalendarRepository.class);
         eventRepository = Registry.get(EventRepository.class);
     }
 
     public Maybe<MeetingRoom> execute(long calendarId) {
 
-        return roomRepository.loadRoom(calendarId)
+        return roomCalendarRepository.loadRoom(calendarId)
             .map(roomCalendar -> new MeetingRoom(roomCalendar.getCalendarId(), roomCalendar.getName()))
             .flatMap(this::addReservations);
     }
@@ -42,7 +42,7 @@ public class LoadRoomUseCase {
     }
 
 
-    private Observable<Event> loadEventsFor(MeetingRoom meetingRoom) {
+    private Observable<EventModel> loadEventsFor(MeetingRoom meetingRoom) {
 
         return eventRepository.loadAllEventsForRoom(meetingRoom.getCalendarId());
     }

@@ -1,5 +1,8 @@
 package de.synyx.android.reservator.business.calendar;
 
+import de.synyx.android.reservator.domain.CalendarMode;
+
+
 /**
  * @author  Julia Dasch - dasch@synyx.de
  */

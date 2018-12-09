@@ -2,10 +2,10 @@ package de.synyx.android.reservator.screen.main.lobby;
 
 import android.support.annotation.NonNull;
 
-import de.synyx.android.reservator.business.event.Event;
+import de.synyx.android.reservator.business.calendar.RoomCalendarModel;
+import de.synyx.android.reservator.business.calendar.RoomCalendarRepository;
+import de.synyx.android.reservator.business.event.EventModel;
 import de.synyx.android.reservator.business.event.EventRepository;
-import de.synyx.android.reservator.business.room.RoomCalendar;
-import de.synyx.android.reservator.business.room.RoomRepository;
 import de.synyx.android.reservator.config.Registry;
 import de.synyx.android.reservator.domain.MeetingRoom;
 import de.synyx.android.reservator.domain.Reservation;
@@ -22,19 +22,19 @@ import java.util.List;
  */
 public class LoadVisibleRoomsUseCase {
 
-    private final RoomRepository roomRepository;
+    private final RoomCalendarRepository roomCalendarRepository;
     private final EventRepository eventRepository;
 
     public LoadVisibleRoomsUseCase() {
 
-        roomRepository = Registry.get(RoomRepository.class);
+        roomCalendarRepository = Registry.get(RoomCalendarRepository.class);
         eventRepository = Registry.get(EventRepository.class);
     }
 
     public Single<List<MeetingRoom>> execute() {
 
         return
-            roomRepository.loadVisibleRooms() //
+            roomCalendarRepository.loadVisibleRooms() //
             .map(this::toMeetingRoom) //
             .flatMapSingle(this::addReservations) //
             .collect(ArrayList::new, List::add);
@@ -42,7 +42,7 @@ public class LoadVisibleRoomsUseCase {
 
 
     @NonNull
-    private MeetingRoom toMeetingRoom(RoomCalendar roomCalendar) {
+    private MeetingRoom toMeetingRoom(RoomCalendarModel roomCalendar) {
 
         return new MeetingRoom(roomCalendar.getCalendarId(), roomCalendar.getName());
     }
@@ -58,13 +58,13 @@ public class LoadVisibleRoomsUseCase {
 
 
     @NonNull
-    private Reservation toReservation(Event event) {
+    private Reservation toReservation(EventModel event) {
 
         return new Reservation(event.getId(), event.getName(), event.getBegin(), event.getEnd());
     }
 
 
-    private Observable<Event> loadEventsFor(MeetingRoom meetingRoom) {
+    private Observable<EventModel> loadEventsFor(MeetingRoom meetingRoom) {
 
         return eventRepository.loadAllEventsForRoom(meetingRoom.getCalendarId());
     }

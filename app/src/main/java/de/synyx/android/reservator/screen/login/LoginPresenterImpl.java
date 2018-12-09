@@ -3,9 +3,9 @@ package de.synyx.android.reservator.screen.login;
 import com.futurice.android.reservator.model.DataProxy;
 
 import de.synyx.android.reservator.business.account.AccountService;
-import de.synyx.android.reservator.business.calendar.CalendarMode;
 import de.synyx.android.reservator.business.calendar.CalendarModeService;
 import de.synyx.android.reservator.config.Registry;
+import de.synyx.android.reservator.domain.CalendarMode;
 import de.synyx.android.reservator.preferences.PreferencesService;
 import de.synyx.android.reservator.screen.login.LoginContract.LoginPresenter;
 import de.synyx.android.reservator.screen.login.LoginContract.LoginView;

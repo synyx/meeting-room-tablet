@@ -5,6 +5,7 @@ import android.content.Context;
 import com.futurice.android.reservator.R;
 
 import de.synyx.android.reservator.config.Config;
+import de.synyx.android.reservator.domain.CalendarMode;
 
 
 /**

@@ -1,16 +1,16 @@
-package de.synyx.android.reservator.business.room;
+package de.synyx.android.reservator.business.calendar;
 
 /**
  * @author  Julia Dasch - dasch@synyx.de
  * @author  Max Dobler - dobler@synyx.de
  */
-public class RoomCalendar {
+public class RoomCalendarModel {
 
     private final String name;
     private final long calendarId;
     private final String owner;
 
-    public RoomCalendar(long calendarId, String name, String owner) {
+    public RoomCalendarModel(long calendarId, String name, String owner) {
 
         this.calendarId = calendarId;
         this.name = name;

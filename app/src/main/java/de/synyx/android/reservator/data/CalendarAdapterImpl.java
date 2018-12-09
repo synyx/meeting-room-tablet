@@ -16,10 +16,10 @@ import com.futurice.android.reservator.model.Room;
 import com.futurice.android.reservator.model.platformcalendar.PlatformCalendarRoom;
 
 import de.synyx.android.reservator.business.account.AccountService;
-import de.synyx.android.reservator.business.calendar.CalendarMode;
 import de.synyx.android.reservator.business.calendar.CalendarModeService;
-import de.synyx.android.reservator.business.room.RoomCalendar;
+import de.synyx.android.reservator.business.calendar.RoomCalendarModel;
 import de.synyx.android.reservator.config.Registry;
+import de.synyx.android.reservator.domain.CalendarMode;
 import de.synyx.android.reservator.preferences.PreferencesService;
 
 import io.reactivex.Maybe;
@@ -63,20 +63,20 @@ public class CalendarAdapterImpl implements CalendarAdapter {
 
 
     @Override
-    public Observable<RoomCalendar> loadAllRooms() {
+    public Observable<RoomCalendarModel> loadAllRooms() {
 
         return loadRooms(false);
     }
 
 
     @Override
-    public Observable<RoomCalendar> loadVisibleRooms() {
+    public Observable<RoomCalendarModel> loadVisibleRooms() {
 
         return loadRooms(true);
     }
 
 
-    private Observable<RoomCalendar> loadRooms(boolean visibleOnly) {
+    private Observable<RoomCalendarModel> loadRooms(boolean visibleOnly) {
 
         return
             Observable.fromIterable(fromCursor(loadRoomCalendars(visibleOnly))) //
@@ -86,7 +86,7 @@ public class CalendarAdapterImpl implements CalendarAdapter {
 
 
     @Override
-    public Maybe<RoomCalendar> loadRoom(long id) {
+    public Maybe<RoomCalendarModel> loadRoom(long id) {
 
         Cursor cursor = loadRoomCalendarById(id);
 
@@ -150,9 +150,9 @@ public class CalendarAdapterImpl implements CalendarAdapter {
 
 
     @NonNull
-    private static Function<Cursor, RoomCalendar> toRoomCalendar() {
+    private static Function<Cursor, RoomCalendarModel> toRoomCalendar() {
 
-        return c -> new RoomCalendar(getIdFrom(c), getNameFrom(c), getOwnerAccountFrom(c));
+        return c -> new RoomCalendarModel(getIdFrom(c), getNameFrom(c), getOwnerAccountFrom(c));
     }
 
 

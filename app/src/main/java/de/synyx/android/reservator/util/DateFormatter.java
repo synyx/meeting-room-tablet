@@ -17,6 +17,7 @@ import java.util.Locale;
 
 /**
  * @author  Julia Dasch - dasch@synyx.de
+ * @author  Max Dobler - dobler@synyx.de
  */
 public class DateFormatter {
 
