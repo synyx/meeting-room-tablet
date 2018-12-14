@@ -2,7 +2,10 @@ package de.synyx.android.reservator.data;
 
 import de.synyx.android.reservator.business.event.EventModel;
 
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
+
+import org.joda.time.DateTime;
 
 
 /**
@@ -11,4 +14,7 @@ import io.reactivex.Observable;
 public interface EventAdapter {
 
     Observable<EventModel> getEventsForRoom(long roomId);
+
+
+    Maybe<Long> insertEvent(long calendarId, DateTime start, DateTime end, String title);
 }

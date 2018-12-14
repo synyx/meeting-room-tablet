@@ -11,4 +11,7 @@ import io.reactivex.Observable;
 public interface AttendeeAdapter {
 
     Observable<Attendee> getAttendeesForEvent(long eventId);
+
+
+    void insertAttendeeForEvent(long eventId, String attendeeName);
 }

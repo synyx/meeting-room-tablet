@@ -6,9 +6,12 @@ import de.synyx.android.reservator.business.event.EventModel;
 import de.synyx.android.reservator.business.event.EventRepository;
 import de.synyx.android.reservator.config.Registry;
 
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 import io.reactivex.functions.Function;
+
+import org.joda.time.DateTime;
 
 
 /**
@@ -30,6 +33,13 @@ public class EventRepositoryImpl implements EventRepository {
 
         return eventAdapter.getEventsForRoom(roomId) //
             .flatMap(loadAttendees());
+    }
+
+
+    @Override
+    public Maybe<Long> insertEvent(long calendarId, String title, DateTime start, DateTime end) {
+
+        return eventAdapter.insertEvent(calendarId, start, end, title);
     }
 
 

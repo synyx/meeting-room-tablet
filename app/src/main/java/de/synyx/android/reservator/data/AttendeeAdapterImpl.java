@@ -1,10 +1,11 @@
 package de.synyx.android.reservator.data;
 
 import android.content.ContentResolver;
+import android.content.ContentValues;
 
 import android.database.Cursor;
 
-import android.provider.CalendarContract;
+import android.provider.CalendarContract.Attendees;
 
 import de.synyx.android.reservator.config.Registry;
 import de.synyx.android.reservator.domain.Attendee;
@@ -33,18 +34,16 @@ public class AttendeeAdapterImpl implements AttendeeAdapter {
     public Observable<Attendee> getAttendeesForEvent(long eventId) {
 
         String[] mProjection = {
-            CalendarContract.Attendees.ATTENDEE_NAME, //
-            CalendarContract.Attendees.ATTENDEE_STATUS
+            Attendees.ATTENDEE_NAME, //
+            Attendees.ATTENDEE_STATUS
         };
-        String isEventAttendee = CalendarContract.Attendees.EVENT_ID + " = " + eventId;
-        String isResource = CalendarContract.Attendees.ATTENDEE_TYPE + " = "
-            + CalendarContract.Attendees.TYPE_RESOURCE;
+        String isEventAttendee = Attendees.EVENT_ID + " = " + eventId;
+        String isResource = Attendees.ATTENDEE_TYPE + " = " + Attendees.TYPE_RESOURCE;
         String selection = isEventAttendee + " AND " + isResource;
 
         String[] mSelectionArgs = {};
 
-        Cursor cursor = contentResolver.query(CalendarContract.Attendees.CONTENT_URI, mProjection, selection,
-                mSelectionArgs, null);
+        Cursor cursor = contentResolver.query(Attendees.CONTENT_URI, mProjection, selection, mSelectionArgs, null);
 
         return Observable.fromIterable(fromCursor(cursor)) //
             .doAfterNext(closeCursorIfLast()) //
@@ -52,12 +51,26 @@ public class AttendeeAdapterImpl implements AttendeeAdapter {
     }
 
 
+    @Override
+    public void insertAttendeeForEvent(long eventId, String attendeeName) {
+
+        ContentValues values = new ContentValues();
+        values.put(Attendees.EVENT_ID, eventId);
+        values.put(Attendees.ATTENDEE_NAME, attendeeName);
+        values.put(Attendees.ATTENDEE_RELATIONSHIP, Attendees.RELATIONSHIP_ATTENDEE);
+        values.put(Attendees.ATTENDEE_TYPE, Attendees.TYPE_OPTIONAL);
+        values.put(Attendees.ATTENDEE_STATUS, Attendees.ATTENDEE_STATUS_ACCEPTED);
+
+        contentResolver.insert(Attendees.CONTENT_URI, values);
+    }
+
+
     private Function<Cursor, Attendee> toAttendee() {
 
         return
             cursor -> {
-            String name = cursor.getString(cursor.getColumnIndex(CalendarContract.Attendees.ATTENDEE_NAME));
-            int status = cursor.getInt(cursor.getColumnIndex(CalendarContract.Attendees.ATTENDEE_STATUS));
+            String name = cursor.getString(cursor.getColumnIndex(Attendees.ATTENDEE_NAME));
+            int status = cursor.getInt(cursor.getColumnIndex(Attendees.ATTENDEE_STATUS));
 
             return new Attendee(name, status);
         };

@@ -2,18 +2,23 @@ package de.synyx.android.reservator.data;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 
 import android.database.Cursor;
 
 import android.net.Uri;
 
+import android.provider.CalendarContract.Events;
 import android.provider.CalendarContract.Instances;
 
 import android.support.annotation.NonNull;
 
+import android.util.Log;
+
 import de.synyx.android.reservator.business.event.EventModel;
 import de.synyx.android.reservator.config.Registry;
 
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 
 import io.reactivex.functions.Function;
@@ -21,7 +26,10 @@ import io.reactivex.functions.Function;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 
+import java.security.AccessControlException;
+
 import java.util.Date;
+import java.util.TimeZone;
 
 import static de.synyx.android.reservator.util.rx.CursorIterable.closeCursorIfLast;
 import static de.synyx.android.reservator.util.rx.CursorIterable.fromCursor;
@@ -32,6 +40,7 @@ import static de.synyx.android.reservator.util.rx.CursorIterable.fromCursor;
  */
 public class EventAdapterImpl implements EventAdapter {
 
+    private static final String TAG = EventAdapterImpl.class.getSimpleName();
     private final ContentResolver contentResolver;
 
     public EventAdapterImpl() {
@@ -56,6 +65,28 @@ public class EventAdapterImpl implements EventAdapter {
         return Observable.fromIterable(fromCursor(result)) //
             .doAfterNext(closeCursorIfLast()) //
             .map(toEvent());
+    }
+
+
+    @Override
+    public Maybe<Long> insertEvent(long calendarId, DateTime start, DateTime end, String title) {
+
+        ContentValues values = new ContentValues();
+        values.put(Events.DTSTART, start.getMillis());
+        values.put(Events.DTEND, end.getMillis());
+        values.put(Events.TITLE, title);
+        values.put(Events.CALENDAR_ID, calendarId);
+        values.put(Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
+
+        try {
+            Uri insert = contentResolver.insert(Events.CONTENT_URI, values);
+
+            return Maybe.just(Long.valueOf(insert.getLastPathSegment()));
+        } catch (AccessControlException exception) {
+            Log.e(TAG, "insertEvent: ", exception);
+
+            return Maybe.empty();
+        }
     }
 
 

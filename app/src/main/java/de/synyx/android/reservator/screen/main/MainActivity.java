@@ -5,6 +5,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import android.content.res.Configuration;
+
 import android.os.Bundle;
 
 import android.support.design.widget.BottomNavigationView;
@@ -29,6 +31,7 @@ import de.synyx.android.reservator.preferences.PreferencesService;
 import de.synyx.android.reservator.screen.ScreenSize;
 import de.synyx.android.reservator.screen.main.agenda.AgendaFragment;
 import de.synyx.android.reservator.screen.main.lobby.LobbyFragment;
+import de.synyx.android.reservator.screen.main.status.BookNowDialogFragment;
 import de.synyx.android.reservator.screen.main.status.MeetingRoomViewModel;
 import de.synyx.android.reservator.screen.main.status.StatusFragment;
 import de.synyx.android.reservator.screen.main.status.TimeTickReceiver;
@@ -45,7 +48,8 @@ import static android.support.design.bottomnavigation.LabelVisibilityMode.LABEL_
 import static de.synyx.android.reservator.screen.ScreenSize.XSMALL;
 
 
-public class MainActivity extends AppCompatActivity implements LobbyFragment.RoomSelectionListener {
+public class MainActivity extends AppCompatActivity implements LobbyFragment.RoomSelectionListener,
+    BookNowDialogFragment.BookNowOnClickListener, BookNowDialogFragment.OnDialogDismissListener {
 
     private PreferencesService preferencesService;
     private TextView headerTitle;
@@ -188,6 +192,13 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
 
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+
+        super.onConfigurationChanged(newConfig);
+    }
+
+
+    @Override
     protected void onPause() {
 
         super.onPause();
@@ -208,5 +219,19 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
     public void setTitle(CharSequence title) {
 
         headerTitle.setText(title);
+    }
+
+
+    @Override
+    public void bookNow() {
+
+        roomViewModel.bookNow();
+    }
+
+
+    @Override
+    public void onDialogDissmiss() {
+
+        enableFullscreen();
     }
 }

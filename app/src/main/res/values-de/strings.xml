@@ -191,5 +191,9 @@
     <string name="time_suffix_hours">Stunden</string>
     <string name="time_suffix_minute">Minute</string>
     <string name="time_suffix_minutes">Minuten</string>
+    <string name="book_now_dialog_title">Jetzt buchen?</string>
+    <string name="book_now_dialog_message">Willst du diesen Meeingraum ab sofort für 30 Minuten buchen?</string>
+    <string name="book_now_dialog_confirm">Jetzt buchen</string>
+    <string name="book_now_dialog_cancel">Abbrechen</string>
 
 </resources>

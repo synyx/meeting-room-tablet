@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import android.support.design.widget.Snackbar;
+
 import android.support.v4.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -18,11 +20,17 @@ import android.widget.TextView;
 
 import com.futurice.android.reservator.R;
 
+import de.synyx.android.reservator.domain.BookingResult;
 import de.synyx.android.reservator.domain.MeetingRoom;
 import de.synyx.android.reservator.domain.Reservation;
 import de.synyx.android.reservator.domain.RoomAvailability;
 import de.synyx.android.reservator.screen.main.MainActivity;
 import de.synyx.android.reservator.util.DateFormatter;
+import de.synyx.android.reservator.util.livedata.SingleEvent;
+
+import static android.support.design.widget.Snackbar.LENGTH_LONG;
+
+import static de.synyx.android.reservator.domain.RoomAvailability.AVAILABLE;
 
 
 public class StatusFragment extends Fragment {
@@ -61,6 +69,7 @@ public class StatusFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(getActivity()).get(MeetingRoomViewModel.class);
         viewModel.getRoom().observe(this, this::updateStatus);
+        viewModel.getBookingResult().observe(this, this::showSnackbarOnError);
 
         fragmentContainer = view.findViewById(R.id.status_fragment_container);
 
@@ -74,6 +83,16 @@ public class StatusFragment extends Fragment {
     }
 
 
+    private void showSnackbarOnError(SingleEvent<BookingResult> bookingResultEvent) {
+
+        BookingResult bookingResult = bookingResultEvent.getContentIfNotHandled();
+
+        if (bookingResult != null && bookingResult.hasError()) {
+            Snackbar.make(getView(), bookingResult.errorMessage, LENGTH_LONG).show();
+        }
+    }
+
+
     void updateStatus(MeetingRoom meetingRoom) {
 
         MainActivity activity = (MainActivity) getActivity();
@@ -83,12 +102,20 @@ public class StatusFragment extends Fragment {
         fragmentContainer.setBackgroundColor(getActivity().getColor(roomAvailablility.getColorRes()));
 
         btnReserve.setTextColor(getActivity().getColor(roomAvailablility.getColorRes()));
-        btnBookNow.setTextColor(getActivity().getColor(roomAvailablility.getColorRes()));
+        setupBookNowButton(roomAvailablility);
 
         tvAvailability.setText(roomAvailablility.getStringRes());
         tvEventDuration.setText(meetingRoom.getAvailabilityTime(() -> DateFormatter.periodFormatter(getContext())));
         tvEventName.setText(getCurrentMeetingText(meetingRoom));
         tvNextEventName.setText(getNextReservationText(meetingRoom));
+    }
+
+
+    private void setupBookNowButton(RoomAvailability roomAvailablility) {
+
+        btnBookNow.setTextColor(getActivity().getColor(roomAvailablility.getColorRes()));
+        btnBookNow.setOnClickListener(view -> new BookNowDialogFragment().show(getFragmentManager(), "BookNowDialog"));
+        btnBookNow.setVisibility(roomAvailablility == AVAILABLE ? View.VISIBLE : View.GONE);
     }
 
 

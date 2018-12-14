@@ -5,8 +5,10 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
 import de.synyx.android.reservator.config.Registry;
+import de.synyx.android.reservator.domain.BookingResult;
 import de.synyx.android.reservator.domain.MeetingRoom;
 import de.synyx.android.reservator.util.SchedulerFacade;
+import de.synyx.android.reservator.util.livedata.SingleEvent;
 
 import io.reactivex.disposables.Disposable;
 
@@ -17,9 +19,11 @@ import io.reactivex.disposables.Disposable;
 public class MeetingRoomViewModel extends ViewModel {
 
     private MutableLiveData<MeetingRoom> room;
+    private MutableLiveData<SingleEvent<BookingResult>> bookingResult;
 
-    private LoadRoomUseCase loadRoomUseCase;
-    private SchedulerFacade schedulerFacade;
+    private final LoadRoomUseCase loadRoomUseCase;
+    private final BookNowUseCase bookNowUseCase;
+    private final SchedulerFacade schedulerFacade;
 
     private long calendarId;
     private Disposable disposable;
@@ -27,6 +31,7 @@ public class MeetingRoomViewModel extends ViewModel {
     public MeetingRoomViewModel() {
 
         loadRoomUseCase = new LoadRoomUseCase();
+        bookNowUseCase = new BookNowUseCase();
         schedulerFacade = Registry.get(SchedulerFacade.class);
     }
 
@@ -35,6 +40,16 @@ public class MeetingRoomViewModel extends ViewModel {
         loadRoom();
 
         return room;
+    }
+
+
+    public LiveData<SingleEvent<BookingResult>> getBookingResult() {
+
+        if (bookingResult == null) {
+            bookingResult = new MutableLiveData<>();
+        }
+
+        return bookingResult;
     }
 
 
@@ -72,5 +87,13 @@ public class MeetingRoomViewModel extends ViewModel {
 
         super.onCleared();
         disposable.dispose();
+    }
+
+
+    public void bookNow() {
+
+        BookingResult result = bookNowUseCase.execute(calendarId, room.getValue());
+        this.bookingResult.postValue(SingleEvent.withContent(result));
+        tick();
     }
 }
