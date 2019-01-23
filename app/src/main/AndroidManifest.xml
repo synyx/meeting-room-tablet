@@ -34,40 +34,42 @@
             android:name=".AccountSelectionActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="false"
-            android:screenOrientation="sensorLandscape"></activity>
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".ModeSelectionActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="false"
-            android:screenOrientation="sensorLandscape"></activity>
+            android:screenOrientation="sensorLandscape" />
         <!-- Hardware acceleration breaks the drawing of the vertices -->
         <activity
             android:name=".RoomActivity"
             android:configChanges="orientation|screenSize"
             android:hardwareAccelerated="false"
-            android:screenOrientation="sensorLandscape"></activity>
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".SettingsActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".LobbyActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="sensorLandscape"></activity>
+            android:screenOrientation="sensorLandscape" />
         <activity
             android:name=".view.RoomReservationPopup"
-            android:theme="@style/Theme.Transparent"></activity>
+            android:theme="@style/Theme.Transparent" />
         <activity
             android:name=".ReservationActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="sensorLandscape"></activity>
+            android:screenOrientation="sensorLandscape" />
 
         <uses-library android:name="android.test.runner" />
 
-        <activity android:name="de.synyx.android.reservator.screen.main.MainActivity"
-            android:theme="@style/AppThemeDark"/>
+        <activity
+            android:name="de.synyx.android.reservator.screen.main.MainActivity"
+            android:theme="@style/AppThemeDark" />
         <activity
             android:name="de.synyx.android.reservator.screen.settings.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings" />
+        <activity android:name="de.synyx.android.reservator.screen.reservation.ReservationActivity"></activity>
     </application>
 
 </manifest>
