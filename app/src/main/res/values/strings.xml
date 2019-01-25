@@ -209,6 +209,10 @@
     <string name="book_now_dialog_message">Do you want to book this meeting room for 30 minutes starting now?</string>
     <string name="book_now_dialog_confirm">Book now</string>
     <string name="book_now_dialog_cancel">Cancel</string>
+    <string name="event_name_hint">Name of event</string>
+    <string name="event_date_hint">Date</string>
+    <string name="btn_save">save</string>
+    <string name="reservation_heading">Add new reservation</string>
 
     <string-array name="languages">
         <item>English</item>

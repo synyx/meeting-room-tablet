@@ -2,8 +2,6 @@ package de.synyx.android.reservator.screen.main.status;
 
 import android.arch.lifecycle.ViewModelProviders;
 
-import android.content.Intent;
-
 import android.os.Bundle;
 
 import android.support.annotation.NonNull;
@@ -27,7 +25,6 @@ import de.synyx.android.reservator.domain.MeetingRoom;
 import de.synyx.android.reservator.domain.Reservation;
 import de.synyx.android.reservator.domain.RoomAvailability;
 import de.synyx.android.reservator.screen.main.MainActivity;
-import de.synyx.android.reservator.screen.reservation.ReservationActivity;
 import de.synyx.android.reservator.util.DateFormatter;
 import de.synyx.android.reservator.util.livedata.SingleEvent;
 
@@ -117,7 +114,10 @@ public class StatusFragment extends Fragment {
     private void setupReserveButton(RoomAvailability roomAvailablility) {
 
         btnReserve.setTextColor(getActivity().getColor(roomAvailablility.getColorRes()));
-        btnReserve.setOnClickListener(view -> startActivity(new Intent(getActivity(), ReservationActivity.class)));
+        btnReserve.setOnClickListener(view -> {
+            MainActivity mainActivity = (MainActivity) getActivity();
+            mainActivity.openReservationFragment();
+        });
     }
 
 

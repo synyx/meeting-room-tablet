@@ -1,4 +1,4 @@
-package de.synyx.android.reservator.util;
+package de.synyx.android.reservator.util.ui;
 
 import android.content.Context;
 

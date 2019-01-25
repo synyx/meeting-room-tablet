@@ -14,10 +14,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
-import android.support.v7.app.AppCompatActivity;
-
 import android.view.MenuItem;
-import android.view.View;
 
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -28,6 +25,7 @@ import de.synyx.android.reservator.business.account.AccountService;
 import de.synyx.android.reservator.config.Config;
 import de.synyx.android.reservator.config.Registry;
 import de.synyx.android.reservator.preferences.PreferencesService;
+import de.synyx.android.reservator.screen.FullscreenActivity;
 import de.synyx.android.reservator.screen.ScreenSize;
 import de.synyx.android.reservator.screen.main.agenda.AgendaFragment;
 import de.synyx.android.reservator.screen.main.lobby.LobbyFragment;
@@ -35,8 +33,9 @@ import de.synyx.android.reservator.screen.main.status.BookNowDialogFragment;
 import de.synyx.android.reservator.screen.main.status.MeetingRoomViewModel;
 import de.synyx.android.reservator.screen.main.status.StatusFragment;
 import de.synyx.android.reservator.screen.main.status.TimeTickReceiver;
+import de.synyx.android.reservator.screen.reservation.ReservationFragment;
 import de.synyx.android.reservator.screen.settings.SettingsActivity;
-import de.synyx.android.reservator.util.ScreenUtil;
+import de.synyx.android.reservator.util.ui.ScreenUtil;
 
 import java.text.SimpleDateFormat;
 
@@ -48,13 +47,13 @@ import static android.support.design.bottomnavigation.LabelVisibilityMode.LABEL_
 import static de.synyx.android.reservator.screen.ScreenSize.XSMALL;
 
 
-public class MainActivity extends AppCompatActivity implements LobbyFragment.RoomSelectionListener,
+public class MainActivity extends FullscreenActivity implements LobbyFragment.RoomSelectionListener,
     BookNowDialogFragment.BookNowOnClickListener, BookNowDialogFragment.OnDialogDismissListener {
 
     private PreferencesService preferencesService;
     private TextView headerTitle;
     private BottomNavigationView navigationBar;
-    private MeetingRoomViewModel roomViewModel;
+    protected MeetingRoomViewModel roomViewModel;
     private TimeTickReceiver timeTickReceiver;
     private AccountService accountSevice;
 
@@ -170,23 +169,10 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
     }
 
 
-    private void enableFullscreen() {
-
-        getWindow().getDecorView()
-            .setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY //
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE //
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION //
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN //
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION //
-                | View.SYSTEM_UI_FLAG_FULLSCREEN);
-    }
-
-
     @Override
     protected void onResume() {
 
         super.onResume();
-        enableFullscreen();
         registerToTimeTickIntent();
     }
 
@@ -233,5 +219,17 @@ public class MainActivity extends AppCompatActivity implements LobbyFragment.Roo
     public void onDialogDissmiss() {
 
         enableFullscreen();
+    }
+
+
+    public void openStatusFragment() {
+
+        replaceFragment(StatusFragment.newInstance());
+    }
+
+
+    public void openReservationFragment() {
+
+        replaceFragment(ReservationFragment.getInstance());
     }
 }

@@ -27,7 +27,7 @@ import de.synyx.android.reservator.screen.main.status.TimeTickReceiver;
 
 import io.reactivex.disposables.Disposable;
 
-import static de.synyx.android.reservator.util.ScreenUtil.getSizeOfScreen;
+import static de.synyx.android.reservator.util.ui.ScreenUtil.getSizeOfScreen;
 
 
 public class LobbyFragment extends Fragment {
