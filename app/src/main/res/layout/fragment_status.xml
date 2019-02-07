@@ -68,10 +68,11 @@
     <Button
         android:id="@+id/reserve"
         style="@style/ReserveButton"
-        android:foreground="?android:attr/selectableItemBackground"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
         android:text="@string/reserve"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/book_now"
         app:layout_constraintStart_toStartOf="parent" />
