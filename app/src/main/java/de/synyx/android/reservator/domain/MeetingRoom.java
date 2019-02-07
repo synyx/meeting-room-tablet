@@ -96,26 +96,14 @@ public class MeetingRoom {
     }
 
 
-    public String getAvailabilityTime(FormatStrategy formatStrategy) {
+    public Duration getAvailabilityTime() {
 
         RoomAvailability availability = getAvailability();
 
         if (availability == RoomAvailability.UNAVAILABLE) {
-            Duration timeUntilAvailable = getTimeUntilAvailable();
-
-            return "frei in " + formatDuration(formatStrategy, timeUntilAvailable);
+            return getTimeUntilAvailable();
         }
 
-        Duration timeUntilNextMeeting = getTimeUntilNextMeeting();
-
-        return timeUntilNextMeeting != null //
-            ? "für " + formatDuration(formatStrategy, timeUntilNextMeeting) //
-            : "Frei";
-    }
-
-
-    private String formatDuration(FormatStrategy formatStrategy, Duration timeUntilNextMeeting) {
-
-        return formatStrategy.getFormat().print(timeUntilNextMeeting.toPeriod());
+        return getTimeUntilNextMeeting();
     }
 }

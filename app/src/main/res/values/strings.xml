@@ -213,6 +213,16 @@
     <string name="event_date_hint">Date</string>
     <string name="btn_save">save</string>
     <string name="reservation_heading">Add new reservation</string>
+    <string name="status_next_event">Upcoming reservation: %1$s</string>
+    <string name="status_next_event_placeholder">No upcoming reservation</string>
+    <string name="lobby_room_item_next_event_placeholder">No upcoming reservation</string>
+    <string name="lobby_room_item_next_event" translatable="false">➔ %1$s</string>
+    <string name="status_availability_time_placeholder">for the rest of the day</string>
+    <string name="lobby_room_availability_time_placeholder">free</string>
+    <string name="lobby_room_availability_time_unavailable">free in %1$s</string>
+    <string name="lobby_room_availability_time_available">free for %1$s</string>
+    <string name="status_availability_time_unavailable">free in %1$s</string>
+    <string name="status_availability_time_available">for %1$s</string>
 
     <string-array name="languages">
         <item>English</item>

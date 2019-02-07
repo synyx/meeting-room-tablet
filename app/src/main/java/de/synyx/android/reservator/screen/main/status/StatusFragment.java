@@ -28,6 +28,8 @@ import de.synyx.android.reservator.screen.main.MainActivity;
 import de.synyx.android.reservator.util.DateFormatter;
 import de.synyx.android.reservator.util.livedata.SingleEvent;
 
+import org.joda.time.Duration;
+
 import static android.support.design.widget.Snackbar.LENGTH_LONG;
 
 import static de.synyx.android.reservator.domain.RoomAvailability.AVAILABLE;
@@ -105,9 +107,29 @@ public class StatusFragment extends Fragment {
         setupBookNowButton(roomAvailablility);
 
         tvAvailability.setText(roomAvailablility.getStringRes());
-        tvEventDuration.setText(meetingRoom.getAvailabilityTime(() -> DateFormatter.periodFormatter(getContext())));
+        tvEventDuration.setText(getTextForEventDuration(meetingRoom.getAvailabilityTime(), roomAvailablility));
         tvEventName.setText(getCurrentMeetingText(meetingRoom));
         tvNextEventName.setText(getNextReservationText(meetingRoom));
+    }
+
+
+    private String getTextForEventDuration(Duration duration, RoomAvailability availability) {
+
+        if (duration == null) {
+            return getString(R.string.status_availability_time_placeholder);
+        }
+
+        if (availability == RoomAvailability.UNAVAILABLE) {
+            return getString(R.string.status_availability_time_unavailable, formatDuration(duration));
+        }
+
+        return getString(R.string.status_availability_time_available, formatDuration(duration));
+    }
+
+
+    private String formatDuration(Duration duration) {
+
+        return DateFormatter.periodFormatter(getContext()).print(duration.toPeriod());
     }
 
 
@@ -133,7 +155,8 @@ public class StatusFragment extends Fragment {
 
         Reservation upcomingReservation = meetingRoom.getUpcomingReservation();
 
-        return upcomingReservation != null ? upcomingReservation.getTitle() : "Kein Folgetermin vorhanden";
+        return upcomingReservation != null ? getString(R.string.status_next_event, upcomingReservation.getTitle())
+                                           : getString(R.string.status_next_event_placeholder);
     }
 
 

@@ -1,5 +1,7 @@
 package de.synyx.android.reservator.screen.main.lobby;
 
+import android.content.Context;
+
 import android.support.annotation.NonNull;
 
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +16,8 @@ import de.synyx.android.reservator.domain.MeetingRoom;
 import de.synyx.android.reservator.domain.Reservation;
 import de.synyx.android.reservator.domain.RoomAvailability;
 import de.synyx.android.reservator.util.DateFormatter;
+
+import org.joda.time.Duration;
 
 
 /**
@@ -44,11 +48,39 @@ class RoomViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(MeetingRoom meetingRoom) {
 
+        RoomAvailability availability = meetingRoom.getAvailability();
+        setStatus(availability);
+
         meetingRommName.setText(meetingRoom.getName());
-        availabilityTime.setText(meetingRoom.getAvailabilityTime(DateFormatter::smallPeriodFormatter));
+        availabilityTime.setText(getTextForAvailabilityTime(meetingRoom.getAvailabilityTime(), availability));
         currentMeetingTitle.setText(getCurrentMeetingText(meetingRoom));
-        setStatus(meetingRoom.getAvailability());
         upcomingReservationTitle.setText(getUpcomingReservationText(meetingRoom));
+    }
+
+
+    private String getTextForAvailabilityTime(Duration duration, RoomAvailability roomAvailability) {
+
+        if (duration == null) {
+            return getContext().getString(R.string.lobby_room_availability_time_placeholder);
+        }
+
+        if (roomAvailability == RoomAvailability.UNAVAILABLE) {
+            return getContext().getString(R.string.lobby_room_availability_time_unavailable, formatDuration(duration));
+        }
+
+        return getContext().getString(R.string.lobby_room_availability_time_available, formatDuration(duration));
+    }
+
+
+    private Context getContext() {
+
+        return itemView.getContext();
+    }
+
+
+    private String formatDuration(Duration duration) {
+
+        return DateFormatter.smallPeriodFormatter().print(duration.toPeriod());
     }
 
 
@@ -57,8 +89,8 @@ class RoomViewHolder extends RecyclerView.ViewHolder {
         Reservation upcomingReservation = meetingRoom.getUpcomingReservation();
 
         return upcomingReservation != null //
-            ? upcomingReservation.getTitle() //
-            : "Kein Folgetermin";
+            ? getContext().getString(R.string.lobby_room_item_next_event, upcomingReservation.getTitle()) //
+            : getContext().getString(R.string.lobby_room_item_next_event_placeholder);
     }
 
 
