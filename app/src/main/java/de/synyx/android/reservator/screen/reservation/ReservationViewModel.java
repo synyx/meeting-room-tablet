@@ -62,7 +62,7 @@ public class ReservationViewModel extends ViewModel {
         if (eventStartTime == null) {
             eventStartTime = new MutableLiveData<>();
 
-            eventStartTime.postValue(atFullHour(LocalTime.now()));
+            eventStartTime.postValue(atFullHour(LocalTime.now().plusHours(1)));
         }
 
         return eventStartTime;
@@ -79,7 +79,7 @@ public class ReservationViewModel extends ViewModel {
 
         if (eventEndTime == null) {
             eventEndTime = new MutableLiveData<>();
-            eventEndTime.postValue(atFullHour(LocalTime.now().plusHours(1)));
+            eventEndTime.postValue(atFullHour(LocalTime.now().plusHours(2)));
         }
 
         return eventEndTime;
