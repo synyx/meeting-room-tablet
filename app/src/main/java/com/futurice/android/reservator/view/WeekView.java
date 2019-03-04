@@ -1,9 +1,13 @@
 package com.futurice.android.reservator.view;
 
 import android.content.Context;
+
 import android.util.AttributeSet;
+
 import android.view.View;
+
 import android.view.View.OnClickListener;
+
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
@@ -17,36 +21,48 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+
 public class WeekView extends RelativeLayout implements OnClickListener {
 
-    public static final int NUMBER_OF_DAYS_TO_SHOW = 10;
+    public static int NUMBER_OF_DAYS_TO_SHOW;
     public static final int DAY_START_TIME = 60 * 7; // minutes from midnight
     public static final int DAY_END_TIME = 60 * 22;
+    public String countShownDays;
 
     private FrameLayout calendarFrame = null;
     private OnFreeTimeClickListener onFreeTimeClickListener = null;
     private OnReservationClickListener onReservationClickListener = null;
+
     public WeekView(Context context) {
+
         this(context, null);
+        this.NUMBER_OF_DAYS_TO_SHOW = getCountShownDays(context);
     }
+
 
     public WeekView(Context context, AttributeSet attrs) {
+
         this(context, attrs, 0);
+        this.NUMBER_OF_DAYS_TO_SHOW = getCountShownDays(context);
     }
 
+
     public WeekView(Context context, AttributeSet attrs, int defStyle) {
+
         super(context, attrs, defStyle);
+        this.NUMBER_OF_DAYS_TO_SHOW = getCountShownDays(context);
     }
 
     public void refreshData(Room room) {
+
         calendarFrame = (FrameLayout) findViewById(R.id.frameLayout1);
         calendarFrame.removeAllViews();
+
         List<Reservation> reservations = new ArrayList<Reservation>();
 
         DateTime startOfToday = new DateTime().setTime(0, 0, 0);
-        TimeSpan day = new TimeSpan(
-            startOfToday.add(Calendar.MINUTE, DAY_START_TIME),
-            startOfToday.add(Calendar.MINUTE, DAY_END_TIME));
+        TimeSpan day = new TimeSpan(startOfToday.add(Calendar.MINUTE, DAY_START_TIME),
+                startOfToday.add(Calendar.MINUTE, DAY_END_TIME));
 
         for (int i = 0; i < NUMBER_OF_DAYS_TO_SHOW; i++) {
             List<Reservation> dayReservations = room.getReservationsForTimeSpan(day);
@@ -55,12 +71,10 @@ public class WeekView extends RelativeLayout implements OnClickListener {
             // Change multi-day reservations to span only this day
             for (Reservation res : dayReservations) {
                 if (res.getStartTime().before(day.getStart()) || res.getEndTime().after(day.getEnd())) {
-                    boundDayReservations.add(new Reservation(
-                        res.getId() + "-" + day.getStart(),
-                        res.getSubject(),
-                        new TimeSpan(
-                            res.getStartTime().before(day.getStart()) ? day.getStart() : res.getStartTime(),
-                            res.getEndTime().after(day.getEnd()) ? day.getEnd() : res.getEndTime())));
+                    boundDayReservations.add(new Reservation(res.getId() + "-" + day.getStart(), res.getSubject(),
+                            new TimeSpan(
+                                res.getStartTime().before(day.getStart()) ? day.getStart() : res.getStartTime(),
+                                res.getEndTime().after(day.getEnd()) ? day.getEnd() : res.getEndTime())));
                 } else {
                     boundDayReservations.add(res);
                 }
@@ -69,9 +83,7 @@ public class WeekView extends RelativeLayout implements OnClickListener {
             reservations.addAll(boundDayReservations);
 
             // Advance to next day
-            day = new TimeSpan(
-                day.getStart().add(Calendar.DAY_OF_YEAR, 1),
-                day.getEnd().add(Calendar.DAY_OF_YEAR, 1));
+            day = new TimeSpan(day.getStart().add(Calendar.DAY_OF_YEAR, 1), day.getEnd().add(Calendar.DAY_OF_YEAR, 1));
         }
 
         CalendarVisualizer cv = new CalendarVisualizer(getContext(), DAY_START_TIME, DAY_END_TIME);
@@ -80,13 +92,18 @@ public class WeekView extends RelativeLayout implements OnClickListener {
         cv.setOnClickListener(this);
     }
 
+
     public void setOnFreeTimeClickListener(OnFreeTimeClickListener onFreeTimeClickListener) {
+
         this.onFreeTimeClickListener = onFreeTimeClickListener;
     }
 
+
     public void setOnReservationClickListener(OnReservationClickListener onReservationClickListener) {
+
         this.onReservationClickListener = onReservationClickListener;
     }
+
 
     @Override
     public void onClick(final View v) {
@@ -95,6 +112,7 @@ public class WeekView extends RelativeLayout implements OnClickListener {
             ReservatorVisualizer visualizer = (ReservatorVisualizer) v;
 
             final Reservation clickedReservation = visualizer.getSelectedReservation();
+
             if (clickedReservation != null) {
                 // User clicked MakeReservationTask reservation
                 if (onReservationClickListener != null) {
@@ -103,18 +121,28 @@ public class WeekView extends RelativeLayout implements OnClickListener {
             } else {
                 // User clicked MakeReservationTask free time slot
                 if (onFreeTimeClickListener != null) {
-                    onFreeTimeClickListener.onFreeTimeClick(v,
-                        visualizer.getSelectedTimeSpan(), visualizer.getSelectedTime());
+                    onFreeTimeClickListener.onFreeTimeClick(v, visualizer.getSelectedTimeSpan(),
+                        visualizer.getSelectedTime());
                 }
             }
         }
     }
 
+
+    private int getCountShownDays(Context context) {
+
+        return Integer.parseInt(context.getSharedPreferences(context.getString(R.string.PREFERENCES_NAME),
+                    Context.MODE_PRIVATE)
+                .getString("countShownDays", "10"));
+    }
+
     public static interface OnFreeTimeClickListener {
-        abstract void onFreeTimeClick(View v, TimeSpan timeSpan, DateTime clickTime);
+
+        void onFreeTimeClick(View v, TimeSpan timeSpan, DateTime clickTime);
     }
 
     public static interface OnReservationClickListener {
-        abstract void onReservationClick(View v, Reservation r);
+
+        void onReservationClick(View v, Reservation r);
     }
 }
