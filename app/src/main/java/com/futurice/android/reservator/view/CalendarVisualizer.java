@@ -71,7 +71,6 @@ public class CalendarVisualizer extends HorizontalScrollView implements Reservat
         settings = context.getSharedPreferences(context.getString(R.string.PREFERENCES_NAME), Context.MODE_PRIVATE);
 
         String countShownDays = settings.getString("countShownDays", "10");
-        System.out.println(countShownDays);
 
         if (!countShownDays.isEmpty()) {
             this.daysToShow = Integer.valueOf(countShownDays);
